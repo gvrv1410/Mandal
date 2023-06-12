@@ -22,4 +22,13 @@ export default {
   ic_back: require("../../assets/icons/back.png"),
   ic_avatar: require("../../assets/icons/avatar.png"),
   ic_filter: require("../../assets/icons/filter.png"),
+  ic_mUser: require("../../assets/icons/mUser.png"),
+  ic_date: require("../../assets/icons/date.png"),
+  ic_city: require("../../assets/icons/city.png"),
+  ic_village: require("../../assets/icons/village.png"),
+  ic_call: require("../../assets/icons/call.png"),
+  ic_social: require("../../assets/icons/social.png"),
+  ic_mail: require("../../assets/icons/mail.png"),
+  ic_location: require("../../assets/icons/location.png"),
+  ic_bLocation: require("../../assets/icons/bLocation.png"),
 };

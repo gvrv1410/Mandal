@@ -1,11 +1,6 @@
-import React from 'react';
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Image,
-} from 'react-native';
-import { colors } from '../../utils';
+import React from "react";
+import { StyleSheet, TextInput, View, Image } from "react-native";
+import { colors } from "../../utils";
 
 const InputText = ({
   value,
@@ -22,18 +17,17 @@ const InputText = ({
   keyboardType,
   numberOfLines,
   icon,
-  iconStyel,
+  iconStyle,
   isIconView,
   editable,
 }) => {
   return (
     <View style={[styles.mainContainer, { ...mainContainer }]}>
       {isIconView && (
-        <View
-          style={styles.iconViewStyle}>
+        <View style={styles.iconViewStyle}>
           <Image
             source={icon}
-            style={[styles.iconStyel, { ...iconStyel }]}
+            style={[styles.iconStyel, { ...iconStyle }]}
             resizeMode="contain"
           />
         </View>
@@ -62,18 +56,21 @@ const InputText = ({
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
     borderRadius: 5,
     shadowColor: colors.shadowColor,
     shadowOpacity: 0.26,
     shadowOffset: {
-      width: 0, height: 0
+      width: 0,
+      height: 0,
     },
     shadowRadius: 2,
     elevation: 1,
     backgroundColor: colors.primaryWhite,
+    borderWidth: 0.5,
+    borderColor: colors.tabColor,
   },
   input: {
     marginStart: 20,
@@ -81,17 +78,17 @@ const styles = StyleSheet.create({
   },
   buttonTextStyle: {},
   visibleViewStyle: {
-    width: '85%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: "85%",
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 5,
-    shadowColor: 'gray',
+    shadowColor: "gray",
     margin: 10,
     padding: 10,
   },
   visibleTextStyle: {
-    width: '85%',
-    alignSelf: 'center',
+    width: "85%",
+    alignSelf: "center",
   },
   iconStyel: {
     height: 24,
@@ -104,8 +101,8 @@ const styles = StyleSheet.create({
     borderBottomStartRadius: 5,
   },
   inputViewStyle: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 export default InputText;
