@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { TextInput } from '../../components';
@@ -7,11 +7,47 @@ import icons from '../../helper/iconConstant';
 import images from '../../helper/imageConstant';
 import Button from '../../components/common/Button';
 import { colors } from '../../utils';
+import { apiConstants, POST } from '../../helper/apiConstants';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loginFailure, loginSuccess } from '../../redux/reducer/authReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import makeAPIRequest from '../../helper/global';
+import { login } from '../../actions/authActiones';
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const { navigate } = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setemailError] = useState('')
+  const [passwordError, setpasswordError] = useState('')
+  const dispatch = useDispatch()
+
+  const onLoginPress = () => {
+    if (email.length === 0) {
+      setemailError('User id required!')
+    } else if (password.length === 0) {
+      setpasswordError("Password required!")
+    } else {
+      const data = {
+        member_id: email,
+        member_password: password
+      }
+
+
+      navigate("Onboarding")
+
+
+      // login(data).then(res => {
+      //   navigate('Onboarding')
+
+      //   console.log("res", res)
+      // }).catch((err) => {
+      //   alert("error")
+      // })
+    }
+  }
+
 
   return (
     <View style={style.mainContainer}>
@@ -36,6 +72,9 @@ const LoginScreen = () => {
         visible={false}
         onButtonPress={() => { }}
       />
+      {emailError.length > 0 && (
+        <Text style={style.errorText}>{emailError}</Text>
+      )}
       <View style={style.divider} />
       <TextInput
         inputStyle={{}}
@@ -51,6 +90,9 @@ const LoginScreen = () => {
         visible={false}
         onButtonPress={() => { }}
       />
+      {passwordError.length > 0 && (
+        <Text style={style.errorText}>{passwordError}</Text>
+      )}
       <Button
         onPress={() => navigate('Onboarding')}
         title={'પ્રવેશ કરો'}
@@ -93,6 +135,11 @@ const style = StyleSheet.create({
     fontSize: 40,
     color: colors.primary,
     fontWeight: '600',
+  },
+  errorText: {
+    color: 'red',
+    marginRight: 150,
+    fontSize: 12,
   },
 });
 

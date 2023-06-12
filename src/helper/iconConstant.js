@@ -31,4 +31,5 @@ export default {
   ic_mail: require("../../assets/icons/mail.png"),
   ic_location: require("../../assets/icons/location.png"),
   ic_bLocation: require("../../assets/icons/bLocation.png"),
+  ic_logout: require("../../assets/icons/logout.png"),
 };
