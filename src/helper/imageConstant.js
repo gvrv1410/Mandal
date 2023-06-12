@@ -1,3 +1,5 @@
 export default {
-  logo: require('../../assets/images/logo.png'),
+  logo: require("../../assets/images/logo.png"),
+  container: require("../../assets/images/con.png"),
+  profile: require("../../assets/images/profile.png"),
 };

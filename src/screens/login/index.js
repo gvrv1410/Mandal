@@ -1,12 +1,15 @@
-import React, {useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {TextInput} from '../../components';
+import React, { useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { TextInput } from '../../components';
 import icons from '../../helper/iconConstant';
 import images from '../../helper/imageConstant';
 import Button from '../../components/common/Button';
-import {colors} from '../../utils';
+import { colors } from '../../utils';
 
 const LoginScreen = () => {
+  const { navigate } = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,7 +21,6 @@ const LoginScreen = () => {
         resizeMode="contain"
       />
       <Text style={style.title}>સ્વાગત છે!</Text>
-
       <Text style={style.subTitle}>લૉગ ઇન કરવાનું ચાલુ રાખો</Text>
       <TextInput
         inputStyle={{}}
@@ -29,10 +31,10 @@ const LoginScreen = () => {
         icon={icons.ic_user}
         onChangeText={val => setEmail(val)}
         secureTextEntry={false}
-        onFocus={() => {}}
-        onBlur={() => {}}
+        onFocus={() => { }}
+        onBlur={() => { }}
         visible={false}
-        onButtonPress={() => {}}
+        onButtonPress={() => { }}
       />
       <View style={style.divider} />
       <TextInput
@@ -44,16 +46,16 @@ const LoginScreen = () => {
         icon={icons.ic_lock}
         onChangeText={val => setPassword(val)}
         secureTextEntry={true}
-        onFocus={() => {}}
-        onBlur={() => {}}
+        onFocus={() => { }}
+        onBlur={() => { }}
         visible={false}
-        onButtonPress={() => {}}
+        onButtonPress={() => { }}
       />
-
       <Button
+        onPress={() => navigate('Onboarding')}
         title={'પ્રવેશ કરો'}
         buttonStyle={style.buttonStyle}
-        buttonTextStyle={{color: colors.primaryWhite}}
+        buttonTextStyle={{ color: colors.primaryWhite }}
       />
     </View>
   );
