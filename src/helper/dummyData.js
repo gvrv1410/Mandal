@@ -2,7 +2,7 @@ import icons from "./iconConstant";
 import images from "./imageConstant";
 
 export const carouselData = [
-  { id: 1, image: images.container },
+  { id: 0, image: images.container },
   { id: 1, image: images.container },
   { id: 2, image: images.container },
   { id: 3, image: images.container },
@@ -100,11 +100,17 @@ export const gridMenuData = [
     navigation: "Result",
     icon: icons.ic_result,
   },
-  { id: 16, title: "પ્રયોજક", navigation: "Sponsor", icon: icons.ic_org },
+  {
+    id: 16,
+    title: "પ્રયોજક",
+    navigation: "Sponsor",
+    icon: icons.ic_org,
+  },
 ];
 
 export const directorData = [
   {
+    id: 1,
     title: "મોણપૂરગામ",
     family: "કુટુંબ",
     numFamily: "૫૦૩",
@@ -112,6 +118,7 @@ export const directorData = [
     numMember: "૨૭૮૯",
   },
   {
+    id: 2,
     title: "મોણપૂરગામ",
     family: "કુટુંબ",
     numFamily: "૫૦૩",
@@ -119,6 +126,7 @@ export const directorData = [
     numMember: "૨૭૮૯",
   },
   {
+    id: 3,
     title: "મોણપૂરગામ",
     family: "કુટુંબ",
     numFamily: "૫૦૩",
@@ -126,6 +134,7 @@ export const directorData = [
     numMember: "૨૭૮૯",
   },
   {
+    id: 4,
     title: "મોણપૂરગામ",
     family: "કુટુંબ",
     numFamily: "૫૦૩",
@@ -133,6 +142,7 @@ export const directorData = [
     numMember: "૨૭૮૯",
   },
   {
+    id: 5,
     title: "મોણપૂરગામ",
     family: "કુટુંબ",
     numFamily: "૫૦૩",
@@ -140,6 +150,7 @@ export const directorData = [
     numMember: "૨૭૮૯",
   },
   {
+    id: 6,
     title: "મોણપૂરગામ",
     family: "કુટુંબ",
     numFamily: "૫૦૩",
@@ -150,46 +161,61 @@ export const directorData = [
 
 export const countOfAll = [
   {
+    id: 1,
     title: "કુટુંબ",
     count: "૧૫૦૦",
   },
   {
+    id: 2,
     title: "સભ્ય",
     count: "૧૨૮૩૨",
   },
   {
+    id: 3,
     title: "પુરુષ",
     count: "૧૫૦૦",
   },
   {
+    id: 4,
     title: "સ્ત્રી",
     count: "૧૫૦૦",
   },
   {
+    id: 5,
     title: "અપરણિત",
     count: "૧૫૦૦",
   },
   {
+    id: 6,
     title: "પુરુષ અપરણિત",
     count: "૧૫૦૦",
   },
   {
+    id: 7,
     title: "પરણિત",
     count: "૧૫૦૦",
   },
   {
+    id: 8,
     title: "સ્ત્રી અપરણિત",
     count: "૧૫૦૦",
   },
 ];
 
 export const donorTabData = [
-  { id: 1, title: "કાયમી દાતાશ્રી" },
-  { id: 2, title: "દાતાશ્રી" },
+  {
+    id: 1,
+    title: "કાયમી દાતાશ્રી",
+  },
+  {
+    id: 2,
+    title: "દાતાશ્રી",
+  },
 ];
 
 export const comityMemberData = [
   {
+    id: 1,
     title: "ટ્રષ્ટિ મંડળ",
     members: [
       {
@@ -209,7 +235,7 @@ export const comityMemberData = [
         village: "વિસનગર ",
       },
       {
-        id: 1,
+        id: 2,
         imageUrl: "",
         name: "ગોયાણી અવી દીલીપભાઈ",
         post: "ટ્રસ્ટી",
@@ -217,7 +243,7 @@ export const comityMemberData = [
         village: "વિસનગર ",
       },
       {
-        id: 1,
+        id: 3,
         imageUrl: "",
         name: "ગોયાણી અવી દીલીપભાઈ",
         post: "ટ્રસ્ટી",
@@ -227,6 +253,7 @@ export const comityMemberData = [
     ],
   },
   {
+    id: 2,
     title: "વ્યવસ્થાપક સમિતિ",
     members: [
       {
@@ -238,7 +265,7 @@ export const comityMemberData = [
         village: "વિસનગર ",
       },
       {
-        id: 1,
+        id: 2,
         imageUrl: "",
         name: "ગોયાણી અવી દીલીપભાઈ",
         post: "ટ્રસ્ટી",

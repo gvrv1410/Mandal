@@ -32,6 +32,7 @@ const DirectorScreen = () => {
 
       <View style={style.subContainer}>
         <FlatList
+          keyExtractor={(item) => item.id}
           scrollEnabled={false}
           data={countOfAll}
           renderItem={renderCountedItem}
@@ -41,6 +42,7 @@ const DirectorScreen = () => {
 
       <View style={style.bodyContainer}>
         <FlatList
+          keyExtractor={(item) => item.id}
           data={directorData}
           renderItem={renderItem}
           numColumns={2}

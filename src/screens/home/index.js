@@ -13,7 +13,7 @@ import { DrawerActions } from "@react-navigation/native";
 import { Header } from "../../components";
 import { colors } from "../../utils";
 import { carouselData, gridMenuData } from "../../helper/dummyData";
-import { Menu, Headline } from "../../components";
+import { Menu } from "../../components";
 
 const HomeScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -74,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <FlatList
             data={gridMenuData}
-            keyExtractor={(item) => item.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={renderItem}
             ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
             numColumns={4}

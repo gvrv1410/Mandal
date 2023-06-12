@@ -17,6 +17,8 @@ const ComityScreen = () => {
 
       <FlatList
         data={comityMemberData}
+        nestedScrollEnabled={false}
+        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 30 }}
         renderItem={({ item, index }) => {
@@ -24,6 +26,7 @@ const ComityScreen = () => {
             <>
               <Divider title={item.title} mainContainer={{ marginTop: 20 }} />
               <FlatList
+                keyExtractor={(item) => item.id}
                 scrollEnabled={false}
                 data={item.members}
                 renderItem={renderItem}

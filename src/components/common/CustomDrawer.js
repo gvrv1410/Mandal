@@ -23,10 +23,10 @@ const CustomDrawer = ({ navigation }) => {
         </View>
       </View>
       <DrawerContentScrollView showsVerticalScrollIndicator={false}>
-        {gridMenuData.map((item) => {
+        {gridMenuData.map((item, index) => {
           return (
             <TouchableOpacity
-              key={item.toString()}
+              key={index.toString()}
               style={styles.menuViewStyle}
               onPress={() => {
                 navigation.dispatch(DrawerActions.toggleDrawer());

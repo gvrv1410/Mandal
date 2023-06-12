@@ -8,6 +8,7 @@ const TabView = ({ mainContainer, activeIndex, tabData, onPress }) => {
       {tabData?.map((item, index) => {
         return (
           <TouchableOpacity
+            key={index.toString()}
             onPress={() => onPress(index)}
             style={[
               style.tabStyle,
