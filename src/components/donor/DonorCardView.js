@@ -1,9 +1,7 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
-import images from "../../helper/imageConstant";
-import { colors } from "../../utils";
+import { View, Text, StyleSheet } from "react-native";
 
-const DonorCardView = ({ data }) => {
+const DonorCardView = () => {
   return (
     <View style={style.mainContainer}>
       <View>

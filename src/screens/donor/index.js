@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import { DonorCardView, Header, TabView } from "../../components";
 import { donorTabData } from "../../helper/dummyData";
-import { ScrollView } from "react-native-gesture-handler";
 
 const DonorScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
