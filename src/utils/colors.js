@@ -17,6 +17,8 @@ export default {
   rgbYellow: "rgba(253,243,183 ,1)",
   rgbShadowColor: "rgba(237,235,244 ,0.3)",
 
+  rgba: (c1, c2, c3, opacity) => `rgba(${c1}, ${c2}, ${c3}, ${opacity})`,
+
   // Recommend
 
   recommend1: "#3B79ED",

@@ -1,16 +1,17 @@
-import { ADD_TODO } from "../actions/type";
+// import { ADD_TODO } from "../actions/type";
+
+import { USER_LOGIN } from "../actions/type";
 
 const initialState = {
-  todos: [],
+  userInfo: [],
 };
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_TODO: {
-      const { email, password } = action.payload;
+    case USER_LOGIN: {
       return {
         ...state,
-        todos: [...state.todos, { email, password }],
+        userInfo: payload,
       };
     }
     default:

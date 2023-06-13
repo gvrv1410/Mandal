@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -14,18 +14,32 @@ import { Header } from "../../components";
 import { colors } from "../../utils";
 import { carouselData, gridMenuData } from "../../helper/dummyData";
 import { Menu } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlineImg, fetchHeadlines } from "../../actions/headlinesActions";
+import { BASE_URL, IMG_DIRECTORY } from "../../helper/apiConstant";
 
 const HomeScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
+
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const renderCarouselItem = ({ item, index }) => (
-    <Image
-      key={index}
-      source={item.image}
-      style={style.carouselImageStyle}
-      resizeMode="contain"
-    />
-  );
+  const { headlineData, headlineImg } = useSelector(state => state.fetchHeadlines)
+
+  useEffect(() => {
+    dispatch(fetchHeadlines())
+    dispatch(fetchHeadlineImg())
+  }, [])
+
+  const renderCarouselItem = ({ item, index }) => {
+    return (
+      <Image
+        key={index}
+        source={{ uri: `${BASE_URL}${IMG_DIRECTORY}/${item.slider_photo}` }}
+        style={style.carouselImageStyle}
+        resizeMode="contain"
+      />
+    );
+  }
 
   const renderItem = ({ item }) => {
     return (
@@ -46,6 +60,7 @@ const HomeScreen = ({ navigation }) => {
         isBack={false}
         onLeftPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         isRight
+        headline={headlineData?.[0]}
       />
       <View style={style.subContainer}>
         <ScrollView
@@ -54,7 +69,7 @@ const HomeScreen = ({ navigation }) => {
         >
           <View style={style.carouselView}>
             <Carousel
-              data={carouselData}
+              data={headlineImg}
               renderItem={renderCarouselItem}
               sliderWidth={361}
               itemWidth={361}
@@ -109,6 +124,7 @@ const style = StyleSheet.create({
   carouselImageStyle: {
     height: 200,
     width: 361,
+    resizeMode: 'contain',
   },
   gridViewStyle: {
     flex: 1,

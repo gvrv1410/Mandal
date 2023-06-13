@@ -7,22 +7,22 @@ import icons from "../../helper/iconConstant";
 import images from "../../helper/imageConstant";
 import Button from "../../components/common/Button";
 import { colors } from "../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../actions/AuthActions";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
   const [email, setEmail] = useState("MPGM0001");
   const [password, setPassword] = useState("naitik123");
 
   const onLoginPress = () => {
     const obj = {
       data: { member_id: email, member_password: password },
-      onSuccess: (res) => {
-        console.log("res", res);
+      onSuccess: () => {
+        navigation.navigate('Onboarding')
       },
-      onFail: () => {},
+      onFail: () => { },
     };
 
     dispatch(loginUser(obj));
@@ -46,10 +46,10 @@ const LoginScreen = () => {
         icon={icons.ic_user}
         onChangeText={(val) => setEmail(val)}
         secureTextEntry={false}
-        onFocus={() => {}}
-        onBlur={() => {}}
+        onFocus={() => { }}
+        onBlur={() => { }}
         visible={false}
-        onButtonPress={() => {}}
+        onButtonPress={() => { }}
       />
       <View style={style.divider} />
       <TextInput
@@ -61,10 +61,10 @@ const LoginScreen = () => {
         icon={icons.ic_lock}
         onChangeText={(val) => setPassword(val)}
         secureTextEntry={true}
-        onFocus={() => {}}
-        onBlur={() => {}}
+        onFocus={() => { }}
+        onBlur={() => { }}
         visible={false}
-        onButtonPress={() => {}}
+        onButtonPress={() => { }}
       />
       <Button
         // onPress={() => navigate("Onboarding")}

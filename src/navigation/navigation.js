@@ -23,6 +23,7 @@ import AdsScreen from "../screens/ads";
 import HeadOfFamilyScreen from "../screens/headOfFamily";
 import ResultScreen from "../screens/result";
 import SponsorScreen from "../screens/sponsor";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -30,7 +31,7 @@ const Drawer = createDrawerNavigator();
 const DrawerStack = () => (
   <Drawer.Navigator
     drawerContent={(props) => <CustomDrawer {...props} />}
-    screenOptions={{ headerShown: false }}
+    screenOptions={{ headerShown: false, gestureEnabled: false }}
   >
     <Drawer.Screen name="Home" component={HomeScreen} />
     <Stack.Screen name="Director" component={DirectorScreen} />
@@ -54,7 +55,7 @@ const DrawerStack = () => (
 
 const AuthStack = () => (
   <Stack.Navigator
-    screenOptions={{ headerShown: false }}
+    screenOptions={{ headerShown: false, gestureEnabled: false }}
     initialRouteName="Login"
   >
     <Stack.Screen name="Login" component={LoginScreen} />
@@ -62,11 +63,22 @@ const AuthStack = () => (
 );
 
 const MainNavigator = () => {
+  const getUserInfo = async () => {
+    const userInfo = await AsyncStorage.getItem('idToken')
+    if (userInfo) {
+      navigationRef.navigate('Onboarding')
+      return true;
+    } else {
+      return false
+    }
+  }
+
+
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="Main"
+        screenOptions={{ headerShown: false, gestureEnabled: false }}
+        initialRouteName={getUserInfo() ? "Onboarding" : "Main"}
       >
         <Stack.Screen name="Main" component={AuthStack} />
         <Stack.Screen name="Onboarding" component={DrawerStack} />

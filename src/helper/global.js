@@ -16,11 +16,9 @@ const makeAPIRequest = async (method, url, data, headers, params) =>
     if (headers) {
       options.headers = { ...options.headers, ...headers };
     }
-    console.log(options);
 
     axios(options)
       .then(async (response) => {
-        console.log("res", res);
         if (response?.status === 200 || response?.status === 201) {
           resolve(response);
         } else {
@@ -28,7 +26,6 @@ const makeAPIRequest = async (method, url, data, headers, params) =>
         }
       })
       .catch(async (error) => {
-        console.log("error", error);
         reject(error);
       });
     return null;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 
 import { DrawerContentScrollView } from "@react-navigation/drawer";
@@ -9,6 +9,21 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 const CustomDrawer = ({ navigation }) => {
   const { navigate } = useNavigation();
+
+
+  const appendOptions = [{
+    id: 17,
+    title: "નોટિફિકેશન",
+    navigation: "Director",
+    icon: icons.ic_notify,
+  },
+  {
+    id: 18,
+    title: "લોગ આઉટ",
+    navigation: "Comity",
+    icon: icons.ic_logout,
+  },]
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerView}>
@@ -23,7 +38,7 @@ const CustomDrawer = ({ navigation }) => {
         </View>
       </View>
       <DrawerContentScrollView showsVerticalScrollIndicator={false}>
-        {gridMenuData.map((item, index) => {
+        {[...gridMenuData, ...appendOptions].map((item, index) => {
           return (
             <TouchableOpacity
               key={index.toString()}

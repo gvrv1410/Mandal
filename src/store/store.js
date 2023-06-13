@@ -4,6 +4,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import authReducer from "../reducers/authReducer";
+import fetchHeadlineReducer from "../reducers/headlineReducers";
 
 const persistConfig = {
   key: "root",
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  fetchHeadlines: fetchHeadlineReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

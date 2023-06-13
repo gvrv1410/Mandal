@@ -19,11 +19,12 @@ const Header = ({
   isBack,
   isFiler,
   isRight,
+  headline
 }) => {
   const { goBack } = useNavigation();
   return (
     <SafeAreaView>
-      <Headline />
+      <Headline headline={headline} />
       <View style={style.mainContainer}>
         <TouchableOpacity
           style={style.leftViewStyle}

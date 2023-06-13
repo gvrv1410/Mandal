@@ -21,9 +21,33 @@ const FamilyScreen = () => {
       height: 400,
       cropping: true,
     }).then((image) => {
-      console.log(image);
+      console.log(image.path);
+      setImage(image.path)
     });
   };
+  const [image, setImage] = useState('')
+  const [name, setName] = useState('')
+  const [motherName, setMotherName] = useState('')
+  const [birthDate, setBirthDate] = useState('')
+  const [cityName, setCityName] = useState('')
+  const [villageName, setVillageName] = useState('')
+  const [maternalVillageName, setMaternalVillageName] = useState('')
+  const [mobileNumber, setMobileNumber] = useState('')
+  const [socialLink, setSocialLink] = useState('')
+  const [email, setEmail] = useState('')
+  const [address, setAddress] = useState('')
+  const [businessAddress, setBusinessAddress] = useState('')
+  const [bloodGroup, setBloodGroup] = useState('')
+  const [gender, setGender] = useState('')
+  const [marriage, setMarriage] = useState('')
+  const [education, setEducation] = useState('')
+  const [business, setBusiness] = useState('')
+
+
+  const onAddMember = () => {
+
+  }
+
 
   return (
     <SafeAreaView style={style.mainContainer}>
@@ -31,11 +55,18 @@ const FamilyScreen = () => {
       <View style={{ flex: 1, marginHorizontal: 16 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <TouchableOpacity style={style.imageViewStyle} onPress={openPicker}>
-            <Image
-              source={images.profile}
-              style={style.imageStyle}
-              resizeMode="contain"
-            />
+            {image ?
+              <Image
+                source={{ uri: image }}
+                style={style.imageStyle}
+                resizeMode="contain"
+              />
+              :
+              <Image
+                source={images.profile}
+                style={style.imageStyle}
+                resizeMode="contain"
+              />}
             <Text style={style.imageTextStyle}>પ્રોફાઇલ ફોટો બદલો</Text>
           </TouchableOpacity>
           <TextInput
@@ -43,92 +74,120 @@ const FamilyScreen = () => {
             mainContainer={style.textInputStyle}
             placeholder={"તમારું નામ લખો"}
             isIconView
+            value={name}
+            onChangeText={(val) => setName(val)}
           />
           <TextInput
             icon={iconConstant.ic_mUser}
             mainContainer={style.textInputStyle}
             placeholder={"તમારા માતાનું નામ લખો"}
             isIconView
+            value={motherName}
+            onChangeText={(val) => setMotherName(val)}
           />
           <TextInput
             icon={iconConstant.ic_date}
             mainContainer={style.textInputStyle}
             placeholder={"તમારી જન્મતારીખ લખો"}
             isIconView
+            value={birthDate}
+            onChangeText={(val) => setBirthDate(val)}
           />
           <TextInput
             icon={iconConstant.ic_city}
             mainContainer={style.textInputStyle}
             placeholder={"તમારા શહેરનું નામ લખો"}
             isIconView
+            value={cityName}
+            onChangeText={(val) => setCityName(val)}
           />
           <TextInput
             icon={iconConstant.ic_village}
             mainContainer={style.textInputStyle}
             placeholder={"તમારા ગામનું નામ લખો"}
             isIconView
+            value={villageName}
+            onChangeText={(val) => setVillageName(val)}
           />
           <TextInput
             icon={iconConstant.ic_village}
             mainContainer={style.textInputStyle}
             placeholder={"તમારા મોસાળનું ગામ લખો"}
             isIconView
+            value={maternalVillageName}
+            onChangeText={(val) => setMaternalVillageName(val)}
           />
           <DropDownView
             placeHolder="તમારું બ્લડ ગ્રુપ પસંદ કરો"
             mainContainer={{ zIndex: 1 }}
+            onSelect={(val) => setBloodGroup(val)}
           />
           <DropDownView
             placeHolder="તમારી જાતિ પસંદ કરો"
             mainContainer={{ zIndex: 1 }}
+            onSelect={(val) => setGender(val)}
           />
           <DropDownView
             placeHolder="તમારી વૈવાહિક સ્તિથી પસંદ કરો"
             mainContainer={{ zIndex: -1 }}
+            onSelect={(val) => setMarriage(val)}
           />
           <DropDownView
             placeHolder="તમારું શિક્ષણ પસંદ કરો"
             mainContainer={{ zIndex: 1 }}
+            onSelect={(val) => setEducation(val)}
           />
           <DropDownView
             placeHolder="તમારા વ્યવસાયનું પસંદ કરો"
             mainContainer={{ zIndex: 1 }}
+            onSelect={(val) => setBusiness(val)}
           />
           <TextInput
             icon={iconConstant.ic_call}
             mainContainer={style.textInputStyle}
             placeholder={"તમારો મોબાઈલ નમ્બર લખો"}
             isIconView
+            value={mobileNumber}
+            onChangeText={(val) => setMobileNumber(val)}
           />
           <TextInput
             icon={iconConstant.ic_social}
             mainContainer={style.textInputStyle}
             placeholder={"તમારી સોશિયલ મીડિયા લિંક નાખો"}
             isIconView
+            value={socialLink}
+            onChangeText={(val) => setSocialLink(val)}
           />
           <TextInput
             icon={iconConstant.ic_mail}
             mainContainer={style.textInputStyle}
             placeholder={"તમારું ઈમેલ લખો"}
             isIconView
+            value={email}
+            onChangeText={(val) => setEmail(val)}
           />
           <TextInput
             icon={iconConstant.ic_location}
             mainContainer={style.textInputStyle}
             placeholder={"તમારું સરનામું લખો"}
             isIconView
+            value={address}
+            onChangeText={(val) => setAddress(val)}
           />
           <TextInput
             icon={iconConstant.ic_bLocation}
             mainContainer={style.textInputStyle}
             placeholder={"તમારા વ્યવસાયનું સરનામું લખો"}
             isIconView
+            value={businessAddress}
+            onChangeText={(val) => setBusinessAddress(val)}
           />
         </ScrollView>
         <Button
           title={"સાચવો"}
           buttonStyle={style.buttonStyle}
           buttonTextStyle={{ color: colors.primaryWhite }}
+          onPress={onAddMember}
         />
       </View>
     </SafeAreaView>

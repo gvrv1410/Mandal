@@ -15,8 +15,8 @@ const DirectorScreen = () => {
   const renderCountedItem = ({ item }) => {
     return (
       <View style={{ flex: 1, padding: 5, alignItems: "center" }}>
-        <Text>{item?.count}</Text>
-        <Text>{item?.title}</Text>
+        <Text style={style.countText}>{item?.count}</Text>
+        <Text style={[style.countText, { color: 'black' }]}>{item?.title}</Text>
       </View>
     );
   };
@@ -65,8 +65,11 @@ const style = StyleSheet.create({
   },
   bodyContainer: {
     flex: 3,
-    bottom: 30,
-  },
+    bottom: 60,
+  }, countText: {
+    fontSize: 15,
+    color: colors.primary
+  }
 });
 
 export default DirectorScreen;

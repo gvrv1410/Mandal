@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { colors } from "../../utils";
 import MarqueeView from 'react-native-marquee-view';
 
-const HeadLine = () => {
+
+const HeadLine = ({ headline }) => {
     return (
         <MarqueeView
             style={style.marqueeViewStyle}>
-            <Text style={style.headLineTextStyle}>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
+            <Text style={style.headLineTextStyle}>{headline?.headline}</Text>
         </MarqueeView>
     )
 }
