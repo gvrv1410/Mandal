@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from "react";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import { TextInput } from '../../components';
-import icons from '../../helper/iconConstant';
-import images from '../../helper/imageConstant';
-import Button from '../../components/common/Button';
-import { colors } from '../../utils';
+import { TextInput } from "../../components";
+import icons from "../../helper/iconConstant";
+import images from "../../helper/imageConstant";
+import Button from "../../components/common/Button";
+import { colors } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../actions/AuthActions";
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const { navigate } = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("MPGM0001");
+  const [password, setPassword] = useState("naitik123");
+
+  const onLoginPress = () => {
+    const obj = {
+      data: { member_id: email, member_password: password },
+      onSuccess: (res) => {
+        console.log("res", res);
+      },
+      onFail: () => {},
+    };
+
+    dispatch(loginUser(obj));
+  };
 
   return (
     <View style={style.mainContainer}>
@@ -24,36 +39,37 @@ const LoginScreen = () => {
       <Text style={style.subTitle}>લૉગ ઇન કરવાનું ચાલુ રાખો</Text>
       <TextInput
         inputStyle={{}}
-        placeholder={'તમારું યુઝર નામ દાખલ કરો'}
+        placeholder={"તમારું યુઝર નામ દાખલ કરો"}
         placeholderTextColor={colors.primary}
         value={email}
         isIconView={true}
         icon={icons.ic_user}
-        onChangeText={val => setEmail(val)}
+        onChangeText={(val) => setEmail(val)}
         secureTextEntry={false}
-        onFocus={() => { }}
-        onBlur={() => { }}
+        onFocus={() => {}}
+        onBlur={() => {}}
         visible={false}
-        onButtonPress={() => { }}
+        onButtonPress={() => {}}
       />
       <View style={style.divider} />
       <TextInput
         inputStyle={{}}
-        placeholder={'તમારો પાસવર્ડ નાખો'}
+        placeholder={"તમારો પાસવર્ડ નાખો"}
         placeholderTextColor={colors.primary}
         value={password}
         isIconView={true}
         icon={icons.ic_lock}
-        onChangeText={val => setPassword(val)}
+        onChangeText={(val) => setPassword(val)}
         secureTextEntry={true}
-        onFocus={() => { }}
-        onBlur={() => { }}
+        onFocus={() => {}}
+        onBlur={() => {}}
         visible={false}
-        onButtonPress={() => { }}
+        onButtonPress={() => {}}
       />
       <Button
-        onPress={() => navigate('Onboarding')}
-        title={'પ્રવેશ કરો'}
+        // onPress={() => navigate("Onboarding")}
+        onPress={onLoginPress}
+        title={"પ્રવેશ કરો"}
         buttonStyle={style.buttonStyle}
         buttonTextStyle={{ color: colors.primaryWhite }}
       />
@@ -64,8 +80,8 @@ const LoginScreen = () => {
 const style = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.primaryWhite,
     paddingHorizontal: 16,
   },
@@ -86,13 +102,13 @@ const style = StyleSheet.create({
   subTitle: {
     fontSize: 20,
     color: colors.primary,
-    fontWeight: '400',
+    fontWeight: "400",
     marginBottom: 55,
   },
   title: {
     fontSize: 40,
     color: colors.primary,
-    fontWeight: '600',
+    fontWeight: "600",
   },
 });
 
