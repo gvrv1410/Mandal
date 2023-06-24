@@ -13,6 +13,8 @@ import { colors } from "../../utils";
 import images from "../../helper/imageConstant";
 import iconConstant from "../../helper/iconConstant";
 import ImagePicker from "react-native-image-crop-picker";
+import { useDispatch } from "react-redux";
+import { memberAdd } from "../../actions/memberActions";
 
 const FamilyScreen = () => {
   const openPicker = () => {
@@ -21,7 +23,6 @@ const FamilyScreen = () => {
       height: 400,
       cropping: true,
     }).then((image) => {
-      console.log(image.path);
       setImage(image.path)
     });
   };
@@ -42,9 +43,16 @@ const FamilyScreen = () => {
   const [marriage, setMarriage] = useState('')
   const [education, setEducation] = useState('')
   const [business, setBusiness] = useState('')
-
+  const dispatch = useDispatch();
 
   const onAddMember = () => {
+    const obj = {
+      data: {
+
+      }
+    }
+
+    dispatch(memberAdd(obj))
 
   }
 

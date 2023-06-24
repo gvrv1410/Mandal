@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 const makeAPIRequest = async (method, url, data, headers, params) =>
   new Promise(async (resolve, reject) => {
     const token = await AsyncStorage.getItem("idToken");
+    console.log({ token });
     const options = {
       ...{
         method,

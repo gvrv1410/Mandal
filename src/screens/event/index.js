@@ -1,10 +1,11 @@
 import React from "react";
 import { Text, View } from "react-native";
+import { Header } from "../../components";
 
 const EventScreen = () => {
   return (
     <View>
-      <Text>EventScreen</Text>
+      <Header title={"ઇવેન્ટ - ગેલેરી"} isBack={true} />
     </View>
   );
 };

@@ -33,5 +33,10 @@ export default {
   ic_bLocation: require("../../assets/icons/bLocation.png"),
   ic_dropdown: require('../../assets/icons/down.png'),
   ic_notify: require('../../assets/icons/noti.png'),
-  ic_logout: require('../../assets/icons/logout.png')
+  ic_logout: require('../../assets/icons/logout.png'),
+  ic_newLocation: require('../../assets/icons/newLocation.png'),
+  ic_newBusiness: require('../../assets/icons/newBusiness.png'),
+  ic_businessLocation: require('../../assets/icons/businessLocation.png'),
+  ic_jobHeader: require('../../assets/icons/jobHeader.png'),
+  ic_resume: require('../../assets/icons/resume.png'),
 };

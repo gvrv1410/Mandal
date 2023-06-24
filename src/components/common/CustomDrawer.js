@@ -6,6 +6,7 @@ import { colors } from "../../utils";
 import icons from "../../helper/iconConstant";
 import { gridMenuData } from "../../helper/dummyData";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const CustomDrawer = ({ navigation }) => {
   const { navigate } = useNavigation();
@@ -24,14 +25,21 @@ const CustomDrawer = ({ navigation }) => {
     icon: icons.ic_logout,
   },]
 
+  const onLogoutPress = async () => {
+    await AsyncStorage.removeItem('idToken')
+    navigation.navigate('Main')
+  }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerView}>
-        <Image
-          source={icons.ic_avatar}
-          style={styles.iconStyle}
-          resizeMode="contain"
-        />
+        <TouchableOpacity onPress={() => navigate('UserProfile')}>
+          <Image
+            source={icons.ic_avatar}
+            style={styles.iconStyle}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
         <View>
           <Text style={styles.usernameStyle}>Admin</Text>
           <Text style={styles.memIdStyle}>MG123</Text>
@@ -44,8 +52,14 @@ const CustomDrawer = ({ navigation }) => {
               key={index.toString()}
               style={styles.menuViewStyle}
               onPress={() => {
+                if (item.id === 18) {
+                  onLogoutPress()
+
+                } else {
+
+                  navigate(item.navigation);
+                }
                 navigation.dispatch(DrawerActions.toggleDrawer());
-                navigate(item.navigation);
               }}
             >
               <Image

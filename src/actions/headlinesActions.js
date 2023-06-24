@@ -7,7 +7,7 @@ export const fetchHeadlines = () => {
         makeAPIRequest(GET, apiConst.fetchHeadline, null, null, null).then((res) => {
             dispatch({
                 type: FETCH_HEADLINE_DATA_SUCCESS,
-                payload: res?.data.data,
+                payload: res?.data?.data,
             })
         }).catch((err) => {
             dispatch({
@@ -19,10 +19,10 @@ export const fetchHeadlines = () => {
 
 export const fetchHeadlineImg = () => {
     return (dispatch) =>
-        makeAPIRequest(POST, apiConst.headlineImg, null, null, null).then((res) => {
+        makeAPIRequest(GET, apiConst.headlineImg, null, null, null).then((res) => {
             dispatch({
                 type: FETCH_HEADLINE_IMAGE_SUCCESS,
-                payload: res?.data.data,
+                payload: res?.data,
             })
         }).catch((err) => {
             dispatch({

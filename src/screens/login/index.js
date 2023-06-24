@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -9,6 +9,7 @@ import Button from "../../components/common/Button";
 import { colors } from "../../utils";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../actions/authActions";
+import SplashScreen from "react-native-splash-screen";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -16,13 +17,17 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("MPGM0001");
   const [password, setPassword] = useState("naitik123");
 
+
+
   const onLoginPress = () => {
     const obj = {
       data: { member_id: email, member_password: password },
       onSuccess: () => {
         navigation.navigate('Onboarding')
       },
-      onFail: () => { },
+      onFail: (err) => {
+        Alert.alert("FALIED")
+      },
     };
 
     dispatch(loginUser(obj));

@@ -1,10 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
+import { Header } from "../../components";
 
 const AdsScreen = () => {
   return (
     <View>
-      <Text>AdsScreen</Text>
+      <Header title={"જાહેરાત"} isBack={true} isRight={true} isFiler={true} />
     </View>
   );
 };

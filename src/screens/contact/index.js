@@ -1,10 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
+import { Header } from "../../components";
 
 const ContactScreen = () => {
   return (
     <View>
-      <Text>ContactScreen</Text>
+      <Header title={"મંડળ નો સંપર્ક"} isBack={true} />
     </View>
   );
 };

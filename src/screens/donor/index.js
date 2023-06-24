@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import { DonorCardView, Header, TabView } from "../../components";
-import { donorTabData } from "../../helper/dummyData";
+import DonorSubCardView from "../../components/donor/DonorSubCardView";
+import { donorData, donorSubData, donorTabData } from "../../helper/dummyData";
+import { Height } from "../../utils/responsive";
 
 const DonorScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -18,10 +20,46 @@ const DonorScreen = () => {
           }}
           mainContainer={{ marginTop: 20 }}
         />
-        <View style={{ marginTop: 15 }}>
-          <DonorCardView />
-        </View>
       </View>
+      {activeIndex === 0 ?
+        <View style={{ flex: 1, marginVertical: Height(20) }}>
+          <FlatList
+            data={donorData}
+            renderItem={({ item }) => {
+              return (
+                <View style={{ marginTop: Height(30) }}>
+                  <DonorCardView
+                    name={item.name}
+                    donorOne={item.donor1}
+                    donorTwo={item.donor2}
+                    donorThree={item.donor3}
+                    village={item.village}
+                  />
+                </View>
+              )
+            }}
+          />
+        </View>
+        :
+        <View style={{ flex: 1, marginVertical: Height(20) }}>
+          <FlatList
+            data={donorSubData}
+            renderItem={({ item }) => {
+              return (
+                <DonorSubCardView
+                  name={item.name}
+                  donor={item.donor}
+                  donorby={item.donorby}
+                  donorName={item.donorName}
+                  village={item.village}
+                />
+              )
+            }}
+          />
+        </View>
+      }
+
+
     </View>
   );
 };

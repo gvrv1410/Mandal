@@ -1,10 +1,40 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { Header } from "../../components";
+import SubCardView from "../../components/common/SubCardView";
+import { marriageData } from "../../helper/dummyData";
 
 const MarriageScreen = () => {
+  const navigation = useNavigation()
   return (
-    <View>
-      <Text>MarriageScreen</Text>
+    <View style={{ flex: 1 }}>
+      <Header
+        title={"લગ્ન વિષયક"}
+        isBack={true}
+        isRight={true}
+        isFiler={true} />
+
+      <View style={{ flex: 1, marginVertical: 16 }}>
+
+        <FlatList
+          data={marriageData}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity onPress={() => navigation.navigate('MarriageBio', { data: item })}>
+                <SubCardView
+                  name={item.name}
+                  village={item.village}
+                  city={item.city}
+                  dob={item.dob}
+                  address={item.address}
+                />
+              </TouchableOpacity>
+            )
+          }}
+        />
+      </View>
+
     </View>
   );
 };

@@ -9,8 +9,9 @@ const DELETE = "delete";
 
 const apiConst = {
   login: `${BASE_URL}${VERSION}mukhya_member/login_mukhya_member`,
-  fetchHeadline: `${BASE_URL}${VERSION}headline/fatch_headline`,
-  headlineImg: `${BASE_URL}${VERSION}slider/fetch_all_slider_imgs`
+  fetchHeadline: `${BASE_URL}${VERSION}headline/mukhiya_fatch_headline`,
+  headlineImg: `${BASE_URL}${VERSION}slider/mukhiya_fatch_all_slider_imgs`,
+  addMember: `${BASE_URL}${VERSION}mukhya_member/add_member_details`
 };
 
 export { GET, POST, PUT, DELETE, apiConst };

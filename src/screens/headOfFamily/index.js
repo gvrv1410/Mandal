@@ -1,10 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
+import { Header } from "../../components";
 
 const HeadOfFamilyScreen = () => {
   return (
     <View>
-      <Text>HeadOfFamilyScreen</Text>
+      <Header title={"વડીલો ના શબ્દો"} isBack={true} />
     </View>
   );
 };

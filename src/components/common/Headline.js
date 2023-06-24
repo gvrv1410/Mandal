@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { colors } from "../../utils";
 import MarqueeView from 'react-native-marquee-view';
+import { width } from "../../helper/constant";
 
 
 const HeadLine = ({ headline }) => {
@@ -16,12 +17,14 @@ const HeadLine = ({ headline }) => {
 const style = StyleSheet.create({
     marqueeViewStyle: {
         backgroundColor: colors.liteGray,
-        width: 400,
-        paddingVertical: 2
+        width: width,
+        paddingVertical: 2,
+        alignItems: 'center',
     },
     headLineTextStyle: {
         color: colors.primary,
-        fontSize: 12
+        fontSize: 12,
+        width: width,
     }
 })
 

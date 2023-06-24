@@ -1,10 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
+import { Header } from "../../components";
 
 const StudentScreen = () => {
   return (
     <View>
-      <Text>StudentScreen</Text>
+      <Header title={"વિદ્યાર્થીઓ"} isBack={true} />
     </View>
   );
 };

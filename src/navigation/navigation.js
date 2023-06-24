@@ -24,6 +24,9 @@ import HeadOfFamilyScreen from "../screens/headOfFamily";
 import ResultScreen from "../screens/result";
 import SponsorScreen from "../screens/sponsor";
 import AsyncStorage from "@react-native-community/async-storage";
+import UserProfileScreen from "../screens/profile";
+import MarriageBioScreen from "../screens/marriage/MarriageBioScreen";
+import NotificationScreen from "../screens/notification";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -50,6 +53,9 @@ const DrawerStack = () => (
     <Stack.Screen name="HeadOfFamily" component={HeadOfFamilyScreen} />
     <Stack.Screen name="Result" component={ResultScreen} />
     <Stack.Screen name="Sponsor" component={SponsorScreen} />
+    <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+    <Stack.Screen name="MarriageBio" component={MarriageBioScreen} />
+    <Stack.Screen name="Notification" component={NotificationScreen} />
   </Drawer.Navigator>
 );
 
@@ -62,6 +68,8 @@ const AuthStack = () => (
   </Stack.Navigator>
 );
 
+
+
 const MainNavigator = () => {
   const getUserInfo = async () => {
     const userInfo = await AsyncStorage.getItem('idToken')
@@ -69,7 +77,7 @@ const MainNavigator = () => {
       navigationRef.navigate('Onboarding')
       return true;
     } else {
-      return false
+      return false;
     }
   }
 

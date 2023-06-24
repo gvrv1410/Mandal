@@ -11,7 +11,7 @@ const authReducer = (state = initialState, action) => {
     case USER_LOGIN: {
       return {
         ...state,
-        userInfo: payload,
+        userInfo: action.payload, // Use action.payload instead of payload
       };
     }
     default:

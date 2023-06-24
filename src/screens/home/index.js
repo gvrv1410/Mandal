@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { DrawerActions } from "@react-navigation/native";
-
 import { Header } from "../../components";
 import { colors } from "../../utils";
 import { carouselData, gridMenuData } from "../../helper/dummyData";
@@ -17,6 +16,7 @@ import { Menu } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlineImg, fetchHeadlines } from "../../actions/headlinesActions";
 import { BASE_URL, IMG_DIRECTORY } from "../../helper/apiConstant";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -24,7 +24,19 @@ const HomeScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { headlineData, headlineImg } = useSelector(state => state.fetchHeadlines)
-
+  useEffect(() => {
+    const checkLogin = async () => {
+      const userInfo = await AsyncStorage.getItem('idToken')
+      if (userInfo !== null) {
+        console.log('HEY');
+        navigation.navigate('Onboarding')
+      } else {
+        console.log('HELLO');
+        navigation.navigate('Main')
+      }
+    }
+    checkLogin()
+  })
   useEffect(() => {
     dispatch(fetchHeadlines())
     dispatch(fetchHeadlineImg())
@@ -61,6 +73,7 @@ const HomeScreen = ({ navigation }) => {
         onLeftPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         isRight
         headline={headlineData?.[0]}
+        onRightPress={() => navigation.navigate('Notification')}
       />
       <View style={style.subContainer}>
         <ScrollView
@@ -77,7 +90,7 @@ const HomeScreen = ({ navigation }) => {
               autoplay
             />
             <Pagination
-              dotsLength={carouselData?.length}
+              dotsLength={headlineImg?.length}
               activeDotIndex={activeIndex}
               dotStyle={style.carouselDotStyle}
               inactiveDotStyle={{
