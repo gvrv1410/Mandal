@@ -4,11 +4,11 @@ import { Height, Width } from '../../utils/responsive'
 import { colors } from '../../utils'
 import imageConstant from '../../helper/imageConstant'
 
-const SubCardView = ({ name, village, city, dob, address }) => {
+const SubCardView = ({ name, village, city, dob, address, group, mob, isGroup, isMob, isDob, height }) => {
     return (
         <View style={{ marginTop: Height(30) }}>
             <View style={style.view}>
-                <View style={style.mainContainer}>
+                <View style={[style.mainContainer, { height: height }]}>
                     <View style={style.rowView}>
                         <Text style={[style.text, { width: Width(70) }]}>નામ : </Text>
                         <Text style={[style.text, { width: Width(170), marginLeft: Width(10) }]}>{name}</Text>
@@ -21,10 +21,18 @@ const SubCardView = ({ name, village, city, dob, address }) => {
                         <Text style={[style.text, { width: Width(70) }]}>શહેર :</Text>
                         <Text style={[style.text, { width: Width(170), marginLeft: Width(10) }]}>{city}</Text>
                     </View>
-                    <View style={style.rowView}>
+                    {isGroup && <View style={style.rowView}>
+                        <Text style={[style.text, { width: Width(70) }]}>બ્લડ ગ્રુપ :</Text>
+                        <Text style={[style.text, { width: Width(170), marginLeft: Width(10) }]}>{group}</Text>
+                    </View>}
+                    {isMob && <View style={style.rowView}>
+                        <Text style={[style.text, { width: Width(70) }]}>મોબાઈલ નં.</Text>
+                        <Text style={[style.text, { width: Width(170), marginLeft: Width(10) }]}>{mob}</Text>
+                    </View>}
+                    {isDob && <View style={style.rowView}>
                         <Text style={[style.text, { width: Width(70) }]}>જન્મતારીખ :</Text>
                         <Text style={[style.text, { width: Width(170), marginLeft: Width(10) }]}>{dob}</Text>
-                    </View>
+                    </View>}
                     <View style={style.rowView}>
                         <Text style={[style.text, { width: Width(70) }]}>રહેઠાણ :</Text>
                         <Text style={[style.text, { width: Width(170), marginLeft: Width(10) }]}>{address}</Text>
@@ -42,7 +50,7 @@ export default SubCardView
 
 const style = StyleSheet.create({
     mainContainer: {
-        height: Height(200),
+        // height: Height(200),
         width: Width(328),
         borderRadius: Width(10),
         borderWidth: Height(1),

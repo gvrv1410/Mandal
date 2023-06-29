@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { colors } from "../../utils";
 
-const CardView = ({ title, memberCount = 0, familyCount = 0 }) => {
+const CardView = ({ title, memberCount = 0, familyCount = 0, onPress }) => {
   return (
-    <View style={styles.mainContainer}>
+    <TouchableOpacity style={styles.mainContainer} onPress={onPress}>
       <View style={styles.subContainer}>
         <Text style={styles.titleTextStyle}>{title}</Text>
       </View>
@@ -18,7 +18,7 @@ const CardView = ({ title, memberCount = 0, familyCount = 0 }) => {
           <Text style={styles.subText}>{"સભ્ય"}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default CardView;

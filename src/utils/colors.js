@@ -6,6 +6,8 @@ export default {
   liteGray: "#D9D9D9",
   shadowColor: "#848484",
   tabColor: "#E7EEF2",
+  redColor: "#DE1F26",
+
   // rgba
   rgbPassword: "rgba(0, 0, 0, 0.7)",
   rgbModal: "rgba(0,0,0,0)",

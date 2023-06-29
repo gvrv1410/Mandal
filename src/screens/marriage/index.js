@@ -4,6 +4,7 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { Header } from "../../components";
 import SubCardView from "../../components/common/SubCardView";
 import { marriageData } from "../../helper/dummyData";
+import { Height } from "../../utils/responsive";
 
 const MarriageScreen = () => {
   const navigation = useNavigation()
@@ -28,6 +29,8 @@ const MarriageScreen = () => {
                   city={item.city}
                   dob={item.dob}
                   address={item.address}
+                  isDob={true}
+                  height={Height(200)}
                 />
               </TouchableOpacity>
             )

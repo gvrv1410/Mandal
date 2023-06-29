@@ -1,4 +1,6 @@
+import iconConstant from "./iconConstant";
 import icons from "./iconConstant";
+import imageConstant from "./imageConstant";
 import images from "./imageConstant";
 
 export const carouselData = [
@@ -469,3 +471,136 @@ export const businessTabData = [
     title: "બિઝનેસ",
   },
 ];
+
+export const directorFamilyData = [
+  {
+    id: 1,
+    name: 'ગોયાણી અવી દીલીપભાઈ',
+    familyCode: 'abcd123',
+    wpNumber: '૯૫૧૨૩૪૫૬૭૮'
+  },
+  {
+    id: 2,
+    name: 'ગોયાણી અવી દીલીપભાઈ',
+    familyCode: 'abcd123',
+    wpNumber: '૯૫૧૨૩૪૫૬૭૮'
+  },
+  {
+    id: 3,
+    name: 'ગોયાણી અવી દીલીપભાઈ',
+    familyCode: 'abcd123',
+    wpNumber: '૯૫૧૨૩૪૫૬૭૮'
+  },
+  {
+    id: 4,
+    name: 'ગોયાણી અવી દીલીપભાઈ',
+    familyCode: 'abcd123',
+    wpNumber: '૯૫૧૨૩૪૫૬૭૮'
+  },
+  {
+    id: 5,
+    name: 'ગોયાણી અવી દીલીપભાઈ',
+    familyCode: 'abcd123',
+    wpNumber: '૯૫૧૨૩૪૫૬૭૮'
+  }
+]
+
+export const bloodData = [
+  {
+    id: 1,
+    group: 'A+'
+  }, {
+    id: 2,
+    group: 'A-'
+  }, {
+    id: 3,
+    group: 'B+'
+  }, {
+    id: 4,
+    group: 'B-'
+  }, {
+    id: 5,
+    group: 'AB+'
+  }, {
+    id: 6,
+    group: 'AB-'
+  }, {
+    id: 7,
+    group: 'O+'
+  }, {
+    id: 8,
+    group: 'O-'
+  }
+]
+
+export const mandalContact = [
+  {
+    id: 1,
+    icon: iconConstant.ic_location,
+    title: 'સરનામું',
+    subTitle: 'એ, ૬૦૧, રાજ રેસીડેન્સી , એ બી સી  સર્કલ  મોટા વરાછા, સુરત  - ૩૯૪૧૦૧'
+  }, {
+    id: 2,
+    icon: iconConstant.ic_call,
+    title: 'મોબાઈલ નમ્બર',
+    subTitle: '+૯૫૧૨૩૪૫૬૭૮'
+  }, {
+    id: 3,
+    icon: iconConstant.ic_mail,
+    title: 'ઈમેલ',
+    subTitle: 'avi19@gmail.com'
+  }
+]
+
+export const mandalSubContact = [
+  {
+    id: 1,
+    icon: iconConstant.ic_fb
+  }, {
+    id: 2,
+    icon: iconConstant.ic_insta
+  }, {
+    id: 3,
+    icon: iconConstant.ic_uTube
+  }, {
+    id: 4,
+    icon: iconConstant.ic_wp
+  }
+]
+
+export const noti = [
+  {
+    id: 1,
+    title: 'જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ',
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }, {
+    id: 2,
+    title: 'જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ',
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }, {
+    id: 3,
+    title: 'જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ',
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }, {
+    id: 4,
+    title: 'જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ',
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }
+]
+
+
+export const ads = [
+  {
+    id: 1,
+    ads: imageConstant.ads,
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }, {
+    id: 2,
+    ads: imageConstant.ads,
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }, {
+    id: 3,
+    ads: imageConstant.ads,
+    date: '૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM'
+  }
+]

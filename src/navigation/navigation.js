@@ -27,6 +27,15 @@ import AsyncStorage from "@react-native-community/async-storage";
 import UserProfileScreen from "../screens/profile";
 import MarriageBioScreen from "../screens/marriage/MarriageBioScreen";
 import NotificationScreen from "../screens/notification";
+import DirectorFamilyScreen from "../screens/director/DirectorFamilyScreen";
+import DirectorProfileScreen from "../screens/director/DirectorProfileScreen";
+import DirectorMemberScreen from "../screens/director/DirectorMemberScreen";
+import MemberProfileScreen from "../screens/director/MemberProfileScreen";
+import DirectorDetailScreen from "../screens/director/DirectorDetailScreen";
+import ComityProfileScreen from "../screens/comity/ComityProfileScreen";
+import BloodDetailScreen from "../screens/blood/BloodDetailScreen";
+import NotificationDetailScreen from "../screens/notification/NotificationDetailScreen";
+import AdsDetailScreen from "../screens/ads/AdsDetailScreen";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -56,6 +65,15 @@ const DrawerStack = () => (
     <Stack.Screen name="UserProfile" component={UserProfileScreen} />
     <Stack.Screen name="MarriageBio" component={MarriageBioScreen} />
     <Stack.Screen name="Notification" component={NotificationScreen} />
+    <Stack.Screen name="DirectorFamily" component={DirectorFamilyScreen} />
+    <Stack.Screen name="DirectorProfile" component={DirectorProfileScreen} />
+    <Stack.Screen name="DirectorMember" component={DirectorMemberScreen} />
+    <Stack.Screen name="MemberProfile" component={MemberProfileScreen} />
+    <Stack.Screen name="DirectorDetail" component={DirectorDetailScreen} />
+    <Stack.Screen name="ComityProfile" component={ComityProfileScreen} />
+    <Stack.Screen name="BloodDetail" component={BloodDetailScreen} />
+    <Stack.Screen name="NotificationDetail" component={NotificationDetailScreen} />
+    <Stack.Screen name="AdsDetails" component={AdsDetailScreen} />
   </Drawer.Navigator>
 );
 

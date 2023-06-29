@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import images from "../../helper/imageConstant";
 import { colors } from "../../utils";
 
-const ComityCardView = ({ data }) => {
+const ComityCardView = ({ data, onImagePress }) => {
   return (
     <View style={style.mainContainer}>
       <View style={style.subContainer} />
@@ -13,11 +13,13 @@ const ComityCardView = ({ data }) => {
         <Text style={style.subTitleStyle}>{data.mobileNo}</Text>
         <Text style={style.subTitleStyle}>{data.village}</Text>
       </View>
-      <Image
-        source={images.profile}
-        style={style.imageStyle}
-        resizeMode="contain"
-      />
+      <TouchableOpacity style={style.imageBtn} onPress={onImagePress}>
+        <Image
+          source={images.profile}
+          style={style.imageStyle}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -51,8 +53,7 @@ const style = StyleSheet.create({
     borderRadius: 75 / 2,
     borderColor: colors.primary,
     borderWidth: 1.5,
-    position: "absolute",
-    alignSelf: "center",
+
   },
   titleStyle: {
     fontSize: 12,
@@ -62,6 +63,10 @@ const style = StyleSheet.create({
     fontSize: 10,
     fontWeight: "400",
   },
+  imageBtn: {
+    position: "absolute",
+    alignSelf: "center",
+  }
 });
 
 export default ComityCardView;

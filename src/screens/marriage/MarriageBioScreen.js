@@ -44,11 +44,6 @@ const MarriageBioScreen = () => {
                     />
                 </DropShadow>
             </View>
-            <Button
-                title={'ફેરફાર કરો'}
-                buttonStyle={style.buttonStyle}
-                buttonTextStyle={style.buttonTextStyle}
-            />
         </View>
     )
 }

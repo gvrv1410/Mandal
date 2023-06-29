@@ -1,13 +1,16 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { ComityCardView, Divider, Header } from "../../components";
 import { comityMemberData } from "../../helper/dummyData";
 
 const ComityScreen = () => {
+
+  const navigation = useNavigation()
   const renderItem = ({ item, index }) => {
     return (
       <View style={style.cardViewStyle}>
-        <ComityCardView data={item} />
+        <ComityCardView data={item} onImagePress={() => navigation.navigate('ComityProfile')} />
       </View>
     );
   };

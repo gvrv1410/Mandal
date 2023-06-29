@@ -7,9 +7,9 @@ import { colors } from "../../utils";
 
 const DirectorScreen = () => {
   const { goBack } = useNavigation();
-
+  const navigation = useNavigation()
   const renderItem = ({ item }) => {
-    return <CardView title={item?.title} />;
+    return <CardView title={item?.title} onPress={() => navigation.navigate('DirectorFamily', { data: item })} />;
   };
 
   const renderCountedItem = ({ item }) => {

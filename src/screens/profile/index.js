@@ -1,21 +1,16 @@
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { useRoute } from '@react-navigation/native'
 import { Button, Header } from '../../components'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchHeadlines } from '../../actions/headlinesActions'
-import imageConstant from '../../helper/imageConstant'
-import { colors } from '../../utils'
 import { Height, Width } from '../../utils/responsive'
+import { colors } from '../../utils'
 import { profileData } from '../../helper/dummyData'
+import imageConstant from '../../helper/imageConstant'
+import DropShadow from 'react-native-drop-shadow'
 
 const UserProfileScreen = () => {
-    const dispatch = useDispatch()
-    const { headlineData } = useSelector(state => state.fetchHeadlines)
-    useEffect(() => {
-        dispatch(fetchHeadlines())
-    }, [])
-
-
+    const route = useRoute()
+    console.log({ route });
     const renderItem = ({ item }) => {
         return (
             <View style={style.mainView}>
@@ -26,11 +21,10 @@ const UserProfileScreen = () => {
     }
 
     return (
-        <View>
+        <View style={style.mainContainer}>
             <Header
                 title={"પ્રોફાઇલ"}
                 isBack={true}
-                headline={headlineData?.[0]}
             />
             <Image
                 source={imageConstant.profile}
@@ -38,18 +32,22 @@ const UserProfileScreen = () => {
                 resizeMode="contain"
             />
             <Text style={style.text}>ગોયાણી અવી દીલીપભાઈ</Text>
-
-            <FlatList
-                data={profileData}
-                renderItem={renderItem}
-                style={style.flatlist}
-                keyExtractor={(item) => item.id}
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: 30 }}
-            />
+            <View style={style.subContainer}>
+                <DropShadow style={style.shadow}>
+                    <FlatList
+                        keyExtractor={(item) => item.id}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{}}
+                        data={profileData}
+                        renderItem={renderItem}
+                        style={style.flatlist}
+                    />
+                </DropShadow>
+            </View>
             <Button
                 title={'ફેરફાર કરો'}
-                buttonStyle={{ backgroundColor: colors.primary }}
+                buttonStyle={style.buttonStyle}
+                buttonTextStyle={style.buttonTextStyle}
             />
         </View>
     )
@@ -74,8 +72,30 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         marginTop: Height(30)
     }, flatlist: {
-        height: Height(780),
+        // height: Height(780),
         backgroundColor: colors.primaryWhite,
         marginHorizontal: Width(20)
+    },
+    mainContainer: {
+        flex: 1, backgroundColor: colors.primaryWhite
+    },
+    subContainer: {
+        flex: 1, marginVertical: 16
+    },
+    shadow: {
+        shadowColor: colors.gray,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    buttonStyle: {
+        backgroundColor: colors.primary, height: Height(50), width: Width(360), alignSelf: 'center', marginVertical: Height(30), borderRadius: Width(5)
+    },
+    buttonTextStyle: {
+        color: colors.primaryWhite, fontSize: Height(16), fontWeight: '400'
     }
 })
