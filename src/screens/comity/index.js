@@ -1,22 +1,33 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { ComityCardView, Divider, Header } from "../../components";
+import Menu from "../../components/common/Menu";
 import { comityMemberData } from "../../helper/dummyData";
 
 const ComityScreen = () => {
-
-  const navigation = useNavigation()
+  const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
+    useState(false);
+  const navigation = useNavigation();
   const renderItem = ({ item, index }) => {
     return (
       <View style={style.cardViewStyle}>
-        <ComityCardView data={item} onImagePress={() => navigation.navigate('ComityProfile')} />
+        <ComityCardView
+          data={item}
+          onImagePress={() => navigation.navigate("ComityProfile")}
+        />
       </View>
     );
   };
   return (
     <View style={style.mainContainer}>
-      <Header title={"કમિટી મેમ્બર"} isBack={true} />
+      <Header
+        title={"કમિટી મેમ્બર"}
+        isBack={true}
+        isRight={true}
+        isFiler={true}
+        onRightPress={() => setShowDonationSuccessPopup(true)}
+      />
 
       <FlatList
         data={comityMemberData}
@@ -27,7 +38,10 @@ const ComityScreen = () => {
         renderItem={({ item, index }) => {
           return (
             <>
-              <Divider title={item.title} mainContainer={{ marginTop: 20 }} />
+              <Divider
+                title={item.title}
+                mainContainer={{ marginTop: 20 }}
+              />
               <FlatList
                 keyExtractor={(item) => item.id}
                 scrollEnabled={false}
@@ -39,6 +53,12 @@ const ComityScreen = () => {
             </>
           );
         }}
+      />
+      <Menu
+        displayTitle={"Custom Alert"}
+        visibility={showDonationSuccessPopup}
+        dismissAlert={setShowDonationSuccessPopup}
+        onPress={() => setShowDonationSuccessPopup(false)}
       />
     </View>
   );

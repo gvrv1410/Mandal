@@ -1,16 +1,31 @@
 import React, { useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { DonorCardView, Header, TabView } from "../../components";
+import Menu from "../../components/common/Menu";
 import DonorSubCardView from "../../components/donor/DonorSubCardView";
 import { donorData, donorSubData, donorTabData } from "../../helper/dummyData";
 import { Height } from "../../utils/responsive";
 
 const DonorScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
+    useState(false);
   return (
     <View style={{ flex: 1 }}>
-      <Header title={"દાતાશ્રી"} isBack={true} isRight={true} isFiler={true} />
+      <Header
+        title={"દાતાશ્રી"}
+        isBack={true}
+        isRight={true}
+        isFiler={true}
+        onRightPress={() => setShowDonationSuccessPopup(true)}
+      />
+
+      <Menu
+        displayTitle={"Custom Alert"}
+        visibility={showDonationSuccessPopup}
+        dismissAlert={setShowDonationSuccessPopup}
+        onPress={() => setShowDonationSuccessPopup(false)}
+      />
       <View style={{ marginHorizontal: 16 }}>
         <TabView
           tabData={donorTabData}
@@ -21,7 +36,7 @@ const DonorScreen = () => {
           mainContainer={{ marginTop: 20 }}
         />
       </View>
-      {activeIndex === 0 ?
+      {activeIndex === 0 ? (
         <View style={{ flex: 1, marginVertical: Height(20) }}>
           <FlatList
             data={donorData}
@@ -36,11 +51,11 @@ const DonorScreen = () => {
                     village={item.village}
                   />
                 </View>
-              )
+              );
             }}
           />
         </View>
-        :
+      ) : (
         <View style={{ flex: 1, marginVertical: Height(20) }}>
           <FlatList
             data={donorSubData}
@@ -52,16 +67,26 @@ const DonorScreen = () => {
                   donorby={item.donorby}
                   donorName={item.donorName}
                   village={item.village}
+                  mainContainer={style.mainContainer}
+                  isLocation={true}
+                  isDate={true}
+                  isDoner={true}
+                  isDonerOne={true}
                 />
-              )
+              );
             }}
           />
         </View>
-      }
-
-
+      )}
     </View>
   );
 };
 
 export default DonorScreen;
+
+const style = StyleSheet.create({
+  mainContainer: {
+    paddingBottom: Height(20),
+    paddingTop: Height(40),
+  },
+});

@@ -1,22 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { Header, CardView } from "../../components";
 import { useNavigation } from "@react-navigation/native";
 import { countOfAll, directorData } from "../../helper/dummyData";
 import { colors } from "../../utils";
+import Menu from "../../components/common/Menu";
 
 const DirectorScreen = () => {
   const { goBack } = useNavigation();
-  const navigation = useNavigation()
+  const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
+    useState(false);
+  const navigation = useNavigation();
   const renderItem = ({ item }) => {
-    return <CardView title={item?.title} onPress={() => navigation.navigate('DirectorFamily', { data: item })} />;
+    return (
+      <CardView
+        title={item?.title}
+        onPress={() => navigation.navigate("DirectorFamily", { data: item })}
+      />
+    );
   };
 
   const renderCountedItem = ({ item }) => {
     return (
       <View style={{ flex: 1, padding: 5, alignItems: "center" }}>
         <Text style={style.countText}>{item?.count}</Text>
-        <Text style={[style.countText, { color: 'black' }]}>{item?.title}</Text>
+        <Text style={[style.countText, { color: "black" }]}>{item?.title}</Text>
       </View>
     );
   };
@@ -28,6 +36,7 @@ const DirectorScreen = () => {
         isBack={true}
         isRight={true}
         isFiler={true}
+        onRightPress={() => setShowDonationSuccessPopup(true)}
       />
 
       <View style={style.subContainer}>
@@ -50,6 +59,12 @@ const DirectorScreen = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+      <Menu
+        displayTitle={"Custom Alert"}
+        visibility={showDonationSuccessPopup}
+        dismissAlert={setShowDonationSuccessPopup}
+        onPress={() => setShowDonationSuccessPopup(false)}
+      />
     </View>
   );
 };
@@ -66,10 +81,11 @@ const style = StyleSheet.create({
   bodyContainer: {
     flex: 3,
     bottom: 60,
-  }, countText: {
+  },
+  countText: {
     fontSize: 15,
-    color: colors.primary
-  }
+    color: colors.primary,
+  },
 });
 
 export default DirectorScreen;
