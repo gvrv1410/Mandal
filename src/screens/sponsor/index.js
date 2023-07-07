@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { ComityCardView, Divider, Header } from "../../components";
 import Menu from "../../components/common/Menu";
 import { comityMemberData } from "../../helper/dummyData";
@@ -9,6 +11,11 @@ const SponsorScreen = () => {
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   const renderItem = ({ item, index }) => {
     return (
       <View style={style.cardViewStyle}>
@@ -29,6 +36,7 @@ const SponsorScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
+        headline={headlineData?.headlineData?.msg}
       />
       <FlatList
         data={comityMemberData}

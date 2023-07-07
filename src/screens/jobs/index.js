@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ImageCropPicker from "react-native-image-crop-picker";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Button, Header, TextInput } from "../../components";
 import iconConstant from "../../helper/iconConstant";
 import imageConstant from "../../helper/imageConstant";
@@ -14,27 +16,39 @@ const JobsScreen = () => {
       height: 400,
       cropping: true,
     }).then((image) => {
-      setImage(image.path)
+      setImage(image.path);
     });
   };
-  const [image, setImage] = useState('')
+  const [image, setImage] = useState("");
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   return (
     <View style={{ flex: 1, backgroundColor: colors.primaryWhite }}>
-      <Header title={"નોકરીઓ"} isBack={true} />
+      <Header
+        title={"નોકરીઓ"}
+        isBack={true}
+        headline={headlineData?.headlineData?.msg}
+      />
       <View style={{ flex: 1, marginHorizontal: 16 }}>
-        <TouchableOpacity style={style.imageViewStyle} onPress={openPicker}>
-          {image ?
+        <TouchableOpacity
+          style={style.imageViewStyle}
+          onPress={openPicker}>
+          {image ? (
             <Image
               source={{ uri: image }}
               style={style.imageStyle}
               resizeMode="contain"
             />
-            :
+          ) : (
             <Image
               source={imageConstant.profile}
               style={style.imageStyle}
               resizeMode="contain"
-            />}
+            />
+          )}
           <Text style={style.imageTextStyle}>પ્રોફાઇલ ફોટો બદલો</Text>
         </TouchableOpacity>
         <TextInput
@@ -42,35 +56,35 @@ const JobsScreen = () => {
           mainContainer={style.textInputStyle}
           placeholder={"તમારું નામ લખો"}
           isIconView
-        // value={name}
-        // onChangeText={(val) => setName(val)}
+          // value={name}
+          // onChangeText={(val) => setName(val)}
         />
         <TextInput
           icon={iconConstant.ic_jobHeader}
           mainContainer={style.textInputStyle}
           placeholder={"તમારા નોકરીનું શીર્ષક લખો"}
           isIconView
-        // value={name}
-        // onChangeText={(val) => setName(val)}
+          // value={name}
+          // onChangeText={(val) => setName(val)}
         />
         <TextInput
           icon={iconConstant.ic_location}
           mainContainer={style.textInputStyle}
           placeholder={"તમારું હાલનું સરનામુંં લખો"}
           isIconView
-        // value={name}
-        // onChangeText={(val) => setName(val)}
+          // value={name}
+          // onChangeText={(val) => setName(val)}
         />
         <TextInput
           icon={iconConstant.ic_resume}
           mainContainer={style.textInputStyle}
           placeholder={"તમારી રેસુમે ફાઈલ નાખો"}
           isIconView
-        // value={name}
-        // onChangeText={(val) => setName(val)}
+          // value={name}
+          // onChangeText={(val) => setName(val)}
         />
         <Button
-          title={'વિનંતી મોકલો'}
+          title={"વિનંતી મોકલો"}
           buttonStyle={style.buttonStyle}
           buttonTextStyle={style.buttonTextStyle}
         />
@@ -105,8 +119,9 @@ const style = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
     alignSelf: "center",
-  }, buttonTextStyle: {
+  },
+  buttonTextStyle: {
     color: colors.primaryWhite,
     fontSize: Height(16),
-  }
-})
+  },
+});

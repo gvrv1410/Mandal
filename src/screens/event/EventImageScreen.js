@@ -6,14 +6,21 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "../../components";
 import { eventImage } from "../../helper/dummyData";
 import { Height, Width } from "../../utils/responsive";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 
 const EventImageScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity
@@ -33,6 +40,7 @@ const EventImageScreen = () => {
       <Header
         title={"છવ્વીસમું વાર્ષિક સ્નેહ મિલન સંમેલન"}
         isBack={true}
+        headline={headlineData?.headlineData?.msg}
       />
       <FlatList
         data={eventImage}

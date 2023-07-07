@@ -11,29 +11,30 @@ import AsyncStorage from "@react-native-community/async-storage";
 const CustomDrawer = ({ navigation }) => {
   const { navigate } = useNavigation();
 
-
-  const appendOptions = [{
-    id: 17,
-    title: "નોટિફિકેશન",
-    navigation: "Director",
-    icon: icons.ic_notify,
-  },
-  {
-    id: 18,
-    title: "લોગ આઉટ",
-    navigation: "Comity",
-    icon: icons.ic_logout,
-  },]
+  const appendOptions = [
+    {
+      id: 17,
+      title: "નોટિફિકેશન",
+      navigation: "Director",
+      icon: icons.ic_notify,
+    },
+    {
+      id: 18,
+      title: "લોગ આઉટ",
+      navigation: "Comity",
+      icon: icons.ic_logout,
+    },
+  ];
 
   const onLogoutPress = async () => {
-    await AsyncStorage.removeItem('idToken')
-    navigation.navigate('Main')
-  }
+    await AsyncStorage.removeItem("idToken");
+    navigation.navigate("Main");
+  };
 
   return (
     <View style={styles.mainContainer}>
       <View style={styles.headerView}>
-        <TouchableOpacity onPress={() => navigate('UserProfile')}>
+        <TouchableOpacity onPress={() => navigate("UserProfile")}>
           <Image
             source={icons.ic_avatar}
             style={styles.iconStyle}
@@ -53,15 +54,12 @@ const CustomDrawer = ({ navigation }) => {
               style={styles.menuViewStyle}
               onPress={() => {
                 if (item.id === 18) {
-                  onLogoutPress()
-
+                  onLogoutPress();
                 } else {
-
                   navigate(item.navigation);
                 }
                 navigation.dispatch(DrawerActions.toggleDrawer());
-              }}
-            >
+              }}>
               <Image
                 source={item.icon}
                 style={styles.menuIconStyle}

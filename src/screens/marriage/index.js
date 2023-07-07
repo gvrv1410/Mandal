@@ -1,28 +1,39 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
 import SubCardView from "../../components/common/SubCardView";
 import { marriageData } from "../../helper/dummyData";
 import { Height } from "../../utils/responsive";
 
 const MarriageScreen = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   return (
     <View style={{ flex: 1 }}>
       <Header
         title={"લગ્ન વિષયક"}
         isBack={true}
         isRight={true}
-        isFiler={true} />
+        isFiler={true}
+        headline={headlineData?.headlineData?.msg}
+      />
 
       <View style={{ flex: 1, marginVertical: 16 }}>
-
         <FlatList
           data={marriageData}
           renderItem={({ item }) => {
             return (
-              <TouchableOpacity onPress={() => navigation.navigate('MarriageBio', { data: item })}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("MarriageBio", { data: item })
+                }>
                 <SubCardView
                   name={item.name}
                   village={item.village}
@@ -33,11 +44,10 @@ const MarriageScreen = () => {
                   height={Height(200)}
                 />
               </TouchableOpacity>
-            )
+            );
           }}
         />
       </View>
-
     </View>
   );
 };

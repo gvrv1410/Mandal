@@ -1,18 +1,36 @@
-import React from "react";
-import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useEffect } from "react";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import DropShadow from "react-native-drop-shadow";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Button, Header } from "../../components";
 import { mandalContact, mandalSubContact } from "../../helper/dummyData";
 import { colors } from "../../utils";
 import { Height, Width } from "../../utils/responsive";
 
 const ContactScreen = () => {
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   return (
     <View style={style.mainContainer}>
-      <Header title={"મંડળ નો સંપર્ક"} isBack={true} />
+      <Header
+        title={"મંડળ નો સંપર્ક"}
+        isBack={true}
+        headline={headlineData?.headlineData?.msg}
+      />
       <Text style={style.text}>પૂછપરછ ફોર્મ</Text>
       <ScrollView>
-
         <Text style={style.textOne}>નામ</Text>
         <DropShadow style={style.shadow}>
           <TextInput
@@ -42,7 +60,7 @@ const ContactScreen = () => {
           />
         </DropShadow>
         <Button
-          title={'સાચવો'}
+          title={"સાચવો"}
           buttonStyle={style.buttonStyle}
           buttonTextStyle={style.buttonTextStyle}
         />
@@ -54,28 +72,36 @@ const ContactScreen = () => {
               <DropShadow style={style.shadow}>
                 <View>
                   <View style={style.flatView}>
-                    <Text style={[style.flatText, { color: colors.primary }]}>{item.title}</Text>
+                    <Text style={[style.flatText, { color: colors.primary }]}>
+                      {item.title}
+                    </Text>
                     <Text style={style.flatText}>{item.subTitle}</Text>
                   </View>
-                  <View style={[style.roundView, { position: 'absolute' }]}>
-                    <Image source={item.icon} style={style.image} resizeMode='contain' />
+                  <View style={[style.roundView, { position: "absolute" }]}>
+                    <Image
+                      source={item.icon}
+                      style={style.image}
+                      resizeMode="contain"
+                    />
                   </View>
                 </View>
               </DropShadow>
-            )
+            );
           }}
         />
 
         <View style={style.rowView}>
-          {
-            mandalSubContact.map((item, i) => {
-              return (
-                <View style={style.roundSubView}>
-                  <Image source={item.icon} style={style.subImg} resizeMode='contain' />
-                </View>
-              )
-            })
-          }
+          {mandalSubContact.map((item, i) => {
+            return (
+              <View style={style.roundSubView}>
+                <Image
+                  source={item.icon}
+                  style={style.subImg}
+                  resizeMode="contain"
+                />
+              </View>
+            );
+          })}
         </View>
       </ScrollView>
     </View>
@@ -87,24 +113,25 @@ const style = StyleSheet.create({
   text: {
     fontSize: Height(20),
     color: colors.primary,
-    textAlign: 'center',
+    textAlign: "center",
     paddingVertical: Height(10),
     marginTop: Height(20),
-    backgroundColor: '#E7EEF2'
+    backgroundColor: "#E7EEF2",
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: colors.primaryWhite
+    backgroundColor: colors.primaryWhite,
   },
   textInput: {
     width: Width(360),
     paddingHorizontal: 16,
     backgroundColor: colors.primaryWhite,
     height: Height(50),
-    alignSelf: 'center',
+    alignSelf: "center",
     borderRadius: Width(5),
-    marginTop: Height(5)
-  }, shadow: {
+    marginTop: Height(5),
+  },
+  shadow: {
     shadowColor: colors.gray,
     shadowOffset: {
       width: 0,
@@ -118,58 +145,66 @@ const style = StyleSheet.create({
     fontSize: Height(15),
     color: colors.primaryBlack,
     marginLeft: Width(15),
-    marginTop: Height(30)
-  }, buttonStyle: {
+    marginTop: Height(30),
+  },
+  buttonStyle: {
     height: Height(50),
     width: Width(360),
     backgroundColor: colors.primary,
     borderRadius: Width(5),
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: Height(30),
-    marginBottom: Height(15)
-  }, buttonTextStyle: {
+    marginBottom: Height(15),
+  },
+  buttonTextStyle: {
     fontSize: Height(16),
     color: colors.primaryWhite,
-    fontWeight: '400'
-  }, flatView: {
+    fontWeight: "400",
+  },
+  flatView: {
     height: Height(140),
     width: Width(360),
     backgroundColor: colors.primaryWhite,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginVertical: Height(30),
     paddingTop: Height(60),
-    alignItems: 'center'
-  }, roundView: {
+    alignItems: "center",
+  },
+  roundView: {
     height: Height(80),
     width: Height(80),
     borderRadius: Height(80) / 2,
     backgroundColor: colors.primary,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }, image: {
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
     height: Height(30),
-    width: Width(30)
-  }, flatText: {
+    width: Width(30),
+  },
+  flatText: {
     fontSize: Height(15),
     color: colors.primaryBlack,
-    textAlign: 'center',
-    marginHorizontal: Width(20)
-  }, roundSubView: {
+    textAlign: "center",
+    marginHorizontal: Width(20),
+  },
+  roundSubView: {
     height: Height(50),
     width: Height(50),
     borderRadius: Height(50) / 2,
     backgroundColor: colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center'
-  }, subImg: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  subImg: {
     height: Height(25),
-    width: Width(25)
+    width: Width(25),
   },
   rowView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginHorizontal: Width(65),
-    paddingBottom: Height(50)
-  }
-})
+    paddingBottom: Height(50),
+  },
+});

@@ -6,6 +6,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import authReducer from "../reducers/authReducer";
 import fetchHeadlineReducer from "../reducers/headlineReducers";
 import memberReducer from "../reducers/memberReducer";
+import directorReducers from "../reducers/directorReducers";
+import bloodReducer from "../reducers/bloodReducer";
 
 const persistConfig = {
   key: "root",
@@ -15,7 +17,9 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authReducer,
   fetchHeadlines: fetchHeadlineReducer,
-  member: memberReducer
+  member: memberReducer,
+  totalDirectorMember: directorReducers,
+  blood: bloodReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

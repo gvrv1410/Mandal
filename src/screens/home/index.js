@@ -11,36 +11,40 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import { DrawerActions } from "@react-navigation/native";
 import { Header } from "../../components";
 import { colors } from "../../utils";
-import { carouselData, gridMenuData } from "../../helper/dummyData";
+import { gridMenuData } from "../../helper/dummyData";
 import { Menu } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchHeadlineImg, fetchHeadlines } from "../../actions/headlinesActions";
+import {
+  fetchHeadlineImg,
+  fetchHeadlines,
+} from "../../actions/headlinesActions";
 import { BASE_URL, IMG_DIRECTORY } from "../../helper/apiConstant";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const HomeScreen = ({ navigation }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { headlineData, headlineImg } = useSelector(state => state.fetchHeadlines)
+  const { headlineData, headlineImg } = useSelector(
+    (state) => state.fetchHeadlines
+  );
+  console.log({ headlineImg });
   useEffect(() => {
     const checkLogin = async () => {
-      const userInfo = await AsyncStorage.getItem('idToken')
+      const userInfo = await AsyncStorage.getItem("idToken");
       if (userInfo !== null) {
-        console.log('HEY');
-        navigation.navigate('Onboarding')
+        navigation.navigate("Onboarding");
       } else {
-        console.log('HELLO');
-        navigation.navigate('Main')
+        navigation.navigate("Main");
       }
-    }
-    checkLogin()
-  })
+    };
+    checkLogin();
+  });
   useEffect(() => {
-    dispatch(fetchHeadlines())
-    dispatch(fetchHeadlineImg())
-  }, [])
+    dispatch(fetchHeadlines());
+    dispatch(fetchHeadlineImg());
+  }, []);
 
   const renderCarouselItem = ({ item, index }) => {
     return (
@@ -51,11 +55,13 @@ const HomeScreen = ({ navigation }) => {
         resizeMode="contain"
       />
     );
-  }
+  };
 
   const renderItem = ({ item }) => {
     return (
-      <View key={item.toString()} style={style.gridViewStyle}>
+      <View
+        key={item.toString()}
+        style={style.gridViewStyle}>
         <Menu
           title={item?.title}
           icon={item?.icon}
@@ -72,14 +78,13 @@ const HomeScreen = ({ navigation }) => {
         isBack={false}
         onLeftPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         isRight
-        headline={headlineData?.[0]}
-        onRightPress={() => navigation.navigate('Notification')}
+        headline={headlineData?.msg}
+        onRightPress={() => navigation.navigate("Notification")}
       />
       <View style={style.subContainer}>
         <ScrollView
           contentContainerStyle={{ paddingBottom: 25 }}
-          showsVerticalScrollIndicator={false}
-        >
+          showsVerticalScrollIndicator={false}>
           <View style={style.carouselView}>
             <Carousel
               data={headlineImg}
@@ -137,7 +142,7 @@ const style = StyleSheet.create({
   carouselImageStyle: {
     height: 200,
     width: 361,
-    resizeMode: 'contain',
+    resizeMode: "contain",
   },
   gridViewStyle: {
     flex: 1,

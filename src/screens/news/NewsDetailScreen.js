@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "../../components";
 import NewsCard from "../../components/news/NewsCard";
 import { Height, Width } from "../../utils/responsive";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 
 const NewsDetailScreen = () => {
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   return (
     <View>
       <Header
         title={"ન્યૂઝ"}
         isBack={true}
+        headline={headlineData?.headlineData?.msg}
       />
       <NewsCard
         text={"હું થોડોક કાચ અને થોડોક અરીસા જેવો છું ! ..."}

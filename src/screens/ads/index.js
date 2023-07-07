@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -9,6 +9,8 @@ import {
   View,
 } from "react-native";
 import DropShadow from "react-native-drop-shadow";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
 import Menu from "../../components/common/Menu";
 import { ads } from "../../helper/dummyData";
@@ -17,9 +19,15 @@ import { colors } from "../../utils";
 import { Height, Width } from "../../utils/responsive";
 
 const AdsScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
+
   return (
     <View style={style.mainContainer}>
       <Header
@@ -28,6 +36,7 @@ const AdsScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
+        headline={headlineData?.headlineData?.msg}
       />
       <View style={style.mainContainer}>
         <FlatList

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   FlatList,
 } from "react-native";
 import ImageCropPicker from "react-native-image-crop-picker";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Button, Header, TabView, TextInput } from "../../components";
 import BusinessCard from "../../components/business/BusinessCard";
 import { businessTabData, marketData } from "../../helper/dummyData";
@@ -29,6 +31,11 @@ const BusinessScreen = () => {
   };
   const [image, setImage] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   const renderItem = ({ item }) => {
     return (
       <View>
@@ -46,6 +53,7 @@ const BusinessScreen = () => {
       <Header
         title={"બિઝનેસ"}
         isBack={true}
+        headline={headlineData?.headlineData?.msg}
       />
       <View style={{ marginHorizontal: 16 }}>
         <TabView

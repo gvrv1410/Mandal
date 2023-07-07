@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Header } from "../../components";
 import FamilyCard from "../../components/family/FamilyCard";
 import { myFamily } from "../../helper/dummyData";
@@ -7,11 +7,18 @@ import { colors } from "../../utils";
 import { Height, Width } from "../../utils/responsive";
 import { useNavigation } from "@react-navigation/native";
 import Menu from "../../components/common/Menu";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 
 const FamilyScreen = () => {
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   const renderItem = ({ item }) => {
     return (
       <View>
@@ -32,6 +39,7 @@ const FamilyScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
+        headline={headlineData?.headlineData?.msg}
       />
       <View>
         <FlatList

@@ -9,24 +9,21 @@ import Button from "../../components/common/Button";
 import { colors } from "../../utils";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../actions/authActions";
-import SplashScreen from "react-native-splash-screen";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const [email, setEmail] = useState("MPGM0001");
-  const [password, setPassword] = useState("naitik123");
-
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const onLoginPress = () => {
     const obj = {
       data: { member_id: email, member_password: password },
       onSuccess: () => {
-        navigation.navigate('Onboarding')
+        navigation.navigate("Onboarding");
       },
       onFail: (err) => {
-        Alert.alert("FALIED")
+        console.log({ err });
       },
     };
 
@@ -51,10 +48,10 @@ const LoginScreen = () => {
         icon={icons.ic_user}
         onChangeText={(val) => setEmail(val)}
         secureTextEntry={false}
-        onFocus={() => { }}
-        onBlur={() => { }}
+        onFocus={() => {}}
+        onBlur={() => {}}
         visible={false}
-        onButtonPress={() => { }}
+        onButtonPress={() => {}}
       />
       <View style={style.divider} />
       <TextInput
@@ -66,13 +63,12 @@ const LoginScreen = () => {
         icon={icons.ic_lock}
         onChangeText={(val) => setPassword(val)}
         secureTextEntry={true}
-        onFocus={() => { }}
-        onBlur={() => { }}
+        onFocus={() => {}}
+        onBlur={() => {}}
         visible={false}
-        onButtonPress={() => { }}
+        onButtonPress={() => {}}
       />
       <Button
-        // onPress={() => navigate("Onboarding")}
         onPress={onLoginPress}
         title={"પ્રવેશ કરો"}
         buttonStyle={style.buttonStyle}

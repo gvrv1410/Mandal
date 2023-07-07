@@ -1,6 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
 import Menu from "../../components/common/Menu";
 import NewsCard from "../../components/news/NewsCard";
@@ -11,6 +13,11 @@ const NewsScreen = () => {
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   const renderItem = ({ item }) => {
     return (
       <View>
@@ -32,6 +39,7 @@ const NewsScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
+        headline={headlineData?.headlineData?.msg}
       />
 
       <FlatList

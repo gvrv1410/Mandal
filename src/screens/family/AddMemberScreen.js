@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -13,8 +13,9 @@ import { colors } from "../../utils";
 import images from "../../helper/imageConstant";
 import iconConstant from "../../helper/iconConstant";
 import ImagePicker from "react-native-image-crop-picker";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { memberAdd } from "../../actions/memberActions";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 
 const AddMemberScreen = () => {
   const openPicker = () => {
@@ -45,6 +46,11 @@ const AddMemberScreen = () => {
   const [business, setBusiness] = useState("");
   const dispatch = useDispatch();
 
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
+
   const onAddMember = () => {
     const obj = {
       data: {},
@@ -58,6 +64,7 @@ const AddMemberScreen = () => {
       <Header
         title={"સભ્ય ઉમેરો"}
         isBack={true}
+        headline={headlineData?.headlineData?.msg}
       />
       <View style={{ flex: 1, marginHorizontal: 16 }}>
         <ScrollView showsVerticalScrollIndicator={false}>

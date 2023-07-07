@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { DonorCardView, Header, TabView } from "../../components";
 import Menu from "../../components/common/Menu";
 import DonorSubCardView from "../../components/donor/DonorSubCardView";
@@ -10,6 +12,11 @@ const DonorScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -18,6 +25,7 @@ const DonorScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
+        headline={headlineData?.headlineData?.msg}
       />
 
       <Menu

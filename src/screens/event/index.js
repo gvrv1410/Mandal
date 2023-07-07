@@ -1,17 +1,25 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
 import DonorSubCardView from "../../components/donor/DonorSubCardView";
 import { Height } from "../../utils/responsive";
 
 const EventScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const headlineData = useSelector((state) => state.fetchHeadlines);
+  useEffect(() => {
+    dispatch(fetchHeadlines());
+  }, []);
   return (
     <View>
       <Header
         title={"ઇવેન્ટ - ગેલેરી"}
         isBack={true}
+        headline={headlineData?.headlineData?.msg}
       />
       <DonorSubCardView
         isEvent={true}
