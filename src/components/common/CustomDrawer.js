@@ -7,6 +7,7 @@ import icons from "../../helper/iconConstant";
 import { gridMenuData } from "../../helper/dummyData";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
+import { Height } from "../../utils/responsive";
 
 const CustomDrawer = ({ navigation }) => {
   const { navigate } = useNavigation();
@@ -65,7 +66,7 @@ const CustomDrawer = ({ navigation }) => {
                 style={styles.menuIconStyle}
                 resizeMode="contain"
               />
-              <Text>{item.title}</Text>
+              <Text style={styles.title}>{item.title}</Text>
             </TouchableOpacity>
           );
         })}
@@ -116,6 +117,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     marginBottom: 20,
+  },
+  title: {
+    fontSize: Height(15),
+    color: colors.primaryBlack,
   },
 });
 

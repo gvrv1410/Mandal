@@ -8,6 +8,14 @@ import fetchHeadlineReducer from "../reducers/headlineReducers";
 import memberReducer from "../reducers/memberReducer";
 import directorReducers from "../reducers/directorReducers";
 import bloodReducer from "../reducers/bloodReducer";
+import businessReducer from "../reducers/businessReducer";
+import donorReduers from "../reducers/donorReducers";
+import notificationReducers from "../reducers/notificationReducers";
+import headOfFamilyReducers from "../reducers/headOfFamilyReducers";
+import newsReducer from "../reducers/newsReducer";
+import adsReducers from "../reducers/adsReducers";
+import sponsorReducers from "../reducers/sponsorReducers";
+import mukhyaReducers from "../reducers/mukhyaReducers";
 
 const persistConfig = {
   key: "root",
@@ -20,6 +28,14 @@ const rootReducer = combineReducers({
   member: memberReducer,
   totalDirectorMember: directorReducers,
   blood: bloodReducer,
+  business: businessReducer,
+  donor: donorReduers,
+  notification: notificationReducers,
+  headOfFamilys: headOfFamilyReducers,
+  news: newsReducer,
+  ads: adsReducers,
+  sponsors: sponsorReducers,
+  mukhya: mukhyaReducers,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

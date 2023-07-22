@@ -6,7 +6,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Header } from "../../components";
 import { colors } from "../../utils";
@@ -24,15 +24,24 @@ const DirectorFamilyScreen = () => {
   const navigation = useNavigation();
 
   const { fetchVillageMeber } = useSelector(
-    (state) => state.totalDirectorMember
+    (state) => state?.totalDirectorMember
   );
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   const dispatch = useDispatch();
   useEffect(() => {
     const village = route?.params?.data?.village;
     dispatch(fetchHeadlines());
     if (village) {
       dispatch(fetchDirectorFamily(village));
+      if (headlineData && headlineData[0] && headlineData[0].headline) {
+        const headline = headlineData[0].headline;
+        setHeadDate(headline);
+      } else {
+        console.log(
+          "headlineData is null or the headline property is not available."
+        );
+      }
     }
   }, [dispatch, route?.params?.data?.village]);
 
@@ -41,7 +50,7 @@ const DirectorFamilyScreen = () => {
       <Header
         title={route?.params?.data?.village}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <DropShadow style={style.shadow}>
         <View style={style.rowContaier}>

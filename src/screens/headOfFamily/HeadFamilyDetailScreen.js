@@ -6,31 +6,43 @@ import imageConstant from "../../helper/imageConstant";
 import { Height, Width } from "../../utils/responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import { useRoute } from "@react-navigation/native";
+import { apiConst } from "../../helper/apiConstant";
 
 const HeadFamilyDetailScreen = () => {
+  const route = useRoute();
+  const headData1 = route?.params?.data;
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   return (
     <View style={style.container}>
       <Header
         title={"વડીલો ના શબ્દો"}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <HeadCard
-          image={imageConstant.headImage}
+          image={apiConst.getAnyImages + headData1.photo}
           imageStyle={style.imageStyle}
           isText={true}
-          text={
-            "જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ ે ે, જેઅમે કેટલાક લાભ મેળવવા ￹સવાય, તે હંમેશા દુઃખદાયક શારીœરક òવૃિİ લે છેઆમાંથી; પરંતુ કોઈ ભૂલ શોધવાનો અિધકાર છે, જેએકનો આનંદ માણી શકેછેઆનંદ કેનકામી પœરણામ નથી, અથવા જેતે પીડા ટાળે છેકેતે નથી પœરણામી આનંદ પેદા કરેછે?જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ ે ે, જેઅમે કેટલાક લાભ મેળવવા ￹સવાય, તે હંમેશા દુઃખદાયક શારીœરક òવૃિİ લે છેઆમાંથી; પરંતુ કોઈ ભૂલ શોધવાનો અિધકાર છે, જેએકનો આનંદ માણી શકેછેઆનંદ કેનકામી પœરણામ નથી, અથવા જેતે પીડા ટાળે છેકેતે નથી પœરણામી આનંદ પેદા કરેછે?"
-          }
+          text={headData1.notes}
           textStyle={style.textStyle}
-          name={"ગોયાણી અવી દીલીપભાઈ"}
-          date={"૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM"}
+          name={headData1.motivation_By}
+          date={route?.params?.fData}
           nameStyle={style.nameStyle}
           mainContainer={style.mainContainer}
         />

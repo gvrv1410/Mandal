@@ -7,7 +7,11 @@ import { width } from "../../helper/constant";
 const HeadLine = ({ headline }) => {
   return (
     <MarqueeView style={style.marqueeViewStyle}>
-      <Text style={style.headLineTextStyle}>{headline}</Text>
+      <Text
+        style={style.headLineTextStyle}
+        numberOfLines={1}>
+        {headline}
+      </Text>
     </MarqueeView>
   );
 };

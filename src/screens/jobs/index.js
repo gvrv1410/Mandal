@@ -21,16 +21,25 @@ const JobsScreen = () => {
   };
   const [image, setImage] = useState("");
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   return (
     <View style={{ flex: 1, backgroundColor: colors.primaryWhite }}>
       <Header
         title={"નોકરીઓ"}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <View style={{ flex: 1, marginHorizontal: 16 }}>
         <TouchableOpacity

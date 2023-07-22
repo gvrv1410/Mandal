@@ -1,9 +1,8 @@
-// import { ADD_TODO } from "../actions/type";
-
-import { USER_LOGIN } from "../actions/type";
+import { USER_FAILURE, USER_LOGIN } from "../actions/type";
 
 const initialState = {
   userInfo: [],
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -11,7 +10,15 @@ const authReducer = (state = initialState, action) => {
     case USER_LOGIN: {
       return {
         ...state,
-        userInfo: action.payload, // Use action.payload instead of payload
+        userInfo: action?.payload, // Use action.payload instead of payload
+        error: null,
+      };
+    }
+    case USER_FAILURE: {
+      return {
+        ...state,
+        userInfo: null, // Use action.payload instead of payload
+        error: action?.payload,
       };
     }
     default:

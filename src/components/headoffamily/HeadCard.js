@@ -23,7 +23,7 @@ const HeadCard = ({
       onPress={onPress}>
       <View style={styles.rowView}>
         <Image
-          source={image}
+          source={{ uri: image }}
           style={[styles.image, { ...imageStyle }]}
         />
         {isRowText && <Text style={styles.text}>{text}</Text>}
@@ -64,5 +64,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
     paddingTop: Height(2),
     color: colors.gray,
+  },
+  image: {
+    height: Height(72),
+    width: Width(72),
+    borderRadius: Width(5),
   },
 });

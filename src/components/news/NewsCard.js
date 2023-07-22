@@ -4,14 +4,15 @@ import imageConstant from "../../helper/imageConstant";
 import { Height, Width } from "../../utils/responsive";
 import { colors } from "../../utils";
 
-const NewsCard = ({ mainContainer, text, date, subText, onPress }) => {
+const NewsCard = ({ mainContainer, text, date, subText, onPress, image }) => {
   return (
     <TouchableOpacity
       style={[styles.mainContainer, { ...mainContainer }]}
       onPress={onPress}>
       <Image
-        source={imageConstant.image}
+        source={{ uri: image }}
         style={styles.image}
+        resizeMode="contain"
       />
       <Text style={styles.text}>{text}</Text>
       <Text style={styles.dateText}>{date}</Text>
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Width(10),
     fontWeight: "400",
     color: colors.primary,
+    marginTop: Height(10),
   },
   dateText: {
     fontSize: Height(10),

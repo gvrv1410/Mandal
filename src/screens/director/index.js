@@ -15,12 +15,21 @@ const DirectorScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const memberDirector = useSelector((state) => state.totalDirectorMember);
+  const memberDirector = useSelector((state) => state?.totalDirectorMember);
 
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const headlineData = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchTotalDirectorMember());
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
 
   const renderItem = ({ item }) => {
@@ -51,7 +60,7 @@ const DirectorScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
 
       <View style={style.subContainer}>

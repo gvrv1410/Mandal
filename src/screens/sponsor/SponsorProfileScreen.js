@@ -10,10 +10,12 @@ import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import iconConstant from "../../helper/iconConstant";
 import { Height, Width } from "../../utils/responsive";
-import imageConstant from "../../helper/imageConstant";
+import { apiConst } from "../../helper/apiConstant";
 
 const SponsorProfileScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  console.log({ route });
   return (
     <SafeAreaView style={style.mainContainer}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -23,7 +25,7 @@ const SponsorProfileScreen = () => {
         />
       </TouchableOpacity>
       <Image
-        source={imageConstant.profile}
+        source={{ uri: apiConst.getAnyImages + route?.params?.data?.photo }}
         style={style.image}
       />
     </SafeAreaView>

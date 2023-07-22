@@ -1,5 +1,5 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../components";
 import { useRoute } from "@react-navigation/native";
 import imageConstant from "../../helper/imageConstant";
@@ -14,9 +14,18 @@ const DirectorDetailScreen = () => {
   const data = route?.params?.data;
 
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
 
   const renderItem = ({ item }) => {
@@ -27,7 +36,7 @@ const DirectorDetailScreen = () => {
       <Header
         title={data?.member_id}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <Image
         source={imageConstant.profile}

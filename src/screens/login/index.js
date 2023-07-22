@@ -22,9 +22,7 @@ const LoginScreen = () => {
       onSuccess: () => {
         navigation.navigate("Onboarding");
       },
-      onFail: (err) => {
-        console.log({ err });
-      },
+      onFail: (err) => {},
     };
 
     dispatch(loginUser(obj));

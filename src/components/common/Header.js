@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { colors } from "../../utils";
 import icon from "../../helper/iconConstant";
@@ -19,45 +20,49 @@ const Header = ({
   isBack,
   isFiler,
   isRight,
-  headline
+  headline,
 }) => {
   const { goBack } = useNavigation();
   return (
-    <SafeAreaView>
-      <Headline headline={headline} />
-      <View style={style.mainContainer}>
-        <TouchableOpacity
-          style={style.leftViewStyle}
-          onPress={() => {
-            if (isBack) {
-              goBack();
-            } else {
-              onLeftPress();
-            }
-          }}
-        >
-          <Image
-            source={isBack ? icon.ic_back : icon.ic_menu}
-            style={!isBack ? style.imageStyle : { height: 21, width: 9 }}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <View style={style.middleViewStyle}>
-          <Text style={style.titleTextStyle}>{title}</Text>
-        </View>
-        {isRight ? (
-          <TouchableOpacity style={style.rightViewStyle} onPress={onRightPress}>
+    <View>
+      <StatusBar backgroundColor={colors.primary} />
+      <SafeAreaView>
+        <Headline headline={headline} />
+        <View style={style.mainContainer}>
+          <TouchableOpacity
+            style={style.leftViewStyle}
+            onPress={() => {
+              if (isBack) {
+                goBack();
+              } else {
+                onLeftPress();
+              }
+            }}>
             <Image
-              source={!isFiler ? icon.ic_bell : icon.ic_filter}
-              style={{ height: 24, width: 20 }}
+              source={isBack ? icon.ic_back : icon.ic_menu}
+              style={!isBack ? style.imageStyle : { height: 21, width: 9 }}
               resizeMode="contain"
             />
           </TouchableOpacity>
-        ) : (
-          <View style={style.rightViewStyle} />
-        )}
-      </View>
-    </SafeAreaView>
+          <View style={style.middleViewStyle}>
+            <Text style={style.titleTextStyle}>{title}</Text>
+          </View>
+          {isRight ? (
+            <TouchableOpacity
+              style={style.rightViewStyle}
+              onPress={onRightPress}>
+              <Image
+                source={!isFiler ? icon.ic_bell : icon.ic_filter}
+                style={{ height: 24, width: 20 }}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          ) : (
+            <View style={style.rightViewStyle} />
+          )}
+        </View>
+      </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -18,16 +18,25 @@ import { Height, Width } from "../../utils/responsive";
 
 const ContactScreen = () => {
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   return (
     <View style={style.mainContainer}>
       <Header
         title={"મંડળ નો સંપર્ક"}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <Text style={style.text}>પૂછપરછ ફોર્મ</Text>
       <ScrollView>

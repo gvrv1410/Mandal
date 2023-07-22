@@ -10,16 +10,25 @@ import {
 } from "react-native";
 import ImageCropPicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  addBusinessDetails,
+  fetchBusinessDetails,
+} from "../../actions/businessActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Button, Header, TabView, TextInput } from "../../components";
 import BusinessCard from "../../components/business/BusinessCard";
+import { apiConst, GET, PATCH } from "../../helper/apiConstant";
 import { businessTabData, marketData } from "../../helper/dummyData";
+import makeAPIRequest from "../../helper/global";
 import iconConstant from "../../helper/iconConstant";
 import imageConstant from "../../helper/imageConstant";
 import { colors } from "../../utils";
 import { Height, Width } from "../../utils/responsive";
 
 const BusinessScreen = () => {
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
+  const buData = useSelector((state) => state?.business);
   const openPicker = () => {
     ImageCropPicker.openPicker({
       width: 300,
@@ -31,10 +40,172 @@ const BusinessScreen = () => {
   };
   const [image, setImage] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [name, setName] = useState("");
+  const [businessName, setBusinessName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [socialLink, setSocialLink] = useState("");
+  const [cityName, setCityName] = useState("");
+  const [villageName, setVillageName] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
+
+  const [nameError, setNameError] = useState("");
+  const [businessNameError, setBusinessNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [mobileNumberError, setMobileNumberError] = useState("");
+  const [socialLinkError, setSocialLinkError] = useState("");
+  const [cityNameError, setCityNameError] = useState("");
+  const [villageNameError, setVillageNameError] = useState("");
+  const [businessAddressError, setBusinessAddressError] = useState("");
+  var reg =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+
+  const formValidation = () => {
+    let nameValid = false;
+    if (name.length === 0) {
+      setNameError("Name is required");
+    } else {
+      setNameError("");
+      nameValid = true;
+    }
+
+    let businessNameValid = false;
+    if (businessName.length === 0) {
+      setBusinessNameError("Business Name is required");
+    } else {
+      setBusinessNameError("");
+      businessNameValid = true;
+    }
+
+    let emailValid = false;
+    if (email.length === 0) {
+      setEmailError("Email is required");
+    } else if (!reg.test(email)) {
+      setEmailError("Please enter valid email address");
+    } else {
+      setEmailError("");
+      emailValid = true;
+    }
+
+    let mobileNumberValid = false;
+    if (mobileNumber.length === 0) {
+      setMobileNumberError("Mobile Number is required");
+    } else {
+      setMobileNumberError("");
+      mobileNumberValid = true;
+    }
+
+    let socialLinkValid = false;
+    if (socialLink.length === 0) {
+      setSocialLinkError("Social Link is required");
+    } else {
+      setSocialLinkError("");
+      socialLinkValid = true;
+    }
+
+    let cityNameValid = false;
+    if (cityName.length === 0) {
+      setCityNameError("Social Link is required");
+    } else {
+      setCityNameError("");
+      cityNameValid = true;
+    }
+
+    let villageNameValid = false;
+    if (villageName.length === 0) {
+      setVillageNameError("Social Link is required");
+    } else {
+      setVillageNameError("");
+      villageNameValid = true;
+    }
+
+    let businessAddressValid = false;
+    if (businessAddress.length === 0) {
+      setBusinessAddressError("Social Link is required");
+    } else {
+      setBusinessAddressError("");
+      businessAddressValid = true;
+    }
+
+    if (
+      nameValid &&
+      businessNameValid &&
+      emailValid &&
+      mobileNumberValid &&
+      socialLinkValid &&
+      cityNameValid &&
+      businessAddressValid
+    ) {
+      onButtonPress();
+    }
+  };
+
+  const onButtonPress = () => {
+    const profileImage = {
+      uri: Platform.OS === "ios" ? image.replace("file://", "") : image,
+      type: "image/*",
+      name: image.split("/").pop(),
+    };
+
+    const formData = new FormData();
+    formData.append("photo", profileImage);
+    formData.append("business_name", businessName);
+    formData.append("owner_name", name);
+    formData.append("city", cityName);
+    formData.append("mobile_no", mobileNumber);
+    formData.append("email", email);
+    formData.append("website", socialLink);
+    formData.append("business_address", businessAddress);
+
+    const obj = {
+      formData,
+      onSuccess: (res) => {
+        console.log({ res });
+      },
+      onFail: (err) => {
+        console.log({ err });
+      },
+    };
+    dispatch(addBusinessDetails(obj));
+    // makeAPIRequest(
+    //   PATCH,
+    //   apiConst.addBusinessDetail,
+    //   formData,
+    //   null,
+    //   null,
+    //   null
+    // )
+    //   .then((res) => {
+    //     console.log({ res });
+    //   })
+    //   .catch((err) => {
+    //     console.log({ err });
+    //   })
+    //   .then(() => {
+    //     // Code for the next .then() block
+    //   })
+    //   .catch((err) => {
+    //     // Handle error for the next .then() block, if needed
+    //   });
+  };
+
   useEffect(() => {
     dispatch(fetchHeadlines());
+    dispatch(fetchBusinessDetails());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
+    // makeAPIRequest(GET, apiConst.businessDetail, null, null, null)
+    //   .then((res) => console.log({ res }))
+    //   .catch((err) => {
+    //     console.log({ err });
+    //   });
   }, []);
   const renderItem = ({ item }) => {
     return (
@@ -53,7 +224,7 @@ const BusinessScreen = () => {
       <Header
         title={"બિઝનેસ"}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <View style={{ marginHorizontal: 16 }}>
         <TabView
@@ -93,70 +264,71 @@ const BusinessScreen = () => {
               mainContainer={style.textInputStyle}
               placeholder={"તમારું નામ લખો"}
               isIconView
-              // value={name}
-              // onChangeText={(val) => setName(val)}
+              value={name}
+              onChangeText={(val) => setName(val)}
             />
             <TextInput
               icon={iconConstant.ic_newBusiness}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા વ્યવસાયનું નામ લખો"}
               isIconView
-              // value={name}
-              // onChangeText={(val) => setName(val)}
+              value={businessName}
+              onChangeText={(val) => setBusinessName(val)}
             />
             <TextInput
               icon={iconConstant.ic_mail}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા વ્યવસાયનું ઇમેલ લખો"}
               isIconView
-              // value={email}
-              // onChangeText={(val) => setEmail(val)}
+              value={email}
+              onChangeText={(val) => setEmail(val)}
             />
             <TextInput
               icon={iconConstant.ic_call}
               mainContainer={style.textInputStyle}
               placeholder={"તમારો મોબાઈલ નમ્બર લખો"}
               isIconView
-              // value={mobileNumber}
-              // onChangeText={(val) => setMobileNumber(val)}
+              value={mobileNumber}
+              onChangeText={(val) => setMobileNumber(val)}
+              keyboardType={"numeric"}
             />
             <TextInput
               icon={iconConstant.ic_social}
               mainContainer={style.textInputStyle}
               placeholder={"તમારી સોશિયલ મીડિયા લિંક નાખો"}
               isIconView
-              // value={socialLink}
-              // onChangeText={(val) => setSocialLink(val)}
+              value={socialLink}
+              onChangeText={(val) => setSocialLink(val)}
             />
             <TextInput
               icon={iconConstant.ic_city}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા શહેરનું નામ લખો"}
               isIconView
-              // value={cityName}
-              // onChangeText={(val) => setCityName(val)}
+              value={cityName}
+              onChangeText={(val) => setCityName(val)}
             />
             <TextInput
               icon={iconConstant.ic_village}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા ગામનું નામ લખો"}
               isIconView
-              // value={villageName}
-              // onChangeText={(val) => setVillageName(val)}
+              value={villageName}
+              onChangeText={(val) => setVillageName(val)}
             />
             <TextInput
               icon={iconConstant.ic_village}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા વ્યવસાયનું સરનામું લખો"}
               isIconView
-              // value={villageName}
-              // onChangeText={(val) => setVillageName(val)}
+              value={businessAddress}
+              onChangeText={(val) => setBusinessAddress(val)}
             />
             <Button
               title={"સાચવો"}
               buttonStyle={style.buttonStyle}
               buttonTextStyle={{ color: colors.primaryWhite }}
-              // onPress={onAddMember}
+              onPress={formValidation}
             />
           </ScrollView>
         </View>

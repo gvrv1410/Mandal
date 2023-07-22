@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../components";
 import { colors } from "../../utils";
 import imageConstant from "../../helper/imageConstant";
@@ -7,37 +7,44 @@ import { Height, Width } from "../../utils/responsive";
 import DropShadow from "react-native-drop-shadow";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import { useRoute } from "@react-navigation/native";
+import { apiConst } from "../../helper/apiConstant";
 
 const NotificationDetailScreen = () => {
+  const route = useRoute();
+  const nData = route?.params?.data;
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   return (
     <View style={style.mainContainer}>
       <Header
         title={"સૂચનાઓ"}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <DropShadow style={style.shadow}>
         <View style={style.view}>
           <View style={style.subView}>
             <Image
-              source={imageConstant.donor}
+              source={{ uri: apiConst.getAnyImages + nData.photo }}
               style={style.image}
+              resizeMode="contain"
             />
-            <Text style={style.text}>
-              જઓ ÝવÝથતાપૂવŏક પડો, જ ે થી તેઓ આનંદ મેળવવા માટ ે ેકામ કરી શકેઅને
-              દુ: ખ, કેટલાક મહાન. કારણ કે, જમ આપણે સૌથી નાના વÝતુઓ સાથે આવે છ ે
-              ે, જેઅમે કેટલાક લાભ મેળવવા ￹સવાય, તે હંમેશા દુઃખદાયક શારીœરક òવૃિİ
-              લે છેઆમાંથી; પરંતુ કોઈ ભૂલ શોધવાનો અિધકાર છે, જેએકનો આનંદ માણી
-              શકેછેઆનંદ કેનકામી પœરણામ નથી, અથવા જેતે પીડા ટાળે છેકેતે નથી
-              પœરણામી આનંદ પેદા કરેછે?
-            </Text>
+            <Text style={style.text}>{nData.notes}</Text>
           </View>
-          <Text style={style.subText}>૦૪ એપ્રિલ,૨૦૨૩ | ૧૦ : ૩૦ AM</Text>
+          <Text style={style.subText}>{route?.params?.cDate}</Text>
         </View>
       </DropShadow>
     </View>

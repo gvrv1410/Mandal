@@ -9,15 +9,29 @@ import { useNavigation } from "@react-navigation/native";
 import Menu from "../../components/common/Menu";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import { fetchMukhya } from "../../actions/mukhyaActions";
 
 const FamilyScreen = () => {
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const mukhyaFetch = useSelector((state) => state?.mukhya);
+  const [headData, setHeadDate] = useState();
+
+  console.log({ mukhyaFetch });
   useEffect(() => {
     dispatch(fetchHeadlines());
+    dispatch(fetchMukhya());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   const renderItem = ({ item }) => {
     return (
@@ -39,7 +53,7 @@ const FamilyScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <View>
         <FlatList

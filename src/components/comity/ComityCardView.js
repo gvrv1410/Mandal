@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { apiConst } from "../../helper/apiConstant";
 import images from "../../helper/imageConstant";
 import { colors } from "../../utils";
+import { Height } from "../../utils/responsive";
 
 const ComityCardView = ({ data, onImagePress }) => {
   return (
@@ -9,13 +11,21 @@ const ComityCardView = ({ data, onImagePress }) => {
       <View style={style.subContainer} />
       <View style={style.bodyViewStyle}>
         <Text style={style.titleStyle}>{data.name}</Text>
-        <Text style={style.subTitleStyle}>{data.post}</Text>
-        <Text style={style.subTitleStyle}>{data.mobileNo}</Text>
-        <Text style={style.subTitleStyle}>{data.village}</Text>
+        <Text style={[style.subTitleStyle, { color: colors.primaryBlack }]}>
+          {data.role}
+        </Text>
+        <Text style={[style.subTitleStyle, { color: colors.primary }]}>
+          {data.mobile_no}
+        </Text>
+        <Text style={[style.subTitleStyle, { color: colors.primaryBlack }]}>
+          {data.village}
+        </Text>
       </View>
-      <TouchableOpacity style={style.imageBtn} onPress={onImagePress}>
+      <TouchableOpacity
+        style={style.imageBtn}
+        onPress={onImagePress}>
         <Image
-          source={images.profile}
+          source={{ uri: apiConst.getAnyImages + data.photo }}
           style={style.imageStyle}
           resizeMode="contain"
         />
@@ -53,20 +63,21 @@ const style = StyleSheet.create({
     borderRadius: 75 / 2,
     borderColor: colors.primary,
     borderWidth: 1.5,
-
   },
   titleStyle: {
-    fontSize: 12,
+    fontSize: Height(15),
     fontWeight: "500",
+    color: colors.primaryBlack,
   },
   subTitleStyle: {
-    fontSize: 10,
+    fontSize: Height(12),
     fontWeight: "400",
+    marginTop: Height(10),
   },
   imageBtn: {
     position: "absolute",
     alignSelf: "center",
-  }
+  },
 });
 
 export default ComityCardView;

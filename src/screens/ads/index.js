@@ -10,9 +10,11 @@ import {
 } from "react-native";
 import DropShadow from "react-native-drop-shadow";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchAds } from "../../actions/adsActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
 import Menu from "../../components/common/Menu";
+import { apiConst } from "../../helper/apiConstant";
 import { ads } from "../../helper/dummyData";
 import iconConstant from "../../helper/iconConstant";
 import { colors } from "../../utils";
@@ -23,9 +25,21 @@ const AdsScreen = () => {
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
+
+  const ads = useSelector((state) => state.ads?.adsData?.advertisementData);
   useEffect(() => {
     dispatch(fetchHeadlines());
+    dispatch(fetchAds());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
 
   return (
@@ -36,19 +50,55 @@ const AdsScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <View style={style.mainContainer}>
         <FlatList
           data={ads}
           renderItem={({ item }) => {
+            const isoDate = item?.created_date;
+            const getMonthName = (monthNum) => {
+              const months = [
+                "જાન્યુઆરી",
+                "ફેબ્રુઆરી",
+                "માર્ચ",
+                "એપ્રિલ",
+                "મે",
+                "જૂન",
+                "જુલાઈ",
+                "ઑગસ્ટ",
+                "સપ્ટેમ્બર",
+                "ઑક્ટોબર",
+                "નવેમ્બર",
+                "ડિસેમ્બર",
+              ];
+              return months[monthNum];
+            };
+
+            const formatTime = (date) => {
+              let hours = date.getHours();
+              const minutes = date.getMinutes();
+              const ampm = hours >= 12 ? "PM" : "AM";
+              hours = hours % 12 || 12;
+              return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+            };
+
+            const dateObj = new Date(isoDate);
+
+            const day = dateObj.getDate();
+            const month = getMonthName(dateObj.getMonth());
+            const year = dateObj.getFullYear();
+
+            const formattedTime = formatTime(dateObj);
+
+            const formattedDateTime = `${day} ${month}, ${year} | ${formattedTime}`;
             return (
               <View style={style.flatView}>
-                <Text style={style.dateText}>{item.date}</Text>
+                <Text style={style.dateText}>{formattedDateTime}</Text>
                 <DropShadow style={style.shadow}>
                   <View style={style.view}>
                     <Image
-                      source={item.ads}
+                      source={{ uri: apiConst.getAnyImages + item.photo }}
                       style={style.image}
                       resizeMode="contain"
                     />
@@ -58,7 +108,7 @@ const AdsScreen = () => {
                         onPress={() =>
                           navigation.navigate("AdsDetails", {
                             data: item,
-                            img: iconConstant.ic_forward,
+                            JDate: formattedDateTime,
                           })
                         }>
                         <Image

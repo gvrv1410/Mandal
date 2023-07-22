@@ -3,18 +3,29 @@ import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import { fetchSponsor } from "../../actions/sponsorActions";
 import { ComityCardView, Divider, Header } from "../../components";
 import Menu from "../../components/common/Menu";
-import { comityMemberData } from "../../helper/dummyData";
 
 const SponsorScreen = () => {
   const navigation = useNavigation();
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
+  const sData = useSelector((state) => state?.sponsors?.sponsors?.prayojakData);
   useEffect(() => {
     dispatch(fetchHeadlines());
+    dispatch(fetchSponsor());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   const renderItem = ({ item, index }) => {
     return (
@@ -36,10 +47,10 @@ const SponsorScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <FlatList
-        data={comityMemberData}
+        data={sData}
         nestedScrollEnabled={false}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
@@ -54,7 +65,7 @@ const SponsorScreen = () => {
               <FlatList
                 keyExtractor={(item) => item.id}
                 scrollEnabled={false}
-                data={item.members}
+                data={sData}
                 renderItem={renderItem}
                 contentContainerStyle={{ justifyContent: "space-between" }}
                 numColumns={2}

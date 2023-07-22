@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { fethDonor } from "../../actions/donerActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { DonorCardView, Header, TabView } from "../../components";
 import Menu from "../../components/common/Menu";
@@ -13,9 +14,27 @@ const DonorScreen = () => {
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
+  const donorData1 = useSelector(
+    (state) => state?.donor?.donors?.dataShreedetail
+  );
+  console.log(donorData1);
+  const filteredData = donorData1?.filter((item) => item.type.startsWith("k"));
+  const kData = filteredData;
+  const filteredData1 = donorData1?.filter((item) => item.type.startsWith("d"));
+  const dData = filteredData1;
   useEffect(() => {
     dispatch(fetchHeadlines());
+    dispatch(fethDonor());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
   return (
     <View style={{ flex: 1 }}>
@@ -25,7 +44,7 @@ const DonorScreen = () => {
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
 
       <Menu
@@ -39,7 +58,9 @@ const DonorScreen = () => {
           tabData={donorTabData}
           activeIndex={activeIndex}
           onPress={(index) => {
+            console.log({ activeIndex });
             setActiveIndex(index);
+            fethDonor(activeIndex);
           }}
           mainContainer={{ marginTop: 20 }}
         />
@@ -47,18 +68,18 @@ const DonorScreen = () => {
       {activeIndex === 0 ? (
         <View style={{ flex: 1, marginVertical: Height(20) }}>
           <FlatList
-            data={donorData}
+            data={kData}
             renderItem={({ item }) => {
               return (
-                <View style={{ marginTop: Height(30) }}>
-                  <DonorCardView
-                    name={item.name}
-                    donorOne={item.donor1}
-                    donorTwo={item.donor2}
-                    donorThree={item.donor3}
-                    village={item.village}
-                  />
-                </View>
+                <DonorCardView
+                  name={item.name}
+                  donorOne={item.donor1}
+                  donorTwo={item.donor2}
+                  donorThree={item.donor3}
+                  village={item.village}
+                  dataShreeType={item.dataShreeType}
+                  data={item.member}
+                />
               );
             }}
           />
@@ -66,20 +87,26 @@ const DonorScreen = () => {
       ) : (
         <View style={{ flex: 1, marginVertical: Height(20) }}>
           <FlatList
-            data={donorSubData}
+            data={dData}
             renderItem={({ item }) => {
               return (
-                <DonorSubCardView
+                // <DonorSubCardView
+                //   name={item.name}
+                //   donor={item.donor}
+                //   donorby={item.donorby}
+                //   donorName={item.donorName}
+                //   village={item.village}
+                //   mainContainer={style.mainContainer}
+                //   isLocation={true}
+                //   isDate={true}
+                //   isDoner={true}
+                //   isDonerOne={true}
+                // />
+                <DonorCardView
                   name={item.name}
-                  donor={item.donor}
-                  donorby={item.donorby}
-                  donorName={item.donorName}
                   village={item.village}
-                  mainContainer={style.mainContainer}
-                  isLocation={true}
-                  isDate={true}
-                  isDoner={true}
-                  isDonerOne={true}
+                  dataShreeType={item.dataShreeType}
+                  data={item.member}
                 />
               );
             }}

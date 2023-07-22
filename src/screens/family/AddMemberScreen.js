@@ -46,9 +46,18 @@ const AddMemberScreen = () => {
   const [business, setBusiness] = useState("");
   const dispatch = useDispatch();
 
-  const headlineData = useSelector((state) => state.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
 
   const onAddMember = () => {
@@ -64,7 +73,7 @@ const AddMemberScreen = () => {
       <Header
         title={"સભ્ય ઉમેરો"}
         isBack={true}
-        headline={headlineData?.headlineData?.msg}
+        headline={headData}
       />
       <View style={{ flex: 1, marginHorizontal: 16 }}>
         <ScrollView showsVerticalScrollIndicator={false}>

@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   input: {
     marginStart: 20,
     lineHeight: 18,
+    color: colors.primaryBlack,
   },
   buttonTextStyle: {},
   visibleViewStyle: {

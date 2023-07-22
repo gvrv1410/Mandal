@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   FlatList,
+  StatusBar,
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { DrawerActions } from "@react-navigation/native";
@@ -18,8 +19,7 @@ import {
   fetchHeadlineImg,
   fetchHeadlines,
 } from "../../actions/headlinesActions";
-import { BASE_URL, IMG_DIRECTORY } from "../../helper/apiConstant";
-import AsyncStorage from "@react-native-community/async-storage";
+import { apiConst, BASE_URL, IMG_DIRECTORY } from "../../helper/apiConstant";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,30 +27,28 @@ const HomeScreen = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const { headlineData, headlineImg } = useSelector(
-    (state) => state.fetchHeadlines
+    (state) => state?.fetchHeadlines
   );
-  console.log({ headlineImg });
-  useEffect(() => {
-    const checkLogin = async () => {
-      const userInfo = await AsyncStorage.getItem("idToken");
-      if (userInfo !== null) {
-        navigation.navigate("Onboarding");
-      } else {
-        navigation.navigate("Main");
-      }
-    };
-    checkLogin();
-  });
+  const [headData, setHeadDate] = useState();
+
   useEffect(() => {
     dispatch(fetchHeadlines());
     dispatch(fetchHeadlineImg());
+    if (headlineData && headlineData[0] && headlineData[0].headline) {
+      const headline = headlineData[0].headline;
+      setHeadDate(headline);
+    } else {
+      console.log(
+        "headlineData is null or the headline property is not available."
+      );
+    }
   }, []);
 
   const renderCarouselItem = ({ item, index }) => {
     return (
       <Image
         key={index}
-        source={{ uri: `${BASE_URL}${IMG_DIRECTORY}/${item.slider_photo}` }}
+        source={{ uri: apiConst.getAnyImages + item.slider_photo }}
         style={style.carouselImageStyle}
         resizeMode="contain"
       />
@@ -78,7 +76,7 @@ const HomeScreen = ({ navigation }) => {
         isBack={false}
         onLeftPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
         isRight
-        headline={headlineData?.msg}
+        headline={headData}
         onRightPress={() => navigation.navigate("Notification")}
       />
       <View style={style.subContainer}>

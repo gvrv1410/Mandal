@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import SplashScreen from "react-native-splash-screen";
 
-LogBox.ignoreAllLogs()
+LogBox.ignoreAllLogs();
 const App = () => {
   const requestCameraPermission = async () => {
     await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, {
@@ -36,13 +36,15 @@ const App = () => {
     if (Platform.OS === "android") {
       setTimeout(() => {
         SplashScreen.hide();
-      }, 2000)
+      }, 2000);
     }
-  }, [])
+  }, []);
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate
+        loading={null}
+        persistor={persistor}>
         <MainNavigator />
       </PersistGate>
     </Provider>
