@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchCommity } from "../../actions/commityActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { ComityCardView, Divider, Header } from "../../components";
 import Menu from "../../components/common/Menu";
@@ -13,9 +14,12 @@ const ComityScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const cData = useSelector((state) => state?.commitee);
+  console.log({ cData });
   const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
+    dispatch(fetchCommity());
     if (headlineData && headlineData[0] && headlineData[0].headline) {
       const headline = headlineData[0].headline;
       setHeadDate(headline);

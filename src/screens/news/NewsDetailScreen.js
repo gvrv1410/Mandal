@@ -10,7 +10,6 @@ import { apiConst } from "../../helper/apiConstant";
 
 const NewsDetailScreen = () => {
   const route = useRoute();
-  console.log({ route });
   const nData = route?.params?.data;
   const dispatch = useDispatch();
   const headlineData = useSelector((state) => state?.fetchHeadlines);

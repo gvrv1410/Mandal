@@ -11,14 +11,12 @@ export const fetchHeadlines = () => {
   return (dispatch) =>
     makeAPIRequest(GET, apiConst.fetchHeadline, null, null, null)
       .then((res) => {
-        console.log({ res });
         dispatch({
           type: FETCH_HEADLINE_DATA_SUCCESS,
           payload: res?.data?.data,
         });
       })
       .catch((err) => {
-        console.log({ err });
         dispatch({
           type: FETCH_HEADLINE_DATA_FAILURE,
           payload: err,

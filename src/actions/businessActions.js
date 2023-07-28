@@ -1,4 +1,4 @@
-import { apiConst, GET, PATCH } from "../helper/apiConstant";
+import { apiConst, GET, PATCH, POST } from "../helper/apiConstant";
 import makeAPIRequest from "../helper/global";
 import {
   ADD_BUSINESS_DETAILS_FAILURE,
@@ -25,22 +25,28 @@ export const fetchBusinessDetails = () => {
 };
 
 export const addBusinessDetails = (payload) => {
+  console.log(payload?.formData);
   return (dispatch) =>
     makeAPIRequest(
-      PATCH,
+      POST,
       apiConst.addBusinessDetail,
       payload?.formData,
       null,
       null
     )
       .then((res) => {
-        payload.onSuccess(res?.data);
+        console.log({ res });
+        payload?.onSuccess(res?.data);
         dispatch({
           type: ADD_BUSINESS_DETAILS_SUCCESS,
           payload: res?.data,
         });
       })
       .catch((err) => {
-        payload.onFail(err);
+        payload?.onFail(err);
+        dispatch({
+          type: ADD_BUSINESS_DETAILS_FAILURE,
+          payload: err,
+        });
       });
 };

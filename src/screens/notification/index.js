@@ -27,7 +27,6 @@ const NotificationScreen = () => {
   const notificationData = useSelector(
     (state) => state?.notification?.notification?.suchnadetail
   );
-  console.log({ notificationData });
   useEffect(() => {
     dispatch(fetchHeadlines());
     dispatch(fetchNotification());

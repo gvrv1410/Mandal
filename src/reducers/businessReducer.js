@@ -32,12 +32,12 @@ const businessReducer = (state = initialState, action) => {
         addBusinessDetails: action?.payload,
         addBusinessDetailError: null,
       };
-    // case ADD_BUSINESS_DETAILS_FAILURE:
-    //   return {
-    //     ...state,
-    //     addBusinessDetails: null,
-    //     addBusinessDetailError: action?.payload,
-    //   };
+    case ADD_BUSINESS_DETAILS_FAILURE:
+      return {
+        ...state,
+        addBusinessDetails: null,
+        addBusinessDetailError: action?.payload,
+      };
     default:
       return state;
   }

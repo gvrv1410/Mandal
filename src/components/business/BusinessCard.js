@@ -4,7 +4,7 @@ import { Height, Width } from "../../utils/responsive";
 import { colors } from "../../utils";
 import iconConstant from "../../helper/iconConstant";
 
-const BusinessCard = ({ email, phone, link, location }) => {
+const BusinessCard = ({ email, phone, link, location, businessName }) => {
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
@@ -42,7 +42,7 @@ const BusinessCard = ({ email, phone, link, location }) => {
         </View>
       </View>
       <View style={styles.view}>
-        <Text style={styles.text}>માર્કેટિંગ એજન્સી</Text>
+        <Text style={styles.text}>{businessName}</Text>
       </View>
     </View>
   );

@@ -68,9 +68,6 @@ const DirectorFamilyScreen = () => {
         <FlatList
           data={fetchVillageMeber?.data}
           renderItem={({ item }) => {
-            console.log(
-              `${BASE_URL}/member_profile_image${item.member_profile_photo}`
-            );
             return (
               <DirectorCardView
                 profile={iconConstant.ic_profile}

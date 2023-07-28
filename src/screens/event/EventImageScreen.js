@@ -34,8 +34,7 @@ const EventImageScreen = () => {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("EventImageView", { data: item }),
-            console.log("Hello");
+          navigation.navigate("EventImageView", { data: item });
         }}>
         <Image
           source={item.image}

@@ -16,6 +16,7 @@ import newsReducer from "../reducers/newsReducer";
 import adsReducers from "../reducers/adsReducers";
 import sponsorReducers from "../reducers/sponsorReducers";
 import mukhyaReducers from "../reducers/mukhyaReducers";
+import commityReducers from "../reducers/commityReducers";
 
 const persistConfig = {
   key: "root",
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   ads: adsReducers,
   sponsors: sponsorReducers,
   mukhya: mukhyaReducers,
+  commitee: commityReducers,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

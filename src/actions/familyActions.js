@@ -8,7 +8,6 @@ import {
 } from "./type";
 
 export const fetchFamily = (payload) => {
-  console.log({ payload });
   return (dispatch) =>
     makeAPIRequest(
       GET,

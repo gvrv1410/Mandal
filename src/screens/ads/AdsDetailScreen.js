@@ -10,7 +10,6 @@ import { apiConst } from "../../helper/apiConstant";
 
 const AdsDetailScreen = () => {
   const route = useRoute();
-  console.log({ route });
   const data = route?.params?.data;
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);

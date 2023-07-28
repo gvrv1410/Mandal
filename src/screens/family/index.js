@@ -20,7 +20,6 @@ const FamilyScreen = () => {
   const mukhyaFetch = useSelector((state) => state?.mukhya);
   const [headData, setHeadDate] = useState();
 
-  console.log({ mukhyaFetch });
   useEffect(() => {
     dispatch(fetchHeadlines());
     dispatch(fetchMukhya());

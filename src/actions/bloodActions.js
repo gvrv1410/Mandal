@@ -3,7 +3,6 @@ import makeAPIRequest from "../helper/global";
 import { BLOOD_DETAILS_FAILURE, BLOOD_DETAILS_SUCCESS } from "./type";
 
 export const fetchBlood = (payload) => {
-  console.log({ payload });
   return (dispatch) =>
     makeAPIRequest(
       GET,

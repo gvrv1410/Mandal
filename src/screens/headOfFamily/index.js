@@ -18,7 +18,6 @@ const HeadOfFamilyScreen = () => {
   const data = useSelector(
     (state) => state?.headOfFamilys?.headFamily?.motivationData
   );
-  console.log({ data });
   useEffect(() => {
     dispatch(fetchHeadlines());
     dispatch(fetchHeadFamily());

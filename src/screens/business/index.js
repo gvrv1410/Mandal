@@ -28,7 +28,9 @@ import { Height, Width } from "../../utils/responsive";
 const BusinessScreen = () => {
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
   const [headData, setHeadDate] = useState();
-  const buData = useSelector((state) => state?.business);
+  const buData = useSelector(
+    (state) => state?.business?.businessDetails?.businessData
+  );
   const openPicker = () => {
     ImageCropPicker.openPicker({
       width: 300,
@@ -48,7 +50,7 @@ const BusinessScreen = () => {
   const [cityName, setCityName] = useState("");
   const [villageName, setVillageName] = useState("");
   const [businessAddress, setBusinessAddress] = useState("");
-
+  const [imageError, setImageError] = useState("");
   const [nameError, setNameError] = useState("");
   const [businessNameError, setBusinessNameError] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -62,6 +64,14 @@ const BusinessScreen = () => {
   const dispatch = useDispatch();
 
   const formValidation = () => {
+    let imageValid = false;
+    if (image.length === 0) {
+      setImageError("Image is required");
+    } else {
+      setImageError("");
+      imageValid = true;
+    }
+
     let nameValid = false;
     if (name.length === 0) {
       setNameError("Name is required");
@@ -106,29 +116,30 @@ const BusinessScreen = () => {
 
     let cityNameValid = false;
     if (cityName.length === 0) {
-      setCityNameError("Social Link is required");
+      setCityNameError("City Name is required");
     } else {
       setCityNameError("");
       cityNameValid = true;
     }
 
-    let villageNameValid = false;
-    if (villageName.length === 0) {
-      setVillageNameError("Social Link is required");
-    } else {
-      setVillageNameError("");
-      villageNameValid = true;
-    }
+    // let villageNameValid = false;
+    // if (villageName.length === 0) {
+    //   setVillageNameError("Social Link is required");
+    // } else {
+    //   setVillageNameError("");
+    //   villageNameValid = true;
+    // }
 
     let businessAddressValid = false;
     if (businessAddress.length === 0) {
-      setBusinessAddressError("Social Link is required");
+      setBusinessAddressError("Business Address is required");
     } else {
       setBusinessAddressError("");
       businessAddressValid = true;
     }
 
     if (
+      imageValid &&
       nameValid &&
       businessNameValid &&
       emailValid &&
@@ -168,26 +179,6 @@ const BusinessScreen = () => {
       },
     };
     dispatch(addBusinessDetails(obj));
-    // makeAPIRequest(
-    //   PATCH,
-    //   apiConst.addBusinessDetail,
-    //   formData,
-    //   null,
-    //   null,
-    //   null
-    // )
-    //   .then((res) => {
-    //     console.log({ res });
-    //   })
-    //   .catch((err) => {
-    //     console.log({ err });
-    //   })
-    //   .then(() => {
-    //     // Code for the next .then() block
-    //   })
-    //   .catch((err) => {
-    //     // Handle error for the next .then() block, if needed
-    //   });
   };
 
   useEffect(() => {
@@ -201,20 +192,16 @@ const BusinessScreen = () => {
         "headlineData is null or the headline property is not available."
       );
     }
-    // makeAPIRequest(GET, apiConst.businessDetail, null, null, null)
-    //   .then((res) => console.log({ res }))
-    //   .catch((err) => {
-    //     console.log({ err });
-    //   });
   }, []);
   const renderItem = ({ item }) => {
     return (
       <View>
         <BusinessCard
-          email={item.email}
-          phone={item.phone}
-          link={item.link}
-          location={item.location}
+          businessName={item?.business_name}
+          email={item?.email}
+          phone={item?.mobile_no}
+          link={item?.website}
+          location={item?.business_address}
         />
       </View>
     );
@@ -259,6 +246,7 @@ const BusinessScreen = () => {
               )}
               <Text style={style.imageTextStyle}>પ્રોફાઇલ ફોટો બદલો</Text>
             </TouchableOpacity>
+            {imageError && <Text style={style.imageError}>{imageError}</Text>}
             <TextInput
               icon={iconConstant.ic_user}
               mainContainer={style.textInputStyle}
@@ -267,6 +255,7 @@ const BusinessScreen = () => {
               value={name}
               onChangeText={(val) => setName(val)}
             />
+            {nameError && <Text style={style.error}>{nameError}</Text>}
             <TextInput
               icon={iconConstant.ic_newBusiness}
               mainContainer={style.textInputStyle}
@@ -275,6 +264,9 @@ const BusinessScreen = () => {
               value={businessName}
               onChangeText={(val) => setBusinessName(val)}
             />
+            {businessNameError && (
+              <Text style={style.error}>{businessNameError}</Text>
+            )}
             <TextInput
               icon={iconConstant.ic_mail}
               mainContainer={style.textInputStyle}
@@ -283,6 +275,7 @@ const BusinessScreen = () => {
               value={email}
               onChangeText={(val) => setEmail(val)}
             />
+            {emailError && <Text style={style.error}>{emailError}</Text>}
             <TextInput
               icon={iconConstant.ic_call}
               mainContainer={style.textInputStyle}
@@ -292,6 +285,9 @@ const BusinessScreen = () => {
               onChangeText={(val) => setMobileNumber(val)}
               keyboardType={"numeric"}
             />
+            {mobileNumberError && (
+              <Text style={style.error}>{mobileNumberError}</Text>
+            )}
             <TextInput
               icon={iconConstant.ic_social}
               mainContainer={style.textInputStyle}
@@ -300,6 +296,9 @@ const BusinessScreen = () => {
               value={socialLink}
               onChangeText={(val) => setSocialLink(val)}
             />
+            {socialLinkError && (
+              <Text style={style.error}>{socialLinkError}</Text>
+            )}
             <TextInput
               icon={iconConstant.ic_city}
               mainContainer={style.textInputStyle}
@@ -308,14 +307,15 @@ const BusinessScreen = () => {
               value={cityName}
               onChangeText={(val) => setCityName(val)}
             />
-            <TextInput
+            {cityNameError && <Text style={style.error}>{cityNameError}</Text>}
+            {/* <TextInput
               icon={iconConstant.ic_village}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા ગામનું નામ લખો"}
               isIconView
               value={villageName}
               onChangeText={(val) => setVillageName(val)}
-            />
+            /> */}
             <TextInput
               icon={iconConstant.ic_village}
               mainContainer={style.textInputStyle}
@@ -324,6 +324,9 @@ const BusinessScreen = () => {
               value={businessAddress}
               onChangeText={(val) => setBusinessAddress(val)}
             />
+            {businessAddressError && (
+              <Text style={style.error}>{businessAddressError}</Text>
+            )}
             <Button
               title={"સાચવો"}
               buttonStyle={style.buttonStyle}
@@ -335,7 +338,7 @@ const BusinessScreen = () => {
       ) : (
         <View style={style.container}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={style.view}>
+            {/* <View style={style.view}>
               <Text style={style.mainText}>માર્કેટિંગ એજન્સી</Text>
               <View style={style.rowView}>
                 <Image
@@ -373,9 +376,9 @@ const BusinessScreen = () => {
                   ૩૯૪૧૦૧{" "}
                 </Text>
               </View>
-            </View>
+            </View> */}
             <FlatList
-              data={marketData}
+              data={buData}
               scrollEnabled={false}
               renderItem={renderItem}
             />
@@ -405,7 +408,7 @@ const style = StyleSheet.create({
     marginTop: 10,
   },
   textInputStyle: {
-    marginVertical: 16,
+    marginTop: 16,
   },
   buttonStyle: {
     backgroundColor: colors.primary,
@@ -458,5 +461,17 @@ const style = StyleSheet.create({
     marginLeft: Width(30),
     color: colors.primary,
     marginTop: Height(25),
+  },
+  error: {
+    fontSize: Height(10),
+    color: colors.redColor,
+    marginTop: Height(5),
+    marginLeft: Width(50),
+  },
+  imageError: {
+    fontSize: Height(10),
+    color: colors.redColor,
+    marginTop: Height(5),
+    textAlign: "center",
   },
 });

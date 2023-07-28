@@ -28,6 +28,7 @@ const apiConst = {
   fetchSponsorsDetails: `${BASE_URL}${VERSION}prayojak/get`,
   mukhiyaFamilyGet: `${BASE_URL}${VERSION}memberdetails/getAll`,
   fetchMukhiya: `${BASE_URL}${VERSION}mukhya_member/fatch_mukhiya_profile`,
+  fetchCommity: `${BASE_URL}${VERSION}commitymember`,
 };
 
 export { GET, POST, PUT, DELETE, apiConst, PATCH };

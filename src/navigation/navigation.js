@@ -212,7 +212,6 @@ const AuthStack = () => (
 const MainNavigator = () => {
   const getUserInfo = async () => {
     const userInfo = await AsyncStorage.getItem("idToken");
-    console.log({ userInfo });
     if (userInfo) {
       navigationRef.navigate("Onboarding");
       return true;
