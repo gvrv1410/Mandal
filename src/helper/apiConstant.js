@@ -29,6 +29,8 @@ const apiConst = {
   mukhiyaFamilyGet: `${BASE_URL}${VERSION}memberdetails/getAll`,
   fetchMukhiya: `${BASE_URL}${VERSION}mukhya_member/fatch_mukhiya_profile`,
   fetchCommity: `${BASE_URL}${VERSION}commitymember`,
+  addMEmber: `${BASE_URL}${VERSION}mukhya_member/add_member_details`,
+  editMember: `${BASE_URL}${VERSION}mukhya_member/edit_member_details`,
 };
 
 export { GET, POST, PUT, DELETE, apiConst, PATCH };

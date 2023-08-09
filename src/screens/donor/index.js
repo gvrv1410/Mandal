@@ -6,8 +6,8 @@ import { fetchHeadlines } from "../../actions/headlinesActions";
 import { DonorCardView, Header, TabView } from "../../components";
 import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
-import DonorSubCardView from "../../components/donor/DonorSubCardView";
-import { donorData, donorSubData, donorTabData } from "../../helper/dummyData";
+import { donorTabData } from "../../helper/dummyData";
+import { colors } from "../../utils";
 import { Height } from "../../utils/responsive";
 
 const DonorScreen = () => {
@@ -48,13 +48,6 @@ const DonorScreen = () => {
           }
         />
 
-        <Menu
-          displayTitle={"Custom Alert"}
-          visibility={showDonationSuccessPopup}
-          dismissAlert={setShowDonationSuccessPopup}
-          onPress={() => setShowDonationSuccessPopup(false)}
-          onDismiss={() => setShowDonationSuccessPopup(false)}
-        />
         <View style={{ marginHorizontal: 16 }}>
           <TabView
             tabData={donorTabData}
@@ -83,6 +76,22 @@ const DonorScreen = () => {
                   />
                 );
               }}
+              ListEmptyComponent={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}>
+                  <Text
+                    style={{
+                      color: colors.primary,
+                      textAlign: "center",
+                    }}>
+                    Data Not Found
+                  </Text>
+                </View>
+              )}
             />
           </View>
         ) : (
@@ -99,11 +108,34 @@ const DonorScreen = () => {
                   />
                 );
               }}
+              ListEmptyComponent={() => (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}>
+                  <Text
+                    style={{
+                      color: colors.primary,
+                      textAlign: "center",
+                    }}>
+                    Data Not Found
+                  </Text>
+                </View>
+              )}
             />
           </View>
         )}
       </View>
       {isLoading && <Loader />}
+      <Menu
+        displayTitle={"Custom Alert"}
+        visibility={showDonationSuccessPopup}
+        dismissAlert={setShowDonationSuccessPopup}
+        onPress={() => setShowDonationSuccessPopup(false)}
+        onDismiss={() => setShowDonationSuccessPopup(false)}
+      />
     </>
   );
 };

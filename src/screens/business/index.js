@@ -378,8 +378,25 @@ const BusinessScreen = () => {
             </View> */}
               <FlatList
                 data={buData}
+                contentContainerStyle={{ flex: 1 }}
                 scrollEnabled={false}
                 renderItem={renderItem}
+                ListEmptyComponent={() => (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        textAlign: "center",
+                      }}>
+                      Data Not Found
+                    </Text>
+                  </View>
+                )}
               />
             </ScrollView>
           </View>

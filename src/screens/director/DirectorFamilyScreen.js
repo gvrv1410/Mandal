@@ -16,9 +16,10 @@ import DropShadow from "react-native-drop-shadow";
 import DirectorCardView from "../../components/director/DirectorCardView";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDirectorFamily } from "../../actions/directoryActions";
-import { BASE_URL } from "../../helper/apiConstant";
+import { apiConst, BASE_URL } from "../../helper/apiConstant";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import Loader from "../../components/common/Loader";
+import imageConstant from "../../helper/imageConstant";
 
 const DirectorFamilyScreen = () => {
   const route = useRoute();
@@ -69,10 +70,14 @@ const DirectorFamilyScreen = () => {
         <View style={{ flex: 1 }}>
           <FlatList
             data={fetchVillageMeber?.data}
+            contentContainerStyle={{ flex: 1 }}
             renderItem={({ item }) => {
               return (
                 <DirectorCardView
-                  profile={iconConstant.ic_profile}
+                  // profile={{
+                  //   uri: apiConst.getAnyImages + item?.member_profile_photo,
+                  // }}
+                  profile={imageConstant.avtar}
                   name={item?.member_name}
                   familyCode={item?.mukhiya_member_id}
                   wpNumber={item?.member_mobile_no}
@@ -85,6 +90,22 @@ const DirectorFamilyScreen = () => {
                 />
               );
             }}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <Text
+                  style={{
+                    color: colors.primary,
+                    textAlign: "center",
+                  }}>
+                  Data Not Found
+                </Text>
+              </View>
+            )}
           />
         </View>
       </View>

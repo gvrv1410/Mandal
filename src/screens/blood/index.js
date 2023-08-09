@@ -32,6 +32,7 @@ const BloodScreen = () => {
       <Text style={style.text}>બ્લડ ટાઈપ</Text>
       <FlatList
         data={bloodData}
+        contentContainerStyle={{ flex: 1 }}
         numColumns={2}
         columnWrapperStyle={style.flatList}
         renderItem={({ item }) => {
@@ -63,6 +64,22 @@ const BloodScreen = () => {
             </TouchableOpacity>
           );
         }}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <Text
+              style={{
+                color: colors.primary,
+                textAlign: "center",
+              }}>
+              Data Not Found
+            </Text>
+          </View>
+        )}
       />
     </View>
   );

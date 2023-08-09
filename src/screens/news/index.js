@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { fetchNews } from "../../actions/newsActions";
@@ -9,6 +9,7 @@ import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
 import NewsCard from "../../components/news/NewsCard";
 import { apiConst } from "../../helper/apiConstant";
+import { colors } from "../../utils";
 import { Height, Width } from "../../utils/responsive";
 
 const NewsScreen = () => {
@@ -16,7 +17,7 @@ const NewsScreen = () => {
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state?.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
   const [isLoading, setIsLoading] = useState(false);
 
   const newsData = useSelector((state) => state?.news?.news?.newsData);
@@ -71,9 +72,9 @@ const NewsScreen = () => {
       <View>
         <NewsCard
           image={apiConst.getAnyImages + item.photo}
-          text={item.news}
+          text={item.title}
           date={formattedDateTime}
-          subText={item.desc}
+          subText={item.news}
           mainContainer={style.mainContainer}
           onPress={() =>
             navigation.navigate("NewsDetails", {
@@ -87,7 +88,7 @@ const NewsScreen = () => {
   };
   return (
     <>
-      <View>
+      <View style={{ flex: 1 }}>
         <Header
           title={"ન્યૂઝ"}
           isBack={true}
@@ -102,6 +103,24 @@ const NewsScreen = () => {
         <FlatList
           data={newsData}
           renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flex: 1 }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
         <Menu
           displayTitle={"Custom Alert"}

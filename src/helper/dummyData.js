@@ -580,7 +580,7 @@ export const mandalContact = [
   {
     id: 2,
     icon: iconConstant.ic_call,
-    title: "મોબાઈલ નમ્બર",
+    title: "મોબાઈલ નંબર",
     subTitle: "+૯૫૧૨૩૪૫૬૭૮",
   },
   {
@@ -748,25 +748,25 @@ export const marketData = [
 export const myFamily = [
   {
     id: 1,
-    name: "ગોયાણી અવી દીલીપભાઈ",
+    name: "ગોયાણી",
     member: "abcd123",
     mobile: "૯૫૧૨૩૪૫૬૭૮",
   },
   {
     id: 2,
-    name: "ગોયાણી અવી દીલીપભાઈ",
+    name: "ગોયાણી અવી ",
     member: "abcd123",
     mobile: "૯૫૧૨૩૪૫૬૭૮",
   },
   {
     id: 3,
-    name: "ગોયાણી અવી દીલીપભાઈ",
+    name: "ગોયાણી  દીલીપભાઈ",
     member: "abcd123",
     mobile: "૯૫૧૨૩૪૫૬૭૮",
   },
   {
     id: 4,
-    name: "ગોયાણી અવી દીલીપભાઈ",
+    name: " અવી દીલીપભાઈ",
     member: "abcd123",
     mobile: "૯૫૧૨૩૪૫૬૭૮",
   },
@@ -788,5 +788,40 @@ export const filterData = [
   {
     id: 4,
     title: "૨૦૨૦",
+  },
+];
+
+export const detailsData = [
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
+  },
+  {
+    id: 1,
+    member_name: "ગોયાણી અવી દીલીપભાઈ ",
   },
 ];

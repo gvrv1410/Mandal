@@ -12,30 +12,30 @@ import iconConstant from "../../helper/iconConstant";
 import { Height, Width } from "../../utils/responsive";
 import imageConstant from "../../helper/imageConstant";
 import { apiConst } from "../../helper/apiConstant";
+import { colors } from "../../utils";
 
 const DirectorProfileScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   return (
-    <SafeAreaView style={style.mainContainer}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+    <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: colors.primary }} />
+      <SafeAreaView style={style.mainContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={style.btn}>
+          <Image
+            source={iconConstant.ic_backP}
+            style={style.backImage}
+          />
+        </TouchableOpacity>
         <Image
-          source={iconConstant.ic_backP}
-          style={style.backImage}
-        />
-      </TouchableOpacity>
-      {route?.params?.data?.member_profile_photo === "null" ? (
-        <Text>profile Not Found</Text>
-      ) : (
-        <Image
-          source={{
-            uri:
-              apiConst.getAnyImages + route?.params?.data?.member_profile_photo,
-          }}
+          // source={{ uri: apiConst.getAnyImages + route?.params?.data?.photo }}
+          source={imageConstant.avtar}
           style={style.image}
         />
-      )}
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,15 +1,22 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useEffect } from "react";
 import { Header } from "../../components";
 import { useRoute } from "@react-navigation/native";
 import imageConstant from "../../helper/imageConstant";
 import { Height, Width } from "../../utils/responsive";
 import { colors } from "../../utils";
-import DetailCard from "../../components/common/DetailCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
-
-const DirectorDetailScreen = () => {
+import { detailsData } from "../../helper/dummyData";
+import MemberCard from "../../components/common/MemberCard";
+const MemberProfiles = () => {
   const route = useRoute();
   const data = route?.params?.data;
 
@@ -19,13 +26,10 @@ const DirectorDetailScreen = () => {
     dispatch(fetchHeadlines());
   }, []);
 
-  const renderItem = ({ item }) => {
-    return <DetailCard DetailData={item} />;
-  };
   return (
     <View style={style.mainContainer}>
       <Header
-        title={data?.member_id}
+        title={"123435"}
         isBack={true}
         headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
@@ -34,39 +38,15 @@ const DirectorDetailScreen = () => {
         style={style.imageStyle}
         resizeMode="contain"
       />
-      <Text style={style.text}>
-        {data?.member_name + " " + data?.middle_name + " " + data?.last_name}
-      </Text>
-
-      <FlatList
-        data={[data]}
-        renderItem={renderItem}
-        style={style.flatlist}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 30, flex: 1 }}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
-            <Text
-              style={{
-                color: colors.primary,
-                textAlign: "center",
-              }}>
-              Data Not Found
-            </Text>
-          </View>
-        )}
-      />
+      <Text style={style.text}>ગોયાણી અવી દીલીપભાઈ</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <MemberCard DetailData={detailsData} />
+      </ScrollView>
     </View>
   );
 };
 
-export default DirectorDetailScreen;
+export default MemberProfiles;
 
 const style = StyleSheet.create({
   imageStyle: {

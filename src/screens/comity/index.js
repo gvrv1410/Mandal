@@ -1,12 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCommity } from "../../actions/commityActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { ComityCardView, Divider, Header } from "../../components";
 import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
+import { colors } from "../../utils";
 
 const ComityScreen = () => {
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
@@ -58,6 +59,22 @@ const ComityScreen = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 30 }}
           renderItem={renderItem}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
         <Menu
           displayTitle={"Custom Alert"}

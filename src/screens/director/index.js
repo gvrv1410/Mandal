@@ -117,9 +117,26 @@ const DirectorScreen = () => {
         <View style={style.subContainer}>
           <FlatList
             scrollEnabled={false}
+            contentContainerStyle={{ flex: 1 }}
             data={[memberDirector?.totalMemberDirector?.data]}
             renderItem={renderCountedItem}
             numColumns={4}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <Text
+                  style={{
+                    color: colors.primary,
+                    textAlign: "center",
+                  }}>
+                  Data Not Found
+                </Text>
+              </View>
+            )}
           />
         </View>
 
@@ -127,9 +144,26 @@ const DirectorScreen = () => {
           <FlatList
             data={memberDirector?.totalMemberDirector?.data?.villageCount}
             renderItem={renderItem}
+            contentContainerStyle={{}}
             numColumns={2}
             bounces={false}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <Text
+                  style={{
+                    color: colors.primary,
+                    textAlign: "center",
+                  }}>
+                  Data Not Found
+                </Text>
+              </View>
+            )}
           />
         </View>
         <Menu

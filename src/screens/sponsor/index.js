@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { fetchSponsor } from "../../actions/sponsorActions";
@@ -8,6 +8,7 @@ import { Header } from "../../components";
 import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
 import SponsorCardView from "../../components/sponsor/SponsorCardView";
+import { colors } from "../../utils";
 
 const SponsorScreen = () => {
   const navigation = useNavigation();
@@ -71,6 +72,22 @@ const SponsorScreen = () => {
               </>
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
         <Menu
           displayTitle={"Custom Alert"}

@@ -1,16 +1,26 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
+import Menu from "../../components/common/Menu";
 import SubCardView from "../../components/common/SubCardView";
 import { marriageData } from "../../helper/dummyData";
+import { colors } from "../../utils";
 import { Height } from "../../utils/responsive";
 
 const MarriageScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
+    useState(false);
   const headlineData = useSelector(
     (state) => state?.fetchHeadlines?.headlineData
   );
@@ -25,11 +35,15 @@ const MarriageScreen = () => {
         isRight={true}
         isFiler={true}
         headline={headlineData && headlineData[0] && headlineData[0]?.headline}
+        onRightPress={() => setShowDonationSuccessPopup(true)}
       />
 
-      <View style={{ flex: 1, marginVertical: 16 }}>
+      <ScrollView
+        style={{ flex: 1, marginVertical: 16 }}
+        showsVerticalScrollIndicator={false}>
         <FlatList
           data={marriageData}
+          contentContainerStyle={{ flex: 1 }}
           renderItem={({ item }) => {
             return (
               <TouchableOpacity
@@ -49,8 +63,31 @@ const MarriageScreen = () => {
               </TouchableOpacity>
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
-      </View>
+      </ScrollView>
+      <Menu
+        displayTitle={"Custom Alert"}
+        visibility={showDonationSuccessPopup}
+        dismissAlert={setShowDonationSuccessPopup}
+        onPress={() => setShowDonationSuccessPopup(false)}
+        onDismiss={() => setShowDonationSuccessPopup(false)}
+      />
     </View>
   );
 };

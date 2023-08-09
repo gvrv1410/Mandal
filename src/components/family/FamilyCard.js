@@ -5,33 +5,55 @@ import { colors } from "../../utils";
 import imageConstant from "../../helper/imageConstant";
 import iconConstant from "../../helper/iconConstant";
 
-const FamilyCard = ({ name, code, phone, onPress }) => {
+const FamilyCard = ({
+  name,
+  code,
+  phone,
+  onPress,
+  onBtnPress,
+  onImagePress,
+  onDeletePress,
+}) => {
   return (
-    <View style={style.mainContainer}>
-      <View style={style.view}>
-        <Image
-          source={imageConstant.profile}
-          style={style.image}
-        />
-        <Text
-          style={style.edit}
-          onPress={onPress}>
-          Edit
-        </Text>
+    <TouchableOpacity
+      style={style.mainContainer}
+      onPress={onBtnPress}>
+      <View style={{ flexDirection: "row" }}>
+        <View style={style.view}>
+          <TouchableOpacity
+            onPress={onImagePress}
+            hitSlop={{ bottom: 30, left: 30, right: 30, top: 30 }}>
+            <Image
+              source={imageConstant.profile}
+              style={style.image}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            hitSlop={{ bottom: 15, left: 15, right: 15, top: 15 }}>
+            <Text
+              style={style.edit}
+              onPress={onPress}>
+              Edit
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={style.subView}>
+          <Text style={[style.name, { width: Width(150) }]}>{name}</Text>
+          <Text style={style.code}>{code}</Text>
+          <Text style={style.phone}>{phone}</Text>
+        </View>
       </View>
-      <View style={style.subView}>
-        <Text style={style.name}>{name}</Text>
-        <Text style={style.code}>{code}</Text>
-        <Text style={style.phone}>{phone}</Text>
-      </View>
-      <TouchableOpacity style={style.lastView}>
+      <TouchableOpacity
+        style={style.lastView}
+        onPress={onDeletePress}
+        hitSlop={{ bottom: 15, left: 15, right: 15, top: 15 }}>
         <Image
           source={iconConstant.ic_delete}
           style={style.deleteImage}
           resizeMode="contain"
         />
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -39,14 +61,16 @@ export default FamilyCard;
 
 const style = StyleSheet.create({
   mainContainer: {
-    height: Height(100),
-    width: Width(360),
     backgroundColor: colors.primaryWhite,
-    alignSelf: "center",
     borderRadius: Width(5),
     flexDirection: "row",
     marginTop: Height(30),
     alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+    marginHorizontal: Width(20),
+    paddingHorizontal: Width(20),
+    paddingVertical: Height(10),
   },
   image: {
     height: Height(40),
@@ -55,7 +79,6 @@ const style = StyleSheet.create({
   },
   view: {
     alignItems: "center",
-    marginLeft: Width(25),
   },
   deleteImage: {
     height: Height(15),
@@ -64,9 +87,7 @@ const style = StyleSheet.create({
   subView: {
     marginLeft: Width(30),
   },
-  lastView: {
-    marginLeft: Width(100),
-  },
+  lastView: {},
   edit: {
     fontSize: Height(10),
     fontWeight: "400",

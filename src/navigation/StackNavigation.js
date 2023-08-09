@@ -39,6 +39,8 @@ import LoginScreen from "../screens/login";
 import DrawerNavigation from "./DrawerNavigation";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import MemberProfilesScreen from "../screens/family/MemberProfileScreen";
+import MembersProfilesScreen from "../screens/family/MemberProfilesScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -209,6 +211,14 @@ const StackNavigation = () => {
       <Stack.Screen
         name="EditMember"
         component={EditMemberScreen}
+      />
+      <Stack.Screen
+        name="MemberProfiles"
+        component={MemberProfilesScreen}
+      />
+      <Stack.Screen
+        name="MembersProfiles"
+        component={MembersProfilesScreen}
       />
     </Stack.Navigator>
   );

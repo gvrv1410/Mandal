@@ -31,7 +31,7 @@ const ContactScreen = () => {
       />
       <Text style={style.text}>પૂછપરછ ફોર્મ</Text>
       <ScrollView>
-        <Text style={style.textOne}>નામ</Text>
+        <Text style={style.textOne}></Text>
         <DropShadow style={style.shadow}>
           <TextInput
             placeholder="તમારું નામ લખો"
@@ -39,26 +39,26 @@ const ContactScreen = () => {
             placeholderTextColor={colors.gray}
           />
         </DropShadow>
-        <Text style={style.textOne}>કુટુંબ ID</Text>
+        <Text style={style.textOne}></Text>
         <DropShadow style={style.shadow}>
           <TextInput
-            placeholder="તમારું નામ લખો"
+            placeholder="તમારું કુટુંબ ID લખો"
             style={style.textInput}
             placeholderTextColor={colors.gray}
           />
         </DropShadow>
-        <Text style={style.textOne}>મોબાઈલ નમ્બર</Text>
+        <Text style={style.textOne}></Text>
         <DropShadow style={style.shadow}>
           <TextInput
-            placeholder="તમારું નામ લખો"
+            placeholder="તમારું મોબાઈલ નંબર લખો"
             style={style.textInput}
             placeholderTextColor={colors.gray}
           />
         </DropShadow>
-        <Text style={style.textOne}>મેસેજ</Text>
+        <Text style={style.textOne}></Text>
         <DropShadow style={style.shadow}>
           <TextInput
-            placeholder="તમારું નામ લખો"
+            placeholder="મેસેજ લખો "
             style={style.textInput}
             placeholderTextColor={colors.gray}
           />
@@ -70,6 +70,7 @@ const ContactScreen = () => {
         />
         <FlatList
           data={mandalContact}
+          contentContainerStyle={{ flex: 1 }}
           scrollEnabled={false}
           renderItem={({ item }) => {
             return (
@@ -92,6 +93,22 @@ const ContactScreen = () => {
               </DropShadow>
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
 
         <View style={style.rowView}>
@@ -150,7 +167,7 @@ const style = StyleSheet.create({
     fontSize: Height(15),
     color: colors.primaryBlack,
     marginLeft: Width(15),
-    marginTop: Height(30),
+    marginTop: Height(10),
   },
   buttonStyle: {
     height: Height(50),

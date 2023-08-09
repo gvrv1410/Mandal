@@ -16,6 +16,7 @@ const DonorCardView = ({ name, village, dataShreeType, data }) => {
         </Text>
         <FlatList
           data={data}
+          contentContainerStyle={{ flex: 1 }}
           renderItem={() => {
             return (
               <Text style={[style.rText, { marginTop: Height(10) }]}>
@@ -23,6 +24,22 @@ const DonorCardView = ({ name, village, dataShreeType, data }) => {
               </Text>
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
         <Text
           style={[

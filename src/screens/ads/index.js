@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -55,9 +56,12 @@ const AdsScreen = () => {
             headlineData && headlineData[0] && headlineData[0]?.headline
           }
         />
-        <View style={style.mainContainer}>
+        <ScrollView
+          style={style.mainContainer}
+          showsVerticalScrollIndicator={false}>
           <FlatList
             data={ads}
+            contentContainerStyle={{ flex: 1 }}
             renderItem={({ item }) => {
               const isoDate = item?.created_date;
               const getMonthName = (monthNum) => {
@@ -128,8 +132,24 @@ const AdsScreen = () => {
                 </View>
               );
             }}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <Text
+                  style={{
+                    color: colors.primary,
+                    textAlign: "center",
+                  }}>
+                  Data Not Found
+                </Text>
+              </View>
+            )}
           />
-        </View>
+        </ScrollView>
         <Menu
           displayTitle={"Custom Alert"}
           visibility={showDonationSuccessPopup}

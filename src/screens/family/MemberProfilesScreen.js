@@ -8,16 +8,14 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import iconConstant from "../../helper/iconConstant";
 import { Height, Width } from "../../utils/responsive";
-import { apiConst } from "../../helper/apiConstant";
+import iconConstant from "../../helper/iconConstant";
 import imageConstant from "../../helper/imageConstant";
 import { colors } from "../../utils";
 
-const SponsorProfileScreen = () => {
+const MembersProfilesScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView style={{ backgroundColor: colors.primary }} />
@@ -40,7 +38,7 @@ const SponsorProfileScreen = () => {
   );
 };
 
-export default SponsorProfileScreen;
+export default MembersProfilesScreen;
 
 const style = StyleSheet.create({
   mainContainer: {
@@ -50,6 +48,7 @@ const style = StyleSheet.create({
     height: Height(20),
     width: Width(10),
     marginLeft: Width(20),
+    marginTop: Height(10),
   },
   image: {
     height: Height(400),
@@ -57,8 +56,5 @@ const style = StyleSheet.create({
     resizeMode: "contain",
     alignSelf: "center",
     marginTop: Height(105),
-  },
-  btn: {
-    marginTop: Height(10),
   },
 });

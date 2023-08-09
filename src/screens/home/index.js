@@ -7,6 +7,7 @@ import {
   ScrollView,
   FlatList,
   StatusBar,
+  Text,
 } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { DrawerActions } from "@react-navigation/native";
@@ -68,7 +69,8 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <>
+    <View style={style.mainContainer}>
+      <SafeAreaView style={{ backgroundColor: colors.primary }} />
       <SafeAreaView style={style.mainContainer}>
         <Header
           title={"HOME"}
@@ -107,17 +109,34 @@ const HomeScreen = ({ navigation }) => {
             <View style={{ flex: 1 }}>
               <FlatList
                 data={gridMenuData}
+                contentContainerStyle={{ flex: 1 }}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItem}
                 ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
                 numColumns={4}
+                ListEmptyComponent={() => (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}>
+                    <Text
+                      style={{
+                        color: colors.primary,
+                        textAlign: "center",
+                      }}>
+                      Data Not Found
+                    </Text>
+                  </View>
+                )}
               />
             </View>
           </ScrollView>
         </View>
       </SafeAreaView>
       {isLoading && <Loader />}
-    </>
+    </View>
   );
 };
 

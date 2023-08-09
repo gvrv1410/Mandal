@@ -32,6 +32,7 @@ const DirectorMemberScreen = () => {
       <View style={style.mainContainer}>
         <FlatList
           data={getMember.data}
+          contentContainerStyle={{ flex: 1 }}
           renderItem={({ item }) => {
             return (
               <DirectorCardView
@@ -48,6 +49,22 @@ const DirectorMemberScreen = () => {
               />
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
       </View>
     </View>

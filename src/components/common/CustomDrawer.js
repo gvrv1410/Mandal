@@ -20,7 +20,6 @@ const CustomDrawer = ({ navigation }) => {
   const { navigate } = useNavigation();
   const dispatch = useDispatch();
   const mukhyaFetch = useSelector((state) => state?.mukhya?.mukhyaData?.data);
-  console.log({ mukhyaFetch });
   useEffect(() => {
     dispatch(fetchMukhya());
   }, []);
@@ -29,7 +28,7 @@ const CustomDrawer = ({ navigation }) => {
     {
       id: 17,
       title: "નોટિફિકેશન",
-      navigation: "Director",
+      navigation: "Notification",
       icon: icons.ic_notify,
     },
     {

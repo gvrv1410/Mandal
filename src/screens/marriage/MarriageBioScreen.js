@@ -1,15 +1,23 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Header } from "../../components";
 import { Height, Width } from "../../utils/responsive";
 import { colors } from "../../utils";
-import { profileData } from "../../helper/dummyData";
+import { detailsData, profileData } from "../../helper/dummyData";
 import imageConstant from "../../helper/imageConstant";
 import DropShadow from "react-native-drop-shadow";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import DetailCard from "../../components/common/DetailCard";
 import { useRoute } from "@react-navigation/native";
+import MemberCard from "../../components/common/MemberCard";
 
 const MarriageBioScreen = () => {
   const dispatch = useDispatch();
@@ -41,17 +49,9 @@ const MarriageBioScreen = () => {
       />
       <Text style={style.text}>{route?.params?.data?.name}</Text>
       <View style={style.subContainer}>
-        <DropShadow style={style.shadow}>
-          {/* <FlatList
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{}}
-            data={profileData}
-            renderItem={renderItem}
-            style={style.flatlist}
-          /> */}
-          <DetailCard DetailData={profileData} />
-        </DropShadow>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <MemberCard DetailData={detailsData} />
+        </ScrollView>
       </View>
     </View>
   );

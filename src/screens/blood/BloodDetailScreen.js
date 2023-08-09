@@ -49,6 +49,7 @@ const BloodDetailScreen = () => {
         <View style={{ flex: 1, marginVertical: 16 }}>
           <FlatList
             data={marriageData}
+            contentContainerStyle={{ flex: 1 }}
             renderItem={({ item }) => {
               return (
                 <TouchableOpacity>
@@ -66,6 +67,22 @@ const BloodDetailScreen = () => {
                 </TouchableOpacity>
               );
             }}
+            ListEmptyComponent={() => (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <Text
+                  style={{
+                    color: colors.primary,
+                    textAlign: "center",
+                  }}>
+                  Data Not Found
+                </Text>
+              </View>
+            )}
           />
         </View>
       </View>

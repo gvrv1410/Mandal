@@ -40,18 +40,19 @@ const App = () => {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate
-        loading={null}
-        persistor={persistor}>
-        {/* <MainNavigator /> */}
-        <AppNavigation />
+    <>
+      <Provider store={store}>
         <StatusBar
           barStyle={"dark-content"}
-          backgroundColor={colors.primaryWhite}
+          backgroundColor={colors.primary}
         />
-      </PersistGate>
-    </Provider>
+        <PersistGate
+          loading={null}
+          persistor={persistor}>
+          <AppNavigation />
+        </PersistGate>
+      </Provider>
+    </>
   );
 };
 

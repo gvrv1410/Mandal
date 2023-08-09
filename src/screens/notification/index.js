@@ -50,6 +50,7 @@ const NotificationScreen = () => {
         />
         <FlatList
           data={notificationData}
+          contentContainerStyle={{ flex: 1 }}
           renderItem={({ item }) => {
             const isoDate = item?.created_date;
             const getMonthName = (monthNum) => {
@@ -119,6 +120,22 @@ const NotificationScreen = () => {
               </DropShadow>
             );
           }}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
       </View>
       {isLoading && <Loader />}

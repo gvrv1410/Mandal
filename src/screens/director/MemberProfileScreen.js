@@ -12,26 +12,30 @@ import { Height, Width } from "../../utils/responsive";
 import iconConstant from "../../helper/iconConstant";
 import imageConstant from "../../helper/imageConstant";
 import { apiConst } from "../../helper/apiConstant";
+import { colors } from "../../utils";
 
 const MemberProfileScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   return (
-    <SafeAreaView style={style.mainContainer}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+    <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ backgroundColor: colors.primary }} />
+      <SafeAreaView style={style.mainContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={style.btn}>
+          <Image
+            source={iconConstant.ic_backP}
+            style={style.backImage}
+          />
+        </TouchableOpacity>
         <Image
-          source={iconConstant.ic_backP}
-          style={style.backImage}
+          // source={{ uri: apiConst.getAnyImages + route?.params?.data?.photo }}
+          source={imageConstant.avtar}
+          style={style.image}
         />
-      </TouchableOpacity>
-      <Image
-        source={{
-          uri:
-            apiConst.getAnyImages + route?.params?.data?.member_profile_photo,
-        }}
-        style={style.image}
-      />
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 };
 

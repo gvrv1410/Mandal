@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import imageConstant from "../../helper/imageConstant";
 import { Height, Width } from "../../utils/responsive";
@@ -6,18 +13,20 @@ import { colors } from "../../utils";
 
 const NewsCard = ({ mainContainer, text, date, subText, onPress, image }) => {
   return (
-    <TouchableOpacity
-      style={[styles.mainContainer, { ...mainContainer }]}
-      onPress={onPress}>
-      <Image
-        source={{ uri: image }}
-        style={styles.image}
-        resizeMode="contain"
-      />
-      <Text style={styles.text}>{text}</Text>
-      <Text style={styles.dateText}>{date}</Text>
-      <Text style={styles.subText}>{subText}</Text>
-    </TouchableOpacity>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      <TouchableOpacity
+        style={[styles.mainContainer, { ...mainContainer }]}
+        onPress={onPress}>
+        <Image
+          source={{ uri: image }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.dateText}>{date}</Text>
+        <Text style={styles.subText}>{subText}</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
@@ -30,9 +39,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   mainContainer: {
-    width: Width(360),
+    // width: Width(360),
     backgroundColor: colors.primaryWhite,
     alignSelf: "center",
+    marginHorizontal: Width(10),
   },
   text: {
     fontSize: Height(20),

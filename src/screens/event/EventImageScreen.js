@@ -13,6 +13,7 @@ import { Height, Width } from "../../utils/responsive";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import { colors } from "../../utils";
 
 const EventImageScreen = () => {
   const navigation = useNavigation();
@@ -44,6 +45,22 @@ const EventImageScreen = () => {
       <FlatList
         data={eventImage}
         renderItem={renderItem}
+        ListEmptyComponent={() => (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <Text
+              style={{
+                color: colors.primary,
+                textAlign: "center",
+              }}>
+              Data Not Found
+            </Text>
+          </View>
+        )}
       />
     </View>
   );

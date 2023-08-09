@@ -3,8 +3,8 @@ import React from "react";
 import { Height, Width } from "../../utils/responsive";
 import DropShadow from "react-native-drop-shadow";
 import { colors } from "../../utils";
-
-const DetailCard = ({ DetailData }) => {
+import { detailsData } from "../../helper/dummyData";
+const MemberCard = ({ DetailData }) => {
   const isoDate = DetailData?.birth_date;
   const getMonthName = (monthNum) => {
     const months = [
@@ -48,91 +48,69 @@ const DetailCard = ({ DetailData }) => {
         style={styles.view}
         showsVerticalScrollIndicator={false}>
         <View style={styles.rowView}>
-          <Text style={[styles.text, { width: Width(150) }]}>
-            માતાનું નામ :
-          </Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.member_name}
-          </Text>
+          <Text style={[styles.text, { width: Width(150) }]}>જન્મતારીખ :</Text>
+          <Text style={[styles.text, { width: Width(170) }]}>૨૮-૦૮-૧૯૮૬</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
-          <Text style={[styles.text, { width: Width(150) }]}>જન્મતારીખ :</Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {formattedDateTime}
-          </Text>
+          <Text style={[styles.text, { width: Width(150) }]}>રાષ્ટ્ર :</Text>
+          <Text style={[styles.text, { width: Width(170) }]}>ભારત</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>શહેર :</Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.city_name}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>અમરેલી</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>ગામ :</Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.village_name}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>મોણપૂરગામ</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
-          <Text style={[styles.text, { width: Width(150) }]}>
-            મોસાળનું ગામ :
-          </Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.maternal_village_name}
-          </Text>
+          <Text style={[styles.text, { width: Width(150) }]}>મોસાળ :</Text>
+          <Text style={[styles.text, { width: Width(170) }]}>મોણપૂરગામ</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>બ્લડ ગ્રુપ :</Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.blood_group}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>o+</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>જાતિ :</Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.cast}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>પુરુષ</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>
             વૈવાહિક સ્તિથી :
           </Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.marriage_status}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>પરિણીત</Text>
+        </View>
+        <View style={[styles.rowView, { marginTop: Height(30) }]}>
+          <Text style={[styles.text, { width: Width(150) }]}>શિક્ષણ :</Text>
+          <Text style={[styles.text, { width: Width(170) }]}>10 પાસ</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>વ્યવસાય :</Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.bussiness}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>નિવૃત</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>
             મોબાઈલ નમ્બર :
           </Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.member_mobile_no}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>૯૫૧૨૩૪૫૬૭૮</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>
             સોશિયલ મીડિયા લિંક :
           </Text>
-          <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.social_media_link}
-          </Text>
+          <Text style={[styles.text, { width: Width(170) }]}>http://</Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>ઈમેલ :</Text>
           <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.email}
+            avi19@gmail.com
           </Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
           <Text style={[styles.text, { width: Width(150) }]}>સરનામું :</Text>
           <Text style={[styles.text, { width: Width(170) }]}>
-            {DetailData?.adress}
+            એ, ૬૦૧, રાજ રેસીડેન્સી , એ બી સી સર્કલ
           </Text>
         </View>
         <View style={[styles.rowView, { marginTop: Height(30) }]}>
@@ -148,7 +126,7 @@ const DetailCard = ({ DetailData }) => {
   );
 };
 
-export default DetailCard;
+export default MemberCard;
 
 const styles = StyleSheet.create({
   rowView: {
@@ -173,7 +151,7 @@ const styles = StyleSheet.create({
   view: {
     marginTop: Height(25),
     backgroundColor: colors.primaryWhite,
-    marginHorizontal: Width(5),
+    marginHorizontal: Width(20),
     borderRadius: Width(5),
     paddingHorizontal: Width(10),
     paddingVertical: Height(25),

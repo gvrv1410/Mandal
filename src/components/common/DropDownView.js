@@ -2,21 +2,23 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { colors } from "../../utils";
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from "react-native-select-dropdown";
 import iconConstant from "../../helper/iconConstant";
-const DropDownView = ({ placeHolder, onSelect }) => {
+const DropDownView = ({ placeHolder, onSelect, items }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
+  // const [items, setItems] = useState([
 
-    "Banana", "banana"
-  ]);
-
+  //   "Banana", "banana"
+  // ]);
 
   const renderDropdownIcon = () => {
     return (
       <View style={style.dropdownIconContainer}>
-        <Image source={iconConstant.ic_dropdown} style={style.dropDownIcon} />
+        <Image
+          source={iconConstant.ic_dropdown}
+          style={style.dropDownIcon}
+        />
       </View>
     );
   };
@@ -36,15 +38,16 @@ const DropDownView = ({ placeHolder, onSelect }) => {
       /> */}
       <SelectDropdown
         defaultButtonText={placeHolder}
-        buttonStyle={[style.dropDownStyle, { width: '100%' }]}
+        buttonStyle={[style.dropDownStyle, { width: "100%" }]}
         buttonTextStyle={style.dropDownBtnText}
         data={items}
         dropdownStyle={style.dropDownStyle}
         rowTextStyle={style.dropDownBtnText}
-        dropdownOverlayColor='transparent'
+        dropdownOverlayColor="transparent"
         onSelect={onSelect}
         dropdownIconPosition="right"
         renderDropdownIcon={renderDropdownIcon}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -56,7 +59,7 @@ const style = StyleSheet.create({
     marginVertical: 12,
   },
   dropDownStyle: {
-    borderWidth: 0.8,
+    borderWidth: 1,
     borderColor: colors.tabColor,
     borderRadius: 5,
     shadowColor: colors.shadowColor,
@@ -70,11 +73,15 @@ const style = StyleSheet.create({
     backgroundColor: colors.primaryWhite,
   },
   dropDownBtnText: {
-    fontSize: 12, textAlign: 'left'
+    fontSize: 12,
+    textAlign: "left",
   },
   dropDownIcon: {
-    height: 10, width: 10, resizeMode: 'contain', marginRight: 5
-  }
+    height: 10,
+    width: 10,
+    resizeMode: "contain",
+    marginRight: 5,
+  },
 });
 
 export default DropDownView;

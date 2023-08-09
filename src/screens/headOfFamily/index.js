@@ -9,6 +9,7 @@ import Loader from "../../components/common/Loader";
 import HeadCard from "../../components/headoffamily/HeadCard";
 import { apiConst } from "../../helper/apiConstant";
 import { headData } from "../../helper/dummyData";
+import { colors } from "../../utils";
 import { Height } from "../../utils/responsive";
 
 const HeadOfFamilyScreen = () => {
@@ -96,8 +97,25 @@ const HeadOfFamilyScreen = () => {
         />
         <FlatList
           data={data}
+          contentContainerStyle={{ flex: 1 }}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <Text
+                style={{
+                  color: colors.primary,
+                  textAlign: "center",
+                }}>
+                Data Not Found
+              </Text>
+            </View>
+          )}
         />
       </View>
       {isLoading && <Loader />}
