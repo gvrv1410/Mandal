@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { apiConst } from "../../helper/apiConstant";
+import imageConstant from "../../helper/imageConstant";
 import images from "../../helper/imageConstant";
 import { colors } from "../../utils";
 import { Height } from "../../utils/responsive";
@@ -10,25 +11,35 @@ const ComityCardView = ({ data, onImagePress }) => {
     <View style={style.mainContainer}>
       <View style={style.subContainer} />
       <View style={style.bodyViewStyle}>
-        <Text style={style.titleStyle}>{data.name}</Text>
+        <Text style={style.titleStyle}>
+          {data?.first_name + " " + data?.last_name}
+        </Text>
         <Text style={[style.subTitleStyle, { color: colors.primaryBlack }]}>
-          {data.role}
+          {data?.type}
         </Text>
         <Text style={[style.subTitleStyle, { color: colors.primary }]}>
-          {data.mobile_no}
+          {data?.memberid}
         </Text>
         <Text style={[style.subTitleStyle, { color: colors.primaryBlack }]}>
-          {data.village}
+          {data?.mukhiyaid}
         </Text>
       </View>
       <TouchableOpacity
         style={style.imageBtn}
         onPress={onImagePress}>
-        <Image
-          source={{ uri: apiConst.getAnyImages + data.photo }}
-          style={style.imageStyle}
-          resizeMode="contain"
-        />
+        {data?.mukhiya_profile_photo === null ? (
+          <Image
+            source={imageConstant.avtar}
+            style={style.imageStyle}
+            resizeMode="contain"
+          />
+        ) : (
+          <Image
+            source={{ uri: apiConst.getAnyImages + data.photo }}
+            style={style.imageStyle}
+            resizeMode="contain"
+          />
+        )}
       </TouchableOpacity>
     </View>
   );

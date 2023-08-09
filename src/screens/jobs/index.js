@@ -20,26 +20,19 @@ const JobsScreen = () => {
     });
   };
   const [image, setImage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
     <View style={{ flex: 1, backgroundColor: colors.primaryWhite }}>
       <Header
         title={"નોકરીઓ"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <View style={{ flex: 1, marginHorizontal: 16 }}>
         <TouchableOpacity
@@ -63,6 +56,7 @@ const JobsScreen = () => {
         <TextInput
           icon={iconConstant.ic_user}
           mainContainer={style.textInputStyle}
+          placeholderTextColor={colors.gray}
           placeholder={"તમારું નામ લખો"}
           isIconView
           // value={name}
@@ -71,6 +65,7 @@ const JobsScreen = () => {
         <TextInput
           icon={iconConstant.ic_jobHeader}
           mainContainer={style.textInputStyle}
+          placeholderTextColor={colors.gray}
           placeholder={"તમારા નોકરીનું શીર્ષક લખો"}
           isIconView
           // value={name}
@@ -79,6 +74,7 @@ const JobsScreen = () => {
         <TextInput
           icon={iconConstant.ic_location}
           mainContainer={style.textInputStyle}
+          placeholderTextColor={colors.gray}
           placeholder={"તમારું હાલનું સરનામુંં લખો"}
           isIconView
           // value={name}
@@ -87,6 +83,7 @@ const JobsScreen = () => {
         <TextInput
           icon={iconConstant.ic_resume}
           mainContainer={style.textInputStyle}
+          placeholderTextColor={colors.gray}
           placeholder={"તમારી રેસુમે ફાઈલ નાખો"}
           isIconView
           // value={name}
@@ -121,6 +118,7 @@ const style = StyleSheet.create({
   },
   textInputStyle: {
     marginVertical: 16,
+    color: colors.primary,
   },
   buttonStyle: {
     backgroundColor: colors.primary,

@@ -28,6 +28,7 @@ const FamilyCard = ({ name, code, phone, onPress }) => {
         <Image
           source={iconConstant.ic_delete}
           style={style.deleteImage}
+          resizeMode="contain"
         />
       </TouchableOpacity>
     </View>

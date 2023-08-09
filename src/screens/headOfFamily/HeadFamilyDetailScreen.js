@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../../components";
 import HeadCard from "../../components/headoffamily/HeadCard";
 import imageConstant from "../../helper/imageConstant";
@@ -15,24 +15,15 @@ const HeadFamilyDetailScreen = () => {
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
 
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
     <View style={style.container}>
       <Header
         title={"વડીલો ના શબ્દો"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <HeadCard

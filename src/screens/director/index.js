@@ -8,6 +8,8 @@ import Menu from "../../components/common/Menu";
 import { fetchTotalDirectorMember } from "../../actions/directoryActions";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import { Width } from "../../utils/responsive";
+import Loader from "../../components/common/Loader";
 
 const DirectorScreen = () => {
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
@@ -17,21 +19,18 @@ const DirectorScreen = () => {
 
   const memberDirector = useSelector((state) => state?.totalDirectorMember);
 
-  const headlineData = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    dispatch(fetchTotalDirectorMember());
-    dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchTotalDirectorMember());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
-
   const renderItem = ({ item }) => {
     return (
       <CardView
@@ -39,57 +38,110 @@ const DirectorScreen = () => {
         familyCount={item?.kutumb}
         memberCount={item?.member}
         onPress={() => navigation.navigate("DirectorFamily", { data: item })}
+        isLoading={isLoading}
       />
     );
   };
 
   const renderCountedItem = ({ item }) => {
     return (
-      <View style={style.view}>
-        <Text style={style.countText}>{item?.count}</Text>
-        <Text style={[style.countText, { color: "black" }]}>{item?.title}</Text>
+      <View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: Width(393),
+          }}>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.kutumb}</Text>
+            <Text style={[style.countText, { color: "black" }]}>કુટુંબ</Text>
+          </View>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.member}</Text>
+            <Text style={[style.countText, { color: "black" }]}>સભ્ય</Text>
+          </View>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.male}</Text>
+            <Text style={[style.countText, { color: "black" }]}>પુરુષ</Text>
+          </View>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.FeMale}</Text>
+            <Text style={[style.countText, { color: "black" }]}>સ્ત્રી </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: Width(393),
+          }}>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.unMarrage}</Text>
+            <Text style={[style.countText, { color: "black" }]}>અપરણિત </Text>
+          </View>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.UnMarrageMale}</Text>
+            <Text style={[style.countText, { color: "black" }]}>
+              પુરુષ અપરણિત
+            </Text>
+          </View>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.Marrage}</Text>
+            <Text style={[style.countText, { color: "black" }]}>પરણિત</Text>
+          </View>
+          <View style={style.view}>
+            <Text style={style.countText}>{item?.unMarrageMale}</Text>
+            <Text style={[style.countText, { color: "black" }]}>
+              સ્ત્રી અપરણિત
+            </Text>
+          </View>
+        </View>
       </View>
     );
   };
 
   return (
-    <View style={style.mainContainer}>
-      <Header
-        title={"સભ્ય ડિરેક્ટર"}
-        isBack={true}
-        isRight={true}
-        isFiler={true}
-        onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headData}
-      />
+    <>
+      <View style={style.mainContainer}>
+        <Header
+          title={"સભ્ય ડિરેક્ટર"}
+          isBack={true}
+          isRight={true}
+          isFiler={true}
+          onRightPress={() => setShowDonationSuccessPopup(true)}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
 
-      <View style={style.subContainer}>
-        <FlatList
-          keyExtractor={(item) => item.id}
-          scrollEnabled={false}
-          data={countOfAll}
-          renderItem={renderCountedItem}
-          numColumns={4}
+        <View style={style.subContainer}>
+          <FlatList
+            scrollEnabled={false}
+            data={[memberDirector?.totalMemberDirector?.data]}
+            renderItem={renderCountedItem}
+            numColumns={4}
+          />
+        </View>
+
+        <View style={style.bodyContainer}>
+          <FlatList
+            data={memberDirector?.totalMemberDirector?.data?.villageCount}
+            renderItem={renderItem}
+            numColumns={2}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+        <Menu
+          displayTitle={"Custom Alert"}
+          visibility={showDonationSuccessPopup}
+          dismissAlert={setShowDonationSuccessPopup}
+          onPress={() => setShowDonationSuccessPopup(false)}
+          onDismiss={() => setShowDonationSuccessPopup(false)}
         />
       </View>
-
-      <View style={style.bodyContainer}>
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={memberDirector?.totalMemberDirector?.data?.villageCount}
-          renderItem={renderItem}
-          numColumns={2}
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-        />
-      </View>
-      <Menu
-        displayTitle={"Custom Alert"}
-        visibility={showDonationSuccessPopup}
-        dismissAlert={setShowDonationSuccessPopup}
-        onPress={() => setShowDonationSuccessPopup(false)}
-      />
-    </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 

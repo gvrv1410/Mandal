@@ -10,24 +10,15 @@ const EventImageViewScreen = () => {
   const route = useRoute();
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
     <View>
       <Header
         title={"ઇવેન્ટ - ગેલેરી"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
 
       <Image

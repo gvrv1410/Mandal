@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { fetchNews } from "../../actions/newsActions";
 import { Header } from "../../components";
+import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
 import NewsCard from "../../components/news/NewsCard";
 import { apiConst } from "../../helper/apiConstant";
@@ -16,18 +17,17 @@ const NewsScreen = () => {
     useState(false);
   const dispatch = useDispatch();
   const headlineData = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
   const newsData = useSelector((state) => state?.news?.news?.newsData);
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchNews());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchNews());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
   const renderItem = ({ item }) => {
@@ -86,27 +86,33 @@ const NewsScreen = () => {
     );
   };
   return (
-    <View>
-      <Header
-        title={"ન્યૂઝ"}
-        isBack={true}
-        isRight={true}
-        isFiler={true}
-        onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headData}
-      />
+    <>
+      <View>
+        <Header
+          title={"ન્યૂઝ"}
+          isBack={true}
+          isRight={true}
+          isFiler={true}
+          onRightPress={() => setShowDonationSuccessPopup(true)}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
 
-      <FlatList
-        data={newsData}
-        renderItem={renderItem}
-      />
-      <Menu
-        displayTitle={"Custom Alert"}
-        visibility={showDonationSuccessPopup}
-        dismissAlert={setShowDonationSuccessPopup}
-        onPress={() => setShowDonationSuccessPopup(false)}
-      />
-    </View>
+        <FlatList
+          data={newsData}
+          renderItem={renderItem}
+        />
+        <Menu
+          displayTitle={"Custom Alert"}
+          visibility={showDonationSuccessPopup}
+          dismissAlert={setShowDonationSuccessPopup}
+          onPress={() => setShowDonationSuccessPopup(false)}
+          onDismiss={() => setShowDonationSuccessPopup(false)}
+        />
+      </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 
@@ -116,6 +122,6 @@ const style = StyleSheet.create({
     paddingTop: Height(10),
     paddingBottom: Height(40),
     borderRadius: Width(5),
-    marginTop: Height(20),
+    marginVertical: Height(20),
   },
 });

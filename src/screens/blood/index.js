@@ -19,24 +19,15 @@ const BloodScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
     <View style={style.mainContainer}>
       <Header
         title={"સર્ચ બ્લડ"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <Text style={style.text}>બ્લડ ટાઈપ</Text>
       <FlatList

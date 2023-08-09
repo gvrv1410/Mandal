@@ -105,5 +105,6 @@ const styles = StyleSheet.create({
     fontSize: Height(15),
     fontWeight: "400",
     marginLeft: Width(20),
+    color: colors.primaryBlack,
   },
 });

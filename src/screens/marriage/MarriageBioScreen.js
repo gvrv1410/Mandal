@@ -8,21 +8,15 @@ import imageConstant from "../../helper/imageConstant";
 import DropShadow from "react-native-drop-shadow";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import DetailCard from "../../components/common/DetailCard";
+import { useRoute } from "@react-navigation/native";
 
 const MarriageBioScreen = () => {
   const dispatch = useDispatch();
+  const route = useRoute();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   const renderItem = ({ item }) => {
     return (
@@ -38,24 +32,25 @@ const MarriageBioScreen = () => {
       <Header
         title={"abcd123"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <Image
         source={imageConstant.profile}
         style={style.imageStyle}
         resizeMode="contain"
       />
-      <Text style={style.text}>ગોયાણી અવી દીલીપભાઈ</Text>
+      <Text style={style.text}>{route?.params?.data?.name}</Text>
       <View style={style.subContainer}>
         <DropShadow style={style.shadow}>
-          <FlatList
+          {/* <FlatList
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{}}
             data={profileData}
             renderItem={renderItem}
             style={style.flatlist}
-          />
+          /> */}
+          <DetailCard DetailData={profileData} />
         </DropShadow>
       </View>
     </View>
@@ -77,6 +72,7 @@ const style = StyleSheet.create({
     textAlign: "center",
     fontWeight: "400",
     marginTop: 10,
+    color: colors.primaryBlack,
   },
   mainView: {
     flexDirection: "row",

@@ -18,17 +18,8 @@ const EventImageScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   const renderItem = ({ item }) => {
     return (
@@ -48,7 +39,7 @@ const EventImageScreen = () => {
       <Header
         title={"છવ્વીસમું વાર્ષિક સ્નેહ મિલન સંમેલન"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <FlatList
         data={eventImage}

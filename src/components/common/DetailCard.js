@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Height, Width } from "../../utils/responsive";
 import DropShadow from "react-native-drop-shadow";
@@ -7,7 +7,9 @@ import { colors } from "../../utils";
 const DetailCard = ({ DetailData }) => {
   return (
     <DropShadow style={styles.shadow}>
-      <View style={styles.view}>
+      <ScrollView
+        style={styles.view}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.rowView}>
           <Text style={[styles.text, { width: Width(150) }]}>
             માતાનું નામ :
@@ -104,7 +106,7 @@ const DetailCard = ({ DetailData }) => {
             {DetailData?.business_adress}
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </DropShadow>
   );
 };
@@ -119,6 +121,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: Height(15),
     fontWeight: "400",
+    color: colors.primaryBlack,
   },
   shadow: {
     shadowColor: colors.gray,

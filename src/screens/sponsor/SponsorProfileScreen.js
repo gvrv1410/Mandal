@@ -15,7 +15,6 @@ import { apiConst } from "../../helper/apiConstant";
 const SponsorProfileScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  console.log({ route });
   return (
     <SafeAreaView style={style.mainContainer}>
       <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -1,6 +1,5 @@
 import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useRoute } from "@react-navigation/native";
 import { Button, Header } from "../../components";
 import { Height, Width } from "../../utils/responsive";
 import { colors } from "../../utils";
@@ -9,27 +8,23 @@ import imageConstant from "../../helper/imageConstant";
 import DropShadow from "react-native-drop-shadow";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import DetailCard from "../../components/common/DetailCard";
+import { fetchMukhya } from "../../actions/mukhyaActions";
 
 const UserProfileScreen = () => {
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
+
+  const mukhyaFetch = useSelector((state) => state?.mukhya?.mukhyaData?.data);
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
+    dispatch(fetchMukhya());
   }, []);
   const renderItem = ({ item }) => {
     return (
       <View style={style.mainView}>
-        <Text>{item.name}</Text>
-        <Text>{item.subName}</Text>
+        <Text style={style.subText}>{item.name}</Text>
+        <Text style={style.subText}>{item.subName}</Text>
       </View>
     );
   };
@@ -39,7 +34,7 @@ const UserProfileScreen = () => {
       <Header
         title={"પ્રોફાઇલ"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <Image
         source={imageConstant.profile}
@@ -48,16 +43,7 @@ const UserProfileScreen = () => {
       />
       <Text style={style.text}>ગોયાણી અવી દીલીપભાઈ</Text>
       <View style={style.subContainer}>
-        <DropShadow style={style.shadow}>
-          <FlatList
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{}}
-            data={profileData}
-            renderItem={renderItem}
-            style={style.flatlist}
-          />
-        </DropShadow>
+        <DetailCard DetailData={mukhyaFetch} />
       </View>
       <Button
         title={"ફેરફાર કરો"}
@@ -83,10 +69,10 @@ const style = StyleSheet.create({
     textAlign: "center",
     fontWeight: "400",
     marginTop: 10,
+    color: colors.primary,
   },
   mainView: {
     flexDirection: "row",
-    marginTop: Height(30),
   },
   flatlist: {
     // height: Height(780),
@@ -99,7 +85,6 @@ const style = StyleSheet.create({
   },
   subContainer: {
     flex: 1,
-    marginVertical: 16,
   },
   shadow: {
     shadowColor: colors.gray,
@@ -123,5 +108,8 @@ const style = StyleSheet.create({
     color: colors.primaryWhite,
     fontSize: Height(16),
     fontWeight: "400",
+  },
+  subText: {
+    color: colors.primary,
   },
 });

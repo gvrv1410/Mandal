@@ -15,20 +15,11 @@ const DirectorMemberScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { getMember } = useSelector((state) => state?.totalDirectorMember);
-  const [headData, setHeadDate] = useState();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
   useEffect(() => {
     const id = route?.params?.data?.member_id;
     dispatch(fetchGetMember(id));
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, [dispatch, route?.params?.data?.member_id]);
 
   return (
@@ -36,7 +27,7 @@ const DirectorMemberScreen = () => {
       <Header
         title={route?.params?.data?.member_name}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <View style={style.mainContainer}>
         <FlatList

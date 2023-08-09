@@ -3,29 +3,30 @@ import { Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
+import { colors } from "../../utils";
 
 const ResultScreen = () => {
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Header
         title={"પરિણામ"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Text
+          style={{
+            color: colors.primaryBlack,
+            textAlign: "center",
+          }}>
+          NO DATA FOUND
+        </Text>
+      </View>
     </View>
   );
 };

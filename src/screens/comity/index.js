@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCommity } from "../../actions/commityActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { ComityCardView, Divider, Header } from "../../components";
+import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
-import { comityMemberData } from "../../helper/dummyData";
 
 const ComityScreen = () => {
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
@@ -14,19 +14,17 @@ const ComityScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const cData = useSelector((state) => state?.commitee);
-  console.log({ cData });
-  const [headData, setHeadDate] = useState();
+  const cData = useSelector((state) => state?.commitee?.commity);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchCommity());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchCommity());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
   const renderItem = ({ item }) => {
@@ -34,54 +32,43 @@ const ComityScreen = () => {
       <View style={style.cardViewStyle}>
         <ComityCardView
           data={item}
-          onImagePress={() => navigation.navigate("ComityProfile")}
+          onImagePress={() => navigation.navigate("ComityProfile", { item })}
         />
       </View>
     );
   };
   return (
-    <View style={style.mainContainer}>
-      <Header
-        title={"કમિટી મેમ્બર"}
-        isBack={true}
-        isRight={true}
-        isFiler={true}
-        onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headData}
-      />
+    <>
+      <View style={style.mainContainer}>
+        <Header
+          title={"કમિટી મેમ્બર"}
+          isBack={true}
+          isRight={true}
+          isFiler={true}
+          onRightPress={() => setShowDonationSuccessPopup(true)}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
 
-      <FlatList
-        data={comityMemberData}
-        nestedScrollEnabled={false}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 30 }}
-        renderItem={({ item, index }) => {
-          return (
-            <>
-              <Divider
-                title={item.title}
-                mainContainer={{ marginTop: 20 }}
-              />
-              <FlatList
-                keyExtractor={(item) => item.id}
-                scrollEnabled={false}
-                data={item.members}
-                renderItem={renderItem}
-                contentContainerStyle={{ justifyContent: "space-between" }}
-                numColumns={2}
-              />
-            </>
-          );
-        }}
-      />
-      <Menu
-        displayTitle={"Custom Alert"}
-        visibility={showDonationSuccessPopup}
-        dismissAlert={setShowDonationSuccessPopup}
-        onPress={() => setShowDonationSuccessPopup(false)}
-      />
-    </View>
+        <FlatList
+          data={cData}
+          nestedScrollEnabled={false}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          renderItem={renderItem}
+        />
+        <Menu
+          displayTitle={"Custom Alert"}
+          visibility={showDonationSuccessPopup}
+          dismissAlert={setShowDonationSuccessPopup}
+          onPress={() => setShowDonationSuccessPopup(false)}
+          onDismiss={() => setShowDonationSuccessPopup(false)}
+        />
+      </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 

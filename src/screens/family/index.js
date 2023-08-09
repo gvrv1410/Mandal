@@ -18,19 +18,10 @@ const FamilyScreen = () => {
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
   const mukhyaFetch = useSelector((state) => state?.mukhya);
-  const [headData, setHeadDate] = useState();
 
   useEffect(() => {
     dispatch(fetchHeadlines());
     dispatch(fetchMukhya());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   const renderItem = ({ item }) => {
     return (
@@ -47,12 +38,12 @@ const FamilyScreen = () => {
   return (
     <View style={style.container}>
       <Header
-        title={"મારુ પરિવાર "}
+        title={"મારુ પરિવાર"}
         isBack={true}
         isRight={true}
         isFiler={true}
         onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <View>
         <FlatList
@@ -71,6 +62,7 @@ const FamilyScreen = () => {
         visibility={showDonationSuccessPopup}
         dismissAlert={setShowDonationSuccessPopup}
         onPress={() => setShowDonationSuccessPopup(false)}
+        onDismiss={() => setShowDonationSuccessPopup(false)}
       />
     </View>
   );

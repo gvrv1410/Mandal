@@ -17,9 +17,8 @@ import {
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Button, Header, TabView, TextInput } from "../../components";
 import BusinessCard from "../../components/business/BusinessCard";
-import { apiConst, GET, PATCH } from "../../helper/apiConstant";
+import Loader from "../../components/common/Loader";
 import { businessTabData, marketData } from "../../helper/dummyData";
-import makeAPIRequest from "../../helper/global";
 import iconConstant from "../../helper/iconConstant";
 import imageConstant from "../../helper/imageConstant";
 import { colors } from "../../utils";
@@ -27,7 +26,7 @@ import { Height, Width } from "../../utils/responsive";
 
 const BusinessScreen = () => {
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const buData = useSelector(
     (state) => state?.business?.businessDetails?.businessData
   );
@@ -122,14 +121,6 @@ const BusinessScreen = () => {
       cityNameValid = true;
     }
 
-    // let villageNameValid = false;
-    // if (villageName.length === 0) {
-    //   setVillageNameError("Social Link is required");
-    // } else {
-    //   setVillageNameError("");
-    //   villageNameValid = true;
-    // }
-
     let businessAddressValid = false;
     if (businessAddress.length === 0) {
       setBusinessAddressError("Business Address is required");
@@ -171,28 +162,23 @@ const BusinessScreen = () => {
 
     const obj = {
       formData,
-      onSuccess: (res) => {
-        console.log({ res });
-      },
-      onFail: (err) => {
-        console.log({ err });
-      },
+      onSuccess: (res) => {},
+      onFail: (err) => {},
     };
     dispatch(addBusinessDetails(obj));
   };
 
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchBusinessDetails());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchBusinessDetails());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
+
   const renderItem = ({ item }) => {
     return (
       <View>
@@ -207,108 +193,119 @@ const BusinessScreen = () => {
     );
   };
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        title={"બિઝનેસ"}
-        isBack={true}
-        headline={headData}
-      />
-      <View style={{ marginHorizontal: 16 }}>
-        <TabView
-          tabData={businessTabData}
-          activeIndex={activeIndex}
-          onPress={(index) => {
-            setActiveIndex(index);
-          }}
-          mainContainer={{ marginTop: 20 }}
+    <>
+      <View style={{ flex: 1 }}>
+        <Header
+          title={"બિઝનેસ"}
+          isBack={true}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
         />
-      </View>
-      {activeIndex === 0 ? (
-        <View style={{ flex: 1, marginHorizontal: 16 }}>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ flexGrow: 1 }}>
-            <TouchableOpacity
-              style={style.imageViewStyle}
-              onPress={openPicker}>
-              {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={style.imageStyle}
-                  resizeMode="contain"
-                />
-              ) : (
-                <Image
-                  source={imageConstant.profile}
-                  style={style.imageStyle}
-                  resizeMode="contain"
-                />
+        <View style={{ marginHorizontal: 16 }}>
+          <TabView
+            tabData={businessTabData}
+            activeIndex={activeIndex}
+            onPress={(index) => {
+              setActiveIndex(index);
+            }}
+            mainContainer={{ marginTop: 20 }}
+          />
+        </View>
+        {activeIndex === 0 ? (
+          <View style={{ flex: 1, marginHorizontal: 16 }}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ flexGrow: 1 }}>
+              <TouchableOpacity
+                style={style.imageViewStyle}
+                onPress={openPicker}>
+                {image ? (
+                  <Image
+                    source={{ uri: image }}
+                    style={style.imageStyle}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Image
+                    source={imageConstant.profile}
+                    style={style.imageStyle}
+                    resizeMode="contain"
+                  />
+                )}
+                <Text style={style.imageTextStyle}>પ્રોફાઇલ ફોટો બદલો</Text>
+              </TouchableOpacity>
+              {imageError && <Text style={style.imageError}>{imageError}</Text>}
+              <TextInput
+                icon={iconConstant.ic_user}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારું નામ લખો"}
+                isIconView
+                value={name}
+                onChangeText={(val) => setName(val)}
+                placeholderTextColor={colors.gray}
+              />
+              {nameError && <Text style={style.error}>{nameError}</Text>}
+              <TextInput
+                icon={iconConstant.ic_newBusiness}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારા વ્યવસાયનું નામ લખો"}
+                isIconView
+                value={businessName}
+                onChangeText={(val) => setBusinessName(val)}
+                placeholderTextColor={colors.gray}
+              />
+              {businessNameError && (
+                <Text style={style.error}>{businessNameError}</Text>
               )}
-              <Text style={style.imageTextStyle}>પ્રોફાઇલ ફોટો બદલો</Text>
-            </TouchableOpacity>
-            {imageError && <Text style={style.imageError}>{imageError}</Text>}
-            <TextInput
-              icon={iconConstant.ic_user}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારું નામ લખો"}
-              isIconView
-              value={name}
-              onChangeText={(val) => setName(val)}
-            />
-            {nameError && <Text style={style.error}>{nameError}</Text>}
-            <TextInput
-              icon={iconConstant.ic_newBusiness}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારા વ્યવસાયનું નામ લખો"}
-              isIconView
-              value={businessName}
-              onChangeText={(val) => setBusinessName(val)}
-            />
-            {businessNameError && (
-              <Text style={style.error}>{businessNameError}</Text>
-            )}
-            <TextInput
-              icon={iconConstant.ic_mail}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારા વ્યવસાયનું ઇમેલ લખો"}
-              isIconView
-              value={email}
-              onChangeText={(val) => setEmail(val)}
-            />
-            {emailError && <Text style={style.error}>{emailError}</Text>}
-            <TextInput
-              icon={iconConstant.ic_call}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારો મોબાઈલ નમ્બર લખો"}
-              isIconView
-              value={mobileNumber}
-              onChangeText={(val) => setMobileNumber(val)}
-              keyboardType={"numeric"}
-            />
-            {mobileNumberError && (
-              <Text style={style.error}>{mobileNumberError}</Text>
-            )}
-            <TextInput
-              icon={iconConstant.ic_social}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારી સોશિયલ મીડિયા લિંક નાખો"}
-              isIconView
-              value={socialLink}
-              onChangeText={(val) => setSocialLink(val)}
-            />
-            {socialLinkError && (
-              <Text style={style.error}>{socialLinkError}</Text>
-            )}
-            <TextInput
-              icon={iconConstant.ic_city}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારા શહેરનું નામ લખો"}
-              isIconView
-              value={cityName}
-              onChangeText={(val) => setCityName(val)}
-            />
-            {cityNameError && <Text style={style.error}>{cityNameError}</Text>}
-            {/* <TextInput
+              <TextInput
+                icon={iconConstant.ic_mail}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારા વ્યવસાયનું ઇમેલ લખો"}
+                isIconView
+                value={email}
+                onChangeText={(val) => setEmail(val)}
+                placeholderTextColor={colors.gray}
+              />
+              {emailError && <Text style={style.error}>{emailError}</Text>}
+              <TextInput
+                icon={iconConstant.ic_call}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારો મોબાઈલ નમ્બર લખો"}
+                isIconView
+                value={mobileNumber}
+                onChangeText={(val) => setMobileNumber(val)}
+                keyboardType={"numeric"}
+                placeholderTextColor={colors.gray}
+              />
+              {mobileNumberError && (
+                <Text style={style.error}>{mobileNumberError}</Text>
+              )}
+              <TextInput
+                icon={iconConstant.ic_social}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારી સોશિયલ મીડિયા લિંક નાખો"}
+                isIconView
+                value={socialLink}
+                onChangeText={(val) => setSocialLink(val)}
+                placeholderTextColor={colors.gray}
+              />
+              {socialLinkError && (
+                <Text style={style.error}>{socialLinkError}</Text>
+              )}
+              <TextInput
+                icon={iconConstant.ic_city}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારા શહેરનું નામ લખો"}
+                isIconView
+                value={cityName}
+                onChangeText={(val) => setCityName(val)}
+                placeholderTextColor={colors.gray}
+              />
+              {cityNameError && (
+                <Text style={style.error}>{cityNameError}</Text>
+              )}
+              {/* <TextInput
               icon={iconConstant.ic_village}
               mainContainer={style.textInputStyle}
               placeholder={"તમારા ગામનું નામ લખો"}
@@ -316,29 +313,31 @@ const BusinessScreen = () => {
               value={villageName}
               onChangeText={(val) => setVillageName(val)}
             /> */}
-            <TextInput
-              icon={iconConstant.ic_village}
-              mainContainer={style.textInputStyle}
-              placeholder={"તમારા વ્યવસાયનું સરનામું લખો"}
-              isIconView
-              value={businessAddress}
-              onChangeText={(val) => setBusinessAddress(val)}
-            />
-            {businessAddressError && (
-              <Text style={style.error}>{businessAddressError}</Text>
-            )}
-            <Button
-              title={"સાચવો"}
-              buttonStyle={style.buttonStyle}
-              buttonTextStyle={{ color: colors.primaryWhite }}
-              onPress={formValidation}
-            />
-          </ScrollView>
-        </View>
-      ) : (
-        <View style={style.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {/* <View style={style.view}>
+              <TextInput
+                icon={iconConstant.ic_village}
+                mainContainer={style.textInputStyle}
+                placeholder={"તમારા વ્યવસાયનું સરનામું લખો"}
+                isIconView
+                value={businessAddress}
+                onChangeText={(val) => setBusinessAddress(val)}
+                placeholderTextColor={colors.gray}
+              />
+              {businessAddressError && (
+                <Text style={style.error}>{businessAddressError}</Text>
+              )}
+              <Button
+                title={"સાચવો"}
+                buttonStyle={style.buttonStyle}
+                buttonTextStyle={{ color: colors.primaryWhite }}
+                onPress={formValidation}
+                isLoading={isLoading}
+              />
+            </ScrollView>
+          </View>
+        ) : (
+          <View style={style.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {/* <View style={style.view}>
               <Text style={style.mainText}>માર્કેટિંગ એજન્સી</Text>
               <View style={style.rowView}>
                 <Image
@@ -377,15 +376,17 @@ const BusinessScreen = () => {
                 </Text>
               </View>
             </View> */}
-            <FlatList
-              data={buData}
-              scrollEnabled={false}
-              renderItem={renderItem}
-            />
-          </ScrollView>
-        </View>
-      )}
-    </View>
+              <FlatList
+                data={buData}
+                scrollEnabled={false}
+                renderItem={renderItem}
+              />
+            </ScrollView>
+          </View>
+        )}
+      </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 
@@ -406,9 +407,11 @@ const style = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
     marginTop: 10,
+    color: colors.primaryBlack,
   },
   textInputStyle: {
     marginTop: 16,
+    color: colors.profile,
   },
   buttonStyle: {
     backgroundColor: colors.primary,

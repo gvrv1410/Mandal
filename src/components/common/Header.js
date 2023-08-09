@@ -22,10 +22,10 @@ const Header = ({
   isRight,
   headline,
 }) => {
-  const { goBack } = useNavigation();
+  const navigation = useNavigation();
   return (
     <View>
-      <StatusBar backgroundColor={colors.primary} />
+      {/* <StatusBar backgroundColor={colors.primary} /> */}
       <SafeAreaView>
         <Headline headline={headline} />
         <View style={style.mainContainer}>
@@ -33,10 +33,16 @@ const Header = ({
             style={style.leftViewStyle}
             onPress={() => {
               if (isBack) {
-                goBack();
+                navigation.goBack();
               } else {
                 onLeftPress();
               }
+            }}
+            hitSlop={{
+              bottom: 15,
+              top: 15,
+              left: 15,
+              right: 15,
             }}>
             <Image
               source={isBack ? icon.ic_back : icon.ic_menu}

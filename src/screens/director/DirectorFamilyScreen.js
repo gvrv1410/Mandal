@@ -18,74 +18,78 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDirectorFamily } from "../../actions/directoryActions";
 import { BASE_URL } from "../../helper/apiConstant";
 import { fetchHeadlines } from "../../actions/headlinesActions";
+import Loader from "../../components/common/Loader";
 
 const DirectorFamilyScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-
+  const [isLoading, setIsLoading] = useState(false);
   const { fetchVillageMeber } = useSelector(
     (state) => state?.totalDirectorMember
   );
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   const dispatch = useDispatch();
   useEffect(() => {
-    const village = route?.params?.data?.village;
-    dispatch(fetchHeadlines());
-    if (village) {
-      dispatch(fetchDirectorFamily(village));
-      if (headlineData && headlineData[0] && headlineData[0].headline) {
-        const headline = headlineData[0].headline;
-        setHeadDate(headline);
-      } else {
-        console.log(
-          "headlineData is null or the headline property is not available."
-        );
+    setIsLoading(true);
+    try {
+      const village = route?.params?.data?.village;
+      dispatch(fetchHeadlines());
+      if (village) {
+        dispatch(fetchDirectorFamily(village));
       }
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, [dispatch, route?.params?.data?.village]);
 
   return (
-    <View style={style.mainContainer}>
-      <Header
-        title={route?.params?.data?.village}
-        isBack={true}
-        headline={headData}
-      />
-      <DropShadow style={style.shadow}>
-        <View style={style.rowContaier}>
-          <TextInput
-            placeholder="શોધો"
-            style={style.textInput}
-          />
-          <Image
-            source={iconConstant.ic_search}
-            style={style.icon}
+    <>
+      <View style={style.mainContainer}>
+        <Header
+          title={route?.params?.data?.village}
+          isBack={true}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
+        <DropShadow style={style.shadow}>
+          <View style={style.rowContaier}>
+            <TextInput
+              placeholder="શોધો"
+              style={style.textInput}
+              placeholderTextColor={colors.gray}
+            />
+            <Image
+              source={iconConstant.ic_search}
+              style={style.icon}
+            />
+          </View>
+        </DropShadow>
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={fetchVillageMeber?.data}
+            renderItem={({ item }) => {
+              return (
+                <DirectorCardView
+                  profile={iconConstant.ic_profile}
+                  name={item?.member_name}
+                  familyCode={item?.mukhiya_member_id}
+                  wpNumber={item?.member_mobile_no}
+                  onImagePress={() =>
+                    navigation.navigate("DirectorProfile", { data: item })
+                  }
+                  onPress={() =>
+                    navigation.navigate("DirectorMember", { data: item })
+                  }
+                />
+              );
+            }}
           />
         </View>
-      </DropShadow>
-      <View style={{ flex: 1 }}>
-        <FlatList
-          data={fetchVillageMeber?.data}
-          renderItem={({ item }) => {
-            return (
-              <DirectorCardView
-                profile={iconConstant.ic_profile}
-                name={item?.member_name}
-                familyCode={item?.mukhiya_member_id}
-                wpNumber={item?.member_mobile_no}
-                onImagePress={() =>
-                  navigation.navigate("DirectorProfile", { data: item })
-                }
-                onPress={() =>
-                  navigation.navigate("DirectorMember", { data: item })
-                }
-              />
-            );
-          }}
-        />
       </View>
-    </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 
@@ -125,5 +129,6 @@ const style = StyleSheet.create({
   },
   textInput: {
     width: Width(280),
+    color: colors.primary,
   },
 });

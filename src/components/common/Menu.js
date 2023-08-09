@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { Modal, Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Modal } from "react-native-paper";
 import { filterData } from "../../helper/dummyData";
 import { colors } from "../../utils";
 import { Height, Width } from "../../utils/responsive";
@@ -10,29 +11,30 @@ export default function Menu({
   visibility,
   dismissAlert,
   onPress,
+  onDismiss,
 }) {
   return (
-    <View>
-      <Modal
-        visible={visibility}
-        animationType={"fade"}
-        transparent={true}>
-        <View style={style.modalView}>
-          <View style={style.modalSubView}>
-            {filterData.map((item, i) => {
-              return (
-                <TouchableOpacity
-                  style={style.view}
-                  onPress={onPress}
-                  key={i}>
-                  <Text style={style.text}>{item.title}</Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </View>
-      </Modal>
-    </View>
+    <Modal
+      visible={visibility}
+      animationType={"fade"}
+      transparent={true}
+      style={{ marginLeft: Width(270), marginBottom: Height(400) }}
+      onDismiss={onDismiss}>
+      {/* <View style={style.modalView}> */}
+      <View style={style.modalSubView}>
+        {filterData.map((item, i) => {
+          return (
+            <TouchableOpacity
+              style={style.view}
+              onPress={onPress}
+              key={i}>
+              <Text style={style.text}>{item.title}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+      {/* </View> */}
+    </Modal>
   );
 }
 

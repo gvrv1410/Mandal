@@ -9,4 +9,5 @@ export default {
   eventThree: require("../../assets/images/eventThree.png"),
   image: require("../../assets/images/image.png"),
   headImage: require("../../assets/images/headImage.png"),
+  avtar: require("../../assets/images/user.png"),
 };

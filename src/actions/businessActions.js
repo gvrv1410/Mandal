@@ -25,7 +25,6 @@ export const fetchBusinessDetails = () => {
 };
 
 export const addBusinessDetails = (payload) => {
-  console.log(payload?.formData);
   return (dispatch) =>
     makeAPIRequest(
       POST,
@@ -35,7 +34,6 @@ export const addBusinessDetails = (payload) => {
       null
     )
       .then((res) => {
-        console.log({ res });
         payload?.onSuccess(res?.data);
         dispatch({
           type: ADD_BUSINESS_DETAILS_SUCCESS,

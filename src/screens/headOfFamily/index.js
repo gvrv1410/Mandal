@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { fetchHeadFamily } from "../../actions/headOfFamilyActions";
 import { Header } from "../../components";
+import Loader from "../../components/common/Loader";
 import HeadCard from "../../components/headoffamily/HeadCard";
 import { apiConst } from "../../helper/apiConstant";
 import { headData } from "../../helper/dummyData";
@@ -14,20 +15,18 @@ const HeadOfFamilyScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   const data = useSelector(
     (state) => state?.headOfFamilys?.headFamily?.motivationData
   );
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchHeadFamily());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchHeadFamily());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
   const renderItem = ({ item }) => {
@@ -86,18 +85,23 @@ const HeadOfFamilyScreen = () => {
     );
   };
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        title={"વડીલો ના શબ્દો"}
-        isBack={true}
-        headline={headData}
-      />
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <>
+      <View style={{ flex: 1 }}>
+        <Header
+          title={"વડીલો ના શબ્દો"}
+          isBack={true}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 

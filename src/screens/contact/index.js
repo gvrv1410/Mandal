@@ -19,24 +19,15 @@ import { Height, Width } from "../../utils/responsive";
 const ContactScreen = () => {
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
     <View style={style.mainContainer}>
       <Header
         title={"મંડળ નો સંપર્ક"}
         isBack={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
       <Text style={style.text}>પૂછપરછ ફોર્મ</Text>
       <ScrollView>
@@ -45,6 +36,7 @@ const ContactScreen = () => {
           <TextInput
             placeholder="તમારું નામ લખો"
             style={style.textInput}
+            placeholderTextColor={colors.gray}
           />
         </DropShadow>
         <Text style={style.textOne}>કુટુંબ ID</Text>
@@ -52,6 +44,7 @@ const ContactScreen = () => {
           <TextInput
             placeholder="તમારું નામ લખો"
             style={style.textInput}
+            placeholderTextColor={colors.gray}
           />
         </DropShadow>
         <Text style={style.textOne}>મોબાઈલ નમ્બર</Text>
@@ -59,6 +52,7 @@ const ContactScreen = () => {
           <TextInput
             placeholder="તમારું નામ લખો"
             style={style.textInput}
+            placeholderTextColor={colors.gray}
           />
         </DropShadow>
         <Text style={style.textOne}>મેસેજ</Text>
@@ -66,6 +60,7 @@ const ContactScreen = () => {
           <TextInput
             placeholder="તમારું નામ લખો"
             style={style.textInput}
+            placeholderTextColor={colors.gray}
           />
         </DropShadow>
         <Button
@@ -139,6 +134,7 @@ const style = StyleSheet.create({
     alignSelf: "center",
     borderRadius: Width(5),
     marginTop: Height(5),
+    color: colors.primary,
   },
   shadow: {
     shadowColor: colors.gray,

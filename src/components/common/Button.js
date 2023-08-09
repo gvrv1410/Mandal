@@ -17,6 +17,7 @@ const Button = ({
   onPress,
   icon,
   iconStyle,
+  isLoading,
 }) => (
   <TouchableWithoutFeedback onPress={onPress}>
     <View style={[styles.buttonStyle, { ...buttonStyle }]}>
@@ -34,9 +35,16 @@ const Button = ({
               resizeMode="contain"
             />
           )}
-          <Text style={[styles.buttonTextStyle, { ...buttonTextStyle }]}>
-            {title}
-          </Text>
+          {isLoading ? (
+            <ActivityIndicator
+              size={"small"}
+              color={colors.primaryWhite}
+            />
+          ) : (
+            <Text style={[styles.buttonTextStyle, { ...buttonTextStyle }]}>
+              {title}
+            </Text>
+          )}
         </View>
       )}
     </View>

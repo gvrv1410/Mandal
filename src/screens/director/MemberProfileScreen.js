@@ -7,13 +7,15 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Height, Width } from "../../utils/responsive";
 import iconConstant from "../../helper/iconConstant";
 import imageConstant from "../../helper/imageConstant";
+import { apiConst } from "../../helper/apiConstant";
 
 const MemberProfileScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   return (
     <SafeAreaView style={style.mainContainer}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -23,7 +25,10 @@ const MemberProfileScreen = () => {
         />
       </TouchableOpacity>
       <Image
-        source={imageConstant.profile}
+        source={{
+          uri:
+            apiConst.getAnyImages + route?.params?.data?.member_profile_photo,
+        }}
         style={style.image}
       />
     </SafeAreaView>
@@ -40,6 +45,7 @@ const style = StyleSheet.create({
     height: Height(20),
     width: Width(10),
     marginLeft: Width(20),
+    marginTop: Height(10),
   },
   image: {
     height: Height(400),

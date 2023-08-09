@@ -18,107 +18,111 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { fetchNotification } from "../../actions/notificationActions";
 import { apiConst, BASE_URL } from "../../helper/apiConstant";
+import Loader from "../../components/common/Loader";
 
 const NotificationScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
   const notificationData = useSelector(
     (state) => state?.notification?.notification?.suchnadetail
   );
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchNotification());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchNotification());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
   return (
-    <View style={style.mainContainer}>
-      <Header
-        title={"સૂચનાઓ"}
-        isBack={true}
-        headline={headData}
-      />
-      <FlatList
-        data={notificationData}
-        renderItem={({ item }) => {
-          const isoDate = item?.created_date;
-          const getMonthName = (monthNum) => {
-            const months = [
-              "જાન્યુઆરી",
-              "ફેબ્રુઆરી",
-              "માર્ચ",
-              "એપ્રિલ",
-              "મે",
-              "જૂન",
-              "જુલાઈ",
-              "ઑગસ્ટ",
-              "સપ્ટેમ્બર",
-              "ઑક્ટોબર",
-              "નવેમ્બર",
-              "ડિસેમ્બર",
-            ];
-            return months[monthNum];
-          };
+    <>
+      <View style={style.mainContainer}>
+        <Header
+          title={"સૂચનાઓ"}
+          isBack={true}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
+        <FlatList
+          data={notificationData}
+          renderItem={({ item }) => {
+            const isoDate = item?.created_date;
+            const getMonthName = (monthNum) => {
+              const months = [
+                "જાન્યુઆરી",
+                "ફેબ્રુઆરી",
+                "માર્ચ",
+                "એપ્રિલ",
+                "મે",
+                "જૂન",
+                "જુલાઈ",
+                "ઑગસ્ટ",
+                "સપ્ટેમ્બર",
+                "ઑક્ટોબર",
+                "નવેમ્બર",
+                "ડિસેમ્બર",
+              ];
+              return months[monthNum];
+            };
 
-          const formatTime = (date) => {
-            let hours = date.getHours();
-            const minutes = date.getMinutes();
-            const ampm = hours >= 12 ? "PM" : "AM";
-            hours = hours % 12 || 12;
-            return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
-          };
+            const formatTime = (date) => {
+              let hours = date.getHours();
+              const minutes = date.getMinutes();
+              const ampm = hours >= 12 ? "PM" : "AM";
+              hours = hours % 12 || 12;
+              return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
+            };
 
-          const dateObj = new Date(isoDate);
+            const dateObj = new Date(isoDate);
 
-          const day = dateObj.getDate();
-          const month = getMonthName(dateObj.getMonth());
-          const year = dateObj.getFullYear();
+            const day = dateObj.getDate();
+            const month = getMonthName(dateObj.getMonth());
+            const year = dateObj.getFullYear();
 
-          const formattedTime = formatTime(dateObj);
+            const formattedTime = formatTime(dateObj);
 
-          const formattedDateTime = `${day} ${month}, ${year} | ${formattedTime}`;
+            const formattedDateTime = `${day} ${month}, ${year} | ${formattedTime}`;
 
-          return (
-            <DropShadow style={style.shadow}>
-              <TouchableOpacity
-                style={style.btn}
-                onPress={() =>
-                  navigation.navigate("NotificationDetail", {
-                    data: item,
-                    cDate: formattedDateTime,
-                  })
-                }>
-                <View style={style.rowView}>
-                  <View>
-                    <Image
-                      source={{ uri: apiConst.getAnyImages + item.photo }}
-                      resizeMode="contain"
-                      style={{
-                        height: Height(72),
-                        width: Width(72),
-                        borderRadius: Width(5),
-                      }}
-                    />
+            return (
+              <DropShadow style={style.shadow}>
+                <TouchableOpacity
+                  style={style.btn}
+                  onPress={() =>
+                    navigation.navigate("NotificationDetail", {
+                      data: item,
+                      cDate: formattedDateTime,
+                    })
+                  }>
+                  <View style={style.rowView}>
+                    <View>
+                      <Image
+                        source={{ uri: apiConst.getAnyImages + item.photo }}
+                        resizeMode="contain"
+                        style={{
+                          height: Height(72),
+                          width: Width(72),
+                          borderRadius: Width(5),
+                        }}
+                      />
+                    </View>
+                    <View>
+                      <Text style={style.text}>{item.notes}</Text>
+                    </View>
                   </View>
-                  <View>
-                    <Text style={style.text}>{item.notes}</Text>
-                  </View>
-                </View>
-                <Text style={style.bottomText}>{formattedDateTime}</Text>
-              </TouchableOpacity>
-            </DropShadow>
-          );
-        }}
-      />
-    </View>
+                  <Text style={style.bottomText}>{formattedDateTime}</Text>
+                </TouchableOpacity>
+              </DropShadow>
+            );
+          }}
+        />
+      </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 
@@ -141,18 +145,20 @@ const style = StyleSheet.create({
   },
   btn: {
     height: Height(150),
-    width: Width(360),
+    // width: Width(360),
     backgroundColor: colors.primaryWhite,
     alignSelf: "center",
     borderRadius: Width(5),
-    marginTop: Height(30),
+    marginVertical: Height(15),
     justifyContent: "space-between",
     paddingHorizontal: Width(10),
+    paddingBottom: Height(5),
   },
   text: {
     width: Width(255),
     fontSize: Height(15),
     color: colors.gray,
+    marginLeft: Width(10),
   },
   rowView: {
     flexDirection: "row",

@@ -11,18 +11,11 @@ import { Height } from "../../utils/responsive";
 const MarriageScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const headlineData = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
+  const headlineData = useSelector(
+    (state) => state?.fetchHeadlines?.headlineData
+  );
   useEffect(() => {
     dispatch(fetchHeadlines());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
-    }
   }, []);
   return (
     <View style={{ flex: 1 }}>
@@ -31,7 +24,7 @@ const MarriageScreen = () => {
         isBack={true}
         isRight={true}
         isFiler={true}
-        headline={headData}
+        headline={headlineData && headlineData[0] && headlineData[0]?.headline}
       />
 
       <View style={{ flex: 1, marginVertical: 16 }}>
@@ -51,6 +44,7 @@ const MarriageScreen = () => {
                   address={item.address}
                   isDob={true}
                   height={Height(200)}
+                  image={item.image}
                 />
               </TouchableOpacity>
             );

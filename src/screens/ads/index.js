@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAds } from "../../actions/adsActions";
 import { fetchHeadlines } from "../../actions/headlinesActions";
 import { Header } from "../../components";
+import Loader from "../../components/common/Loader";
 import Menu from "../../components/common/Menu";
 import { apiConst } from "../../helper/apiConstant";
 import { ads } from "../../helper/dummyData";
@@ -26,112 +27,119 @@ const AdsScreen = () => {
   const [showDonationSuccessPopup, setShowDonationSuccessPopup] =
     useState(false);
   const { headlineData } = useSelector((state) => state?.fetchHeadlines);
-  const [headData, setHeadDate] = useState();
 
   const ads = useSelector((state) => state.ads?.adsData?.advertisementData);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchAds());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchAds());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(true);
     }
   }, []);
 
   return (
-    <View style={style.mainContainer}>
-      <Header
-        title={"જાહેરાત"}
-        isBack={true}
-        isRight={true}
-        isFiler={true}
-        onRightPress={() => setShowDonationSuccessPopup(true)}
-        headline={headData}
-      />
+    <>
       <View style={style.mainContainer}>
-        <FlatList
-          data={ads}
-          renderItem={({ item }) => {
-            const isoDate = item?.created_date;
-            const getMonthName = (monthNum) => {
-              const months = [
-                "જાન્યુઆરી",
-                "ફેબ્રુઆરી",
-                "માર્ચ",
-                "એપ્રિલ",
-                "મે",
-                "જૂન",
-                "જુલાઈ",
-                "ઑગસ્ટ",
-                "સપ્ટેમ્બર",
-                "ઑક્ટોબર",
-                "નવેમ્બર",
-                "ડિસેમ્બર",
-              ];
-              return months[monthNum];
-            };
+        <Header
+          title={"જાહેરાત"}
+          isBack={true}
+          isRight={true}
+          isFiler={true}
+          onRightPress={() => setShowDonationSuccessPopup(true)}
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+        />
+        <View style={style.mainContainer}>
+          <FlatList
+            data={ads}
+            renderItem={({ item }) => {
+              const isoDate = item?.created_date;
+              const getMonthName = (monthNum) => {
+                const months = [
+                  "જાન્યુઆરી",
+                  "ફેબ્રુઆરી",
+                  "માર્ચ",
+                  "એપ્રિલ",
+                  "મે",
+                  "જૂન",
+                  "જુલાઈ",
+                  "ઑગસ્ટ",
+                  "સપ્ટેમ્બર",
+                  "ઑક્ટોબર",
+                  "નવેમ્બર",
+                  "ડિસેમ્બર",
+                ];
+                return months[monthNum];
+              };
 
-            const formatTime = (date) => {
-              let hours = date.getHours();
-              const minutes = date.getMinutes();
-              const ampm = hours >= 12 ? "PM" : "AM";
-              hours = hours % 12 || 12;
-              return `${hours}:${minutes.toString().padStart(2, "0")} ${ampm}`;
-            };
+              const formatTime = (date) => {
+                let hours = date.getHours();
+                const minutes = date.getMinutes();
+                const ampm = hours >= 12 ? "PM" : "AM";
+                hours = hours % 12 || 12;
+                return `${hours}:${minutes
+                  .toString()
+                  .padStart(2, "0")} ${ampm}`;
+              };
 
-            const dateObj = new Date(isoDate);
+              const dateObj = new Date(isoDate);
 
-            const day = dateObj.getDate();
-            const month = getMonthName(dateObj.getMonth());
-            const year = dateObj.getFullYear();
+              const day = dateObj.getDate();
+              const month = getMonthName(dateObj.getMonth());
+              const year = dateObj.getFullYear();
 
-            const formattedTime = formatTime(dateObj);
+              const formattedTime = formatTime(dateObj);
 
-            const formattedDateTime = `${day} ${month}, ${year} | ${formattedTime}`;
-            return (
-              <View style={style.flatView}>
-                <Text style={style.dateText}>{formattedDateTime}</Text>
-                <DropShadow style={style.shadow}>
-                  <View style={style.view}>
-                    <Image
-                      source={{ uri: apiConst.getAnyImages + item.photo }}
-                      style={style.image}
-                      resizeMode="contain"
-                    />
-                    <View style={style.rowView}>
-                      <Text style={style.text}>વધુ</Text>
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate("AdsDetails", {
-                            data: item,
-                            JDate: formattedDateTime,
-                          })
-                        }>
-                        <Image
-                          source={iconConstant.ic_forward}
-                          style={style.icon}
-                          resizeMode="contain"
-                        />
-                      </TouchableOpacity>
+              const formattedDateTime = `${day} ${month}, ${year} | ${formattedTime}`;
+              return (
+                <View style={style.flatView}>
+                  <Text style={style.dateText}>{formattedDateTime}</Text>
+                  <DropShadow style={style.shadow}>
+                    <View style={style.view}>
+                      <Image
+                        source={{ uri: apiConst.getAnyImages + item.photo }}
+                        style={style.image}
+                        resizeMode="contain"
+                      />
+                      <View style={style.rowView}>
+                        <Text style={style.text}>વધુ</Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate("AdsDetails", {
+                              data: item,
+                              JDate: formattedDateTime,
+                            })
+                          }>
+                          <Image
+                            source={iconConstant.ic_forward}
+                            style={style.icon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                  </View>
-                </DropShadow>
-              </View>
-            );
-          }}
+                  </DropShadow>
+                </View>
+              );
+            }}
+          />
+        </View>
+        <Menu
+          displayTitle={"Custom Alert"}
+          visibility={showDonationSuccessPopup}
+          dismissAlert={setShowDonationSuccessPopup}
+          onPress={() => setShowDonationSuccessPopup(false)}
+          onDismiss={() => setShowDonationSuccessPopup(false)}
         />
       </View>
-      <Menu
-        displayTitle={"Custom Alert"}
-        visibility={showDonationSuccessPopup}
-        dismissAlert={setShowDonationSuccessPopup}
-        onPress={() => setShowDonationSuccessPopup(false)}
-      />
-    </View>
+      {isLoading && <Loader />}
+    </>
   );
 };
 

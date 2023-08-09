@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 
 import { TextInput } from "../../components";
 import icons from "../../helper/iconConstant";
@@ -15,14 +15,24 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onLoginPress = () => {
+    setIsLoading(true);
     const obj = {
       data: { member_id: email, member_password: password },
       onSuccess: () => {
-        navigation.navigate("Onboarding");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Drawer" }],
+          })
+        );
       },
-      onFail: (err) => {},
+      onFail: (err) => {
+        Alert.alert("USer ID and Password are invalid");
+        setIsLoading(false);
+      },
     };
 
     dispatch(loginUser(obj));
@@ -71,6 +81,7 @@ const LoginScreen = () => {
         title={"પ્રવેશ કરો"}
         buttonStyle={style.buttonStyle}
         buttonTextStyle={{ color: colors.primaryWhite }}
+        isLoading={isLoading}
       />
     </View>
   );

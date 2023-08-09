@@ -5,12 +5,25 @@ import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { colors } from "../../utils";
 import icons from "../../helper/iconConstant";
 import { gridMenuData } from "../../helper/dummyData";
-import { DrawerActions, useNavigation } from "@react-navigation/native";
+import {
+  CommonActions,
+  DrawerActions,
+  useNavigation,
+} from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Height } from "../../utils/responsive";
+import { fetchMukhya } from "../../actions/mukhyaActions";
+import { useDispatch, useSelector } from "react-redux";
+import { apiConst } from "../../helper/apiConstant";
 
 const CustomDrawer = ({ navigation }) => {
   const { navigate } = useNavigation();
+  const dispatch = useDispatch();
+  const mukhyaFetch = useSelector((state) => state?.mukhya?.mukhyaData?.data);
+  console.log({ mukhyaFetch });
+  useEffect(() => {
+    dispatch(fetchMukhya());
+  }, []);
 
   const appendOptions = [
     {
@@ -28,8 +41,13 @@ const CustomDrawer = ({ navigation }) => {
   ];
 
   const onLogoutPress = async () => {
-    await AsyncStorage.removeItem("idToken");
-    navigation.navigate("Main");
+    await AsyncStorage.clear();
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      })
+    );
   };
 
   return (
@@ -43,8 +61,14 @@ const CustomDrawer = ({ navigation }) => {
           />
         </TouchableOpacity>
         <View>
-          <Text style={styles.usernameStyle}>Admin</Text>
-          <Text style={styles.memIdStyle}>MG123</Text>
+          <Text style={styles.usernameStyle}>
+            {mukhyaFetch?.mukhiya_name === null
+              ? "Null"
+              : mukhyaFetch?.mukhiya_name}
+          </Text>
+          <Text style={styles.memIdStyle}>
+            {mukhyaFetch?.member_id === null ? "Null" : mukhyaFetch?.member_id}
+          </Text>
         </View>
       </View>
       <DrawerContentScrollView showsVerticalScrollIndicator={false}>
@@ -59,13 +83,25 @@ const CustomDrawer = ({ navigation }) => {
                 } else {
                   navigate(item.navigation);
                 }
-                navigation.dispatch(DrawerActions.toggleDrawer());
+                navigation.dispatch(DrawerActions.closeDrawer());
               }}>
-              <Image
-                source={item.icon}
-                style={styles.menuIconStyle}
-                resizeMode="contain"
-              />
+              {mukhyaFetch?.mukhiya_profile_photo === null ? (
+                <Image
+                  source={item.icon}
+                  style={styles.menuIconStyle}
+                  resizeMode="contain"
+                />
+              ) : (
+                <Image
+                  source={{
+                    uri:
+                      apiConst.getAnyImages +
+                      mukhyaFetch?.mukhiya_profile_photo,
+                  }}
+                  style={styles.menuIconStyle}
+                  resizeMode="contain"
+                />
+              )}
               <Text style={styles.title}>{item.title}</Text>
             </TouchableOpacity>
           );

@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { LogBox, PermissionsAndroid, Platform } from "react-native";
-import MainNavigator from "./src/navigation/navigation";
+import { LogBox, PermissionsAndroid, Platform, StatusBar } from "react-native";
 import { persistor, store } from "./src/store/store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import SplashScreen from "react-native-splash-screen";
+import AppNavigation from "./src/navigation/AppNavigation";
+import { colors } from "./src/utils";
 
 LogBox.ignoreAllLogs();
 const App = () => {
@@ -33,11 +34,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (Platform.OS === "android") {
-      setTimeout(() => {
-        SplashScreen.hide();
-      }, 2000);
-    }
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000);
   }, []);
 
   return (
@@ -45,7 +44,12 @@ const App = () => {
       <PersistGate
         loading={null}
         persistor={persistor}>
-        <MainNavigator />
+        {/* <MainNavigator /> */}
+        <AppNavigation />
+        <StatusBar
+          barStyle={"dark-content"}
+          backgroundColor={colors.primaryWhite}
+        />
       </PersistGate>
     </Provider>
   );

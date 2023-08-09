@@ -50,12 +50,9 @@ const style = StyleSheet.create({
     position: "absolute",
   },
   subContainer: {
-    // height: Height(160),
     width: Width(360),
     backgroundColor: colors.primaryWhite,
-    // position: 'absolute',
-    marginTop: Height(30),
-    // zIndex: -1,
+    marginVertical: Height(30),
     borderRadius: Width(10),
     alignSelf: "center",
     flex: 1,

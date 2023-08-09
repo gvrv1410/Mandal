@@ -20,27 +20,25 @@ import {
   fetchHeadlines,
 } from "../../actions/headlinesActions";
 import { apiConst, BASE_URL, IMG_DIRECTORY } from "../../helper/apiConstant";
+import Loader from "../../components/common/Loader";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const { headlineData, headlineImg } = useSelector(
-    (state) => state?.fetchHeadlines
-  );
-  const [headData, setHeadDate] = useState();
+  const { headlineImg } = useSelector((state) => state?.fetchHeadlines);
+  const { headlineData } = useSelector((state) => state?.fetchHeadlines);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchHeadlines());
-    dispatch(fetchHeadlineImg());
-    if (headlineData && headlineData[0] && headlineData[0].headline) {
-      const headline = headlineData[0].headline;
-      setHeadDate(headline);
-    } else {
-      console.log(
-        "headlineData is null or the headline property is not available."
-      );
+    setIsLoading(true);
+    try {
+      dispatch(fetchHeadlines());
+      dispatch(fetchHeadlineImg());
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
     }
   }, []);
 
@@ -70,49 +68,56 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={style.mainContainer}>
-      <Header
-        title={"HOME"}
-        isBack={false}
-        onLeftPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-        isRight
-        headline={headData}
-        onRightPress={() => navigation.navigate("Notification")}
-      />
-      <View style={style.subContainer}>
-        <ScrollView
-          contentContainerStyle={{ paddingBottom: 25 }}
-          showsVerticalScrollIndicator={false}>
-          <View style={style.carouselView}>
-            <Carousel
-              data={headlineImg}
-              renderItem={renderCarouselItem}
-              sliderWidth={361}
-              itemWidth={361}
-              onSnapToItem={(index) => setActiveIndex(index)}
-              autoplay
-            />
-            <Pagination
-              dotsLength={headlineImg?.length}
-              activeDotIndex={activeIndex}
-              dotStyle={style.carouselDotStyle}
-              inactiveDotStyle={{
-                backgroundColor: colors.liteGray,
-              }}
-              inactiveDotOpacity={0.5}
-              inactiveDotScale={0.8}
-            />
-          </View>
-          <FlatList
-            data={gridMenuData}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItem}
-            ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
-            numColumns={4}
-          />
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={style.mainContainer}>
+        <Header
+          title={"HOME"}
+          isBack={false}
+          onLeftPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+          isRight
+          headline={
+            headlineData && headlineData[0] && headlineData[0]?.headline
+          }
+          onRightPress={() => navigation.navigate("Notification")}
+        />
+        <View style={style.subContainer}>
+          <ScrollView
+            contentContainerStyle={{ paddingBottom: 25 }}
+            showsVerticalScrollIndicator={false}>
+            <View style={style.carouselView}>
+              <Carousel
+                data={headlineImg}
+                renderItem={renderCarouselItem}
+                sliderWidth={361}
+                itemWidth={361}
+                onSnapToItem={(index) => setActiveIndex(index)}
+                autoplay
+              />
+              <Pagination
+                dotsLength={headlineImg?.length}
+                activeDotIndex={activeIndex}
+                dotStyle={style.carouselDotStyle}
+                inactiveDotStyle={{
+                  backgroundColor: colors.liteGray,
+                }}
+                inactiveDotOpacity={0.5}
+                inactiveDotScale={0.8}
+              />
+            </View>
+            <View style={{ flex: 1 }}>
+              <FlatList
+                data={gridMenuData}
+                keyExtractor={(item) => item.id}
+                renderItem={renderItem}
+                ItemSeparatorComponent={() => <View style={{ height: 30 }} />}
+                numColumns={4}
+              />
+            </View>
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+      {isLoading && <Loader />}
+    </>
   );
 };
 
