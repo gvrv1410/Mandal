@@ -8,7 +8,7 @@ import images from "../../helper/imageConstant";
 import Button from "../../components/common/Button";
 import { colors } from "../../utils";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../actions/authActions";
+import { loginUser } from "../../actions/AuthActions";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
